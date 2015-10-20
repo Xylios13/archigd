@@ -1172,6 +1172,18 @@ TODO: delete a door that was deleted before because the wall was deleted
                       ;Currently roofs don't have sub-polygons, i.e. holes. In the future it may be added
                       ;#:sub-polygons (intlistmsg-ilist (list-ref (roofrepeated-subpolygons roof-list) n))
                       #:height (list-ref (roofrepeated-height roof-list) n)))))
+#|
+Had to do change the function ClickAnElem provided by the API
+It wasn't working correctly, the action of selecting an element was being
+cancelled without anything occuring, I suspect that it cancelled due to
+ArchiCAD not being selected.
+|#
+(define (select-element)
+  (write-msg-name "SelectElement")
+  (read-sized (cut deserialize (elementid*) <>)input))
+
+(define (highlight-element elemidmsg)
+  (write-msg "Highlight" elemidmsg))
 
 ;;Function to quit
 (define (disconnect)
