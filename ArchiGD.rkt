@@ -1,8 +1,7 @@
 #lang racket
 (provide (except-out (all-defined-out)
                      ))
-;;(require (except-in (planet aml/rosetta)))
-;(require (planet aml/rosetta))
+
 (require rosetta/autocad)
 (require "murphy/protobuf1/main.rkt")
 (require "murphy/protobuf1/syntax.rkt")
@@ -1069,6 +1068,10 @@ TODO: delete a door that was deleted before because the wall was deleted
       (cons (xyz (car points-x)(car points-y)(car points-z))
             (extract-list-of-points (cdr points-x)(cdr points-y)(cdr points-z)))))
 
+(define (get-levels)
+  (write-msg-name "GetLevels")
+  (read-sized (cut deserialize (levelrepeated*) <>) input))
+
 (define (get-walls)
   (write-msg-name "GetWalls")
   (read-sized (cut deserialize (wallrepeated*) <>)input))
@@ -1088,6 +1091,11 @@ TODO: delete a door that was deleted before because the wall was deleted
 (define (get-roofs)
   (write-msg-name "GetRoofs")
   (read-sized (cut deserialize (roofrepeated*) <>)input))
+
+(define (recreate-levels [level-list (get-levels)])
+  (for ([n (length (levelrepeated-levels level-list))])
+       (create-level #:height (storyinfo-level (list-ref (levelrepeated-levels level-list) n))))
+  )
 
 (define (recreate-walls [wall-list (get-walls)])
   (delete-elements (wallrepeated-guid wall-list))

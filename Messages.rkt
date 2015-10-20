@@ -334,5 +334,6 @@
   (repeated primitive:string guid 6)
   (repeated struct:intlistmsg subpolygons 7)
   (repeated primitive:double height 8)))
+(define-message-type levelrepeated ((repeated struct:storyinfo levels 1)))
 
 (provide (all-defined-out))
