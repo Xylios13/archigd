@@ -1,0 +1,1 @@
+("6.1.1" ("8afbf7cd414ff08cc3adeee8f7074ec60740d814" . "90171aaa444487be87120bbb0b33c8b619e92ab7") (collects #"srfi" #"26.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"contract.rkt") (collects #"syntax" #"readerr.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"racket" #"port.rkt"))

@@ -4,9 +4,9 @@
 ;;(require (except-in (planet aml/rosetta)))
 ;(require (planet aml/rosetta))
 (require rosetta/autocad)
-(require "murphy/protobuf1/main.rkt")
-(require "murphy/protobuf1/syntax.rkt")
-(require "murphy/protobuf1/encoding.rkt")
+(require murphy/protobuf1/main)
+(require murphy/protobuf1/syntax)
+(require murphy/protobuf1/encoding)
 (require srfi/26)
 (require "Messages.rkt")
 
