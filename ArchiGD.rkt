@@ -26,6 +26,7 @@
                        (set! output b)
                        (file-stream-buffer-mode input 'none)
                        (file-stream-buffer-mode output 'none)
+                       (set! current-level (make-parameter (check-level)))
                        ))))
 
 ;;Usage: (send (create-...) (create-...) ... )
@@ -1206,10 +1207,11 @@ ArchiCAD not being selected.
 
 ;;TEST FUNCTION
 (define (test-function)
-  (let ()
     (write-msg-name "Test")
     ;;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
-    ))
+  )
+(define (test-function-msg msg)
+  (write-msg "Test" msg))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Defines to help with Demos
