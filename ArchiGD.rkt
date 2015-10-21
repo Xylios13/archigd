@@ -1181,10 +1181,15 @@ ArchiCAD not being selected.
 |#
 (define (select-element)
   (write-msg-name "SelectElement")
-  (read-sized (cut deserialize (elementid*) <>)input))
+  (elementid-guid (read-sized (cut deserialize (elementid*) <>)input)))
 
-(define (highlight-element elemidmsg)
-  (write-msg "Highlight" elemidmsg))
+(define (highlight-element elem-id)
+  (let* ((eleList (if (list? elem-id)
+                      elem-id
+                      (list elem-id)))
+         (msg (elementidlist* #:guid eleList
+                              #:crashmaterial #f)))
+    (write-msg "Highlight" msg)))
 
 ;;Function to quit
 (define (disconnect)

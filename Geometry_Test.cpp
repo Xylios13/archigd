@@ -6242,38 +6242,37 @@ void	highlightElementByID(){
 	GSErrCode err;
 	API_NeigID neigID;
 	API_Element element;
-	elementid eleMsg;
+	elementidlist eleMsg;
 	API_StoryCmdType	storyCmd;
 	char buffer[256];
 
 	readDelimitedFrom(raw_in, &eleMsg);
 
-	BNZeroMemory(&element, sizeof(API_Element));
-	element.header.guid = APIGuidFromString(eleMsg.guid().c_str());
-	err = ACAPI_Element_Get(&element);
-	if (err != NoError) {
-		sprintf(buffer, ErrID_To_Name(err));
-		ACAPI_WriteReport(buffer, true);
-		return;
-	}
-
-	err = ACAPI_Goodies(APIAny_ElemTypeToNeigID, (void*)element.header.typeID, &neigID);
-	
-	API_Neig** neigHdl = (API_Neig**)BMhAll(sizeof(API_Neig));
-	API_Neig neig;
-
-	neig.neigID = neigID;
-	neig.guid = element.header.guid;
-	neig.flags = API_NeigFlg_Normal;
-	neig.elemPartType = APINeigElemPart_None;
-
-	**neigHdl = neig;
-
-	Int32 nItem = 1;
+	Int32 nItem = eleMsg.guid_size();
 	bool add = true;
 
 	//Clear all selected elements
 	err = ACAPI_Element_Select(NULL, 0, add);
+
+	API_Neig** neigHdl = reinterpret_cast<API_Neig**> (BMAllocateHandle(nItem * sizeof(API_Neig), ALLOCATE_CLEAR, 0));
+	
+	API_Neig neig;
+	for (int i = 0; i < nItem; i++){
+		BNZeroMemory(&element, sizeof(API_Element));
+		element.header.guid = APIGuidFromString(eleMsg.guid(i).c_str());
+		err = ACAPI_Element_Get(&element);
+		if (err != NoError) {
+			sprintf(buffer, ErrID_To_Name(err));
+			ACAPI_WriteReport(buffer, true);
+			return;
+		}
+		err = ACAPI_Goodies(APIAny_ElemTypeToNeigID, (void*)element.header.typeID, &neigID);
+
+		(*neigHdl)[i].neigID = neigID;
+		(*neigHdl)[i].guid = element.header.guid;
+		(*neigHdl)[i].flags = API_NeigFlg_Normal;
+		(*neigHdl)[i].elemPartType = APINeigElemPart_None;	
+	}
 
 	//Add the current element to the selection
 	err = ACAPI_Element_Select(neigHdl, nItem, add);
