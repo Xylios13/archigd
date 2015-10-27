@@ -1,6 +1,6 @@
 #lang racket/base
 ;; Generated using protoc-gen-racket v1.1
-(require "murphy/protobuf1/syntax.rkt")
+(require "rosetta/protobuf1/syntax.rkt")
 
 (define-message-type namemessage ((required primitive:string name 1)))
 (define-message-type

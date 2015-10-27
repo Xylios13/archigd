@@ -316,7 +316,7 @@
              (newline)
              (pretty-print
               `(require
-                rosetta/protobuf1/syntax
+                murphy/protobuf1/syntax
                 ,@(for/list ([dep (in-list (file-descriptor-proto-dependency proto))])
                     (some-system-path->string
                      (find-relative-path
