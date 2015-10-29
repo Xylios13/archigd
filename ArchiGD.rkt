@@ -2,7 +2,7 @@
 (provide (except-out (all-defined-out)
                      ))
 
-(require rosetta/autocad)
+(require rosetta/revit)
 (require "rosetta/protobuf1/protobuf.rkt")
 (require "rosetta/protobuf1/syntax.rkt")
 (require "rosetta/protobuf1/encoding.rkt")
