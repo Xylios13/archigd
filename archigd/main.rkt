@@ -2,6 +2,7 @@
 (provide (except-out (all-defined-out)
                      ))
 
+(require "install.rkt")
 (require rosetta/revit)
 (require "rosetta/protobuf1/protobuf.rkt")
 (require "rosetta/protobuf1/syntax.rkt")
