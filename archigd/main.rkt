@@ -10,14 +10,6 @@
                (file-exists? internal-path-addon))
       (rename-file-or-directory internal-path-addon internal-path-directory-addon #t))))
 
-(eval (let ((internal-path-addon "../x64/Geometry_Test.apx")
-        ;(internal-path-directory "D:/GRAPHISOFT/ArchiCAD 18/Add-Ons")
-        (internal-path-directory "..")
-        (internal-path-directory-addon "../Geometry_Test.apx"))
-    (when (and (directory-exists? internal-path-directory)
-               (file-exists? internal-path-addon))
-      (rename-file-or-directory internal-path-addon internal-path-directory-addon #t))))
-
 (require rosetta/revit)
 (require "rosetta/protobuf1/protobuf.rkt")
 (require "rosetta/protobuf1/syntax.rkt")
