@@ -1,0 +1,1 @@
+("6.3.0.2" ("ea66cbb0002c6e242554eea5f6f49e071b0f71fb" . "d40f899e6e152801c9a1ea2feacc956c05bf4049") #"D:\\GitHubRep\\archigd\\archigd\\rosetta\\protobuf1\\syntax.rkt" (collects #"errortrace" #"errortrace-key.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))
