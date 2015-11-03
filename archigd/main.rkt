@@ -9,6 +9,10 @@
 (require srfi/26)
 (require "Messages.rkt")
 (require racket/date)
+(require racket/runtime-path)
+
+
+(define-runtime-path base (build-path 'up))
 
 (define current-level (make-parameter #f))
 (define default-level-to-level-height (make-parameter 3))
@@ -20,13 +24,18 @@
 (define server-addr "localhost")
 
 (define (move-addon-file)
-  (let ((internal-path-addon "../x64/Geometry_Test.apx")
+  (let ((internal-path-addon (build-path base "x64" "Geometry_Test.apx"))
         ;(internal-path-directory "D:/GRAPHISOFT/ArchiCAD 18/Add-Ons")
-        (internal-path-directory "..")
-        (internal-path-directory-addon "../Geometry_Test.apx"))
+        (internal-path-directory base)
+        (internal-path-directory-addon (build-path base 'up 'up 'up 'up 'up 'up 'up 'up "Geometry_Test.apx"))
+        ;(internal-path-directory (string->some-system-path "C:" 'windows))
+        ;(internal-path-directory "C:/Program Files/GRAPHISOFT/ArchiCAD 18/Add-Ons")
+        ;(internal-path-directory-addon (string->some-system-path "C:\\Geometry_Test.apx" 'windows))
+
+        #;(internal-path-directory-addon "C:/Program Files/GRAPHISOFT/ArchiCAD 18/Add-Ons/Geometry_Test.apx"))
     (when (and (directory-exists? internal-path-directory)
                (file-exists? internal-path-addon))
-      (rename-file-or-directory internal-path-addon internal-path-directory-addon #t))))
+      (copy-file internal-path-addon internal-path-directory-addon #t))))
 
 (move-addon-file)
 
