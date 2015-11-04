@@ -11,7 +11,10 @@
 (require "Messages.rkt")
 (require racket/date)
 
-(move-addon)
+(define do-not-install #f)
+
+(unless do-not-install
+    (move-addon))
 
 (define current-level (make-parameter #f))
 (define default-level-to-level-height (make-parameter 3))

@@ -6,10 +6,12 @@
 
 (define-runtime-path base (build-path 'up))
 
+(define from-addon (build-path base "x64" "Geometry_Test.apx"))
+
+(define to-folder (string->some-system-path "C:\\Program Files\\GRAPHISOFT\\ArchiCAD 18\\Add-ons" 'windows)) 
+
 (define (move-addon)
-  (let ((from-addon (build-path base "x64" "Geometry_Test.apx"))
-        (to-folder (string->some-system-path "C:\\Program Files\\GRAPHISOFT\\ArchiCAD 18\\Add-ons" 'windows)))
-      (copy-file from-addon (build-path to-folder "Geometry_Test.apx") #t)))
+      (copy-file from-addon (build-path to-folder "Geometry_Test.apx") #t))
 
 #|
 (define (move-addon)
