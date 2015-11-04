@@ -1,1 +1,0 @@
-("6.3.0.1" ("ea66cbb0002c6e242554eea5f6f49e071b0f71fb" . "0786dc680192c7f0b89569c71499c4c4d242318d") #"C:\\Users\\Guilherme\\Documents\\GitHub\\ArchiGD\\archigd\\rosetta\\protobuf1\\syntax.rkt" (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))
