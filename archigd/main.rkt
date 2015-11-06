@@ -1,8 +1,15 @@
 #lang racket
 (provide (except-out (all-defined-out)
                      ))
+(define (move-addon-file)
+  (let ((internal-path-addon "../x64/Geometry_Test.apx")
+        ;(internal-path-directory "D:/GRAPHISOFT/ArchiCAD 18/Add-Ons")
+        (internal-path-directory "..")
+        (internal-path-directory-addon "../Geometry_Test.apx"))
+    (when (and (directory-exists? internal-path-directory)
+               (file-exists? internal-path-addon))
+      (rename-file-or-directory internal-path-addon internal-path-directory-addon #t))))
 
-(require "install.rkt")
 (require rosetta/revit)
 (require "rosetta/protobuf1/protobuf.rkt")
 (require "rosetta/protobuf1/syntax.rkt")
@@ -10,11 +17,6 @@
 (require srfi/26)
 (require "Messages.rkt")
 (require racket/date)
-
-(define do-not-install #f)
-
-(unless do-not-install
-    (move-addon))
 
 (define current-level (make-parameter #f))
 (define default-level-to-level-height (make-parameter 3))
@@ -26,23 +28,6 @@
 (define server-addr "localhost")
 
 (define (connect)
-  (ensure-connection))
-
-(define (ensure-connection)
-  (let ((time-out-tries 10))
-    (let rec ((n time-out-tries))
-      (with-handlers ([exn:fail?
-                       (lambda (e)
-                         (if (> n 0)
-                             (begin
-                               (displayln (string-append "[" (number->string (+ 1 (- time-out-tries n))) "/" (number->string time-out-tries) "] "
-                                                         "You must first use the connect button on ArchiCAD.\n Try in the top bar, Addon->Racket->Connect")) 
-                               (sleep 2)
-                               (rec (- n 1)))
-                             (raise e)))])
-        (start-connection)))))
-
-(define (start-connection)
   (begin
     (call-with-values(lambda () (tcp-connect server-addr 53800))
                      (lambda (a b)
@@ -50,7 +35,8 @@
                        (set! output b)
                        (file-stream-buffer-mode input 'none)
                        (file-stream-buffer-mode output 'none)
-                       (set! current-level (make-parameter (check-level)))))))
+                       (set! current-level (make-parameter (check-level)))
+                       ))))
 
 ;;Usage: (send (create-...) (create-...) ... )
 (define-syntax-rule (send expr ...)
@@ -1213,6 +1199,14 @@ ArchiCAD not being selected.
          (msg (elementidlist* #:guid eleList
                               #:crashmaterial #f)))
     (write-msg "Highlight" msg)))
+
+(define (view-3d)
+  (write-msg-name "3D"))
+
+;(send (open-file "D:\\GitHubRep\\Tese\\Development\\Examples\\Models\\AT for eCADDe.pln"))
+(define (open-file path)
+  (let ((msg (namemessage* #:name path)))
+    (write-msg "OpenFile" msg)))
 
 ;;Function to quit
 (define (disconnect)
