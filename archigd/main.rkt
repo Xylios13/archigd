@@ -1204,8 +1204,10 @@ ArchiCAD not being selected.
   (write-msg-name "3D"))
 
 ;(send (open-file "D:\\GitHubRep\\Tese\\Development\\Examples\\Models\\AT for eCADDe.pln"))
+;(send (open-file "D:\\GitHubRep\\Tese\\Development\\Examples\\Models\\AT for eCADDe.ifc"))
 (define (open-file path)
-  (let ((msg (namemessage* #:name path)))
+  (let ((msg (openmessage* #:path path
+                           #:extension (last (string-split path ".")))))
     (write-msg "OpenFile" msg)))
 
 ;;Function to quit
