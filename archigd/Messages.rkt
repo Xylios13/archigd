@@ -339,7 +339,8 @@
  extrusionmsg
  ((required primitive:double vx 1)
   (required primitive:double vy 2)
-  (required primitive:double vz 3)))
+  (required primitive:double vz 3)
+  (required primitive:double height 4)))
 (define-message-type
  openmessage
  ((required primitive:string path 1) (required primitive:string extension 2)))
