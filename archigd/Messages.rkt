@@ -344,5 +344,14 @@
 (define-message-type
  openmessage
  ((required primitive:string path 1) (required primitive:string extension 2)))
+(define-message-type
+ transformmsg
+ ((required primitive:string guid 1)
+  (required primitive:string op 2)
+  (required primitive:double x 3)
+  (required primitive:double y 4)
+  (required primitive:double z 5)
+  (required primitive:double angle 6)
+  (required primitive:double scale 7)))
 
 (provide (all-defined-out))
