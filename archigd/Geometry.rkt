@@ -257,7 +257,7 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;Returns points for a polygon
-(define (polygon-points center sides radius rotation)
+(define (polygon-points center sides radius [rotation 0])
   (map-division (lambda (angle)
                   (+pol center radius (+ rotation angle)))
                 0 (* 2 pi) sides #f))
@@ -314,7 +314,7 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
         (top (map-division (lambda (n)
                              (xy n 0))
                            sides (* sides 2) sides #f))
-        (sides (map-division (lambda (n)
+        (sides-pol (map-division (lambda (n)
                                (list (xy n 0)
                                      (if (= n (- sides 1))
                                          (xy (+ n sides 1) 0)
@@ -322,7 +322,7 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
                                      (xy (+ n sides) 1)
                                      (xy (+ n (* sides 2)) 1)))
                              0 sides sides #f)))
-    (append (list base top) sides)))
+    (append (list base top) sides-pol)))
 
 ;Creates a solid, given its points.
 ;Counter-clockwise order
@@ -337,6 +337,38 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
 ;Does an extrusion given polygon-points and a vector for the extrusion
 (define (extrusion polygon-points vector)
   (create-solid (polygon-apply-vector polygon-points vector)))
+
+(define (pyramid-points p top sides radius [rotation 0])
+  (if (number? top)
+      (append (polygon-points p sides radius rotation) (list (+z p top)))
+      (append (polygon-points p sides radius rotation) (list top))))
+
+(define (pyramid-edges points)
+  (let* ((sides (- (length points) 1))
+         (base-edges (polygon-edges sides 0))
+         (sides-edges (map-division (lambda (n)
+                                      (xy n (- (length points) 1)))
+                                    0 sides sides #f)))
+    (append base-edges sides-edges)))
+
+(define (internal-pyramid points)
+  (let* ((sides (- (length points) 1))
+         (base (map (lambda (n)
+                      (xy n 1))
+                    (cons 0 (reverse (range 1 sides)))))
+         (sides-pol (map-division (lambda (n)
+                                    (list (xy n 0)
+                                          (if (= n (- sides 1))
+                                              (xy (+ n 1) 0)
+                                              (xy (+ n sides 1) 0))
+                                          (xy (+ n sides) 1)))
+                                  0 sides sides #f)))
+    (append (list base) sides-pol)))
+
+(define (create-pyramid pyramid-points)
+  (let ((edges (pyramid-edges pyramid-points))
+        (polygons (internal-pyramid pyramid-points)))
+  (create-morph (u0) pyramid-points edges polygons)))
 
 (define (morph-translate el x y z)
   (let ((msg (transformmsg* #:guid el
@@ -378,4 +410,8 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
                             #:scale scale)))
     (write-msg "MorphTrans" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
+
+
+
+
 
