@@ -4,7 +4,7 @@
 (require "Install.rkt")
 (require "Communication.rkt")
 (require "Geometry.rkt")
-(require "ObjectsBIM.rkt")
+(require "BIMObjects.rkt")
 (require "Messages.rkt")
 (require "Inspector.rkt")
 (require "rosetta/protobuf1/protobuf.rkt")
@@ -16,7 +16,7 @@
 (provide (all-defined-out)
          (all-from-out "Communication.rkt"
                        "Geometry.rkt"
-                       "ObjectsBIM.rkt"
+                       "BIMObjects.rkt"
                        "Inspector.rkt"))
 
 (define do-not-install? #f)

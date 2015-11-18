@@ -6,7 +6,7 @@
 (require "rosetta/protobuf1/encoding.rkt")
 (require "Messages.rkt")
 (require "Communication.rkt")
-(require "ObjectsBIM.rkt")
+(require "BIMObjects.rkt")
 (require rosetta/revit)
 (require srfi/26)
 
