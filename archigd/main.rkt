@@ -7,9 +7,9 @@
 (require "BIMObjects.rkt")
 (require "Messages.rkt")
 (require "Inspector.rkt")
-(require "rosetta/protobuf1/protobuf.rkt")
-(require "rosetta/protobuf1/syntax.rkt")
-(require "rosetta/protobuf1/encoding.rkt")
+(require "protobuf1/protobuf.rkt")
+(require "protobuf1/syntax.rkt")
+(require "protobuf1/encoding.rkt")
 (require rosetta/revit)
 (require srfi/26)
 

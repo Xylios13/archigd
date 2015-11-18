@@ -1,6 +1,6 @@
 #lang racket/base
 ;; Generated using protoc-gen-racket v1.1
-(require "rosetta/protobuf1/syntax.rkt")
+(require "protobuf1/syntax.rkt")
 
 (define-message-type namemessage ((required primitive:string name 1)))
 (define-message-type
@@ -227,7 +227,10 @@
  objectmsg
  ((required primitive:int32 index 1)
   (required primitive:double posx 2)
-  (required primitive:double posy 3)))
+  (required primitive:double posy 3)
+  (required primitive:bool usexyfixsize 4)
+  (required primitive:double xratio 5)
+  (required primitive:double yratio 6)))
 (define-message-type
  stairsmsg
  ((required primitive:string name 1)

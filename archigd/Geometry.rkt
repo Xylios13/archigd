@@ -2,8 +2,8 @@
 (provide (except-out (all-defined-out)
                      extrusion-shell))
 
-(require "rosetta/protobuf1/protobuf.rkt")
-(require "rosetta/protobuf1/encoding.rkt")
+(require "protobuf1/protobuf.rkt")
+(require "protobuf1/encoding.rkt")
 (require "Messages.rkt")
 (require "Communication.rkt")
 (require rosetta/revit)
