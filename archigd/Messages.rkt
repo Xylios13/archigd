@@ -53,7 +53,8 @@
   (required primitive:string referenceline 11)
   (required primitive:double alphaangle 12)
   (required primitive:double betaangle 13)
-  (required primitive:string typeprofile 14)))
+  (required primitive:string typeprofile 14)
+  (optional primitive:double height 15)))
 (define-message-type
  wallmessage
  ((required primitive:double p0x 1)
@@ -230,7 +231,10 @@
   (required primitive:double posy 3)
   (required primitive:bool usexyfixsize 4)
   (required primitive:double xratio 5)
-  (required primitive:double yratio 6)))
+  (required primitive:double yratio 6)
+  (required primitive:bool useobjsectattrs 7)
+  (required primitive:double bottom 8)
+  (required primitive:double angle 9)))
 (define-message-type
  stairsmsg
  ((required primitive:string name 1)
