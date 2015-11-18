@@ -19,12 +19,6 @@
 ;;Functions to create objects;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-#|
-Function used internally to create-walls
-No need to use this function
-To create walls use the two below.
-|#
-
 (define default-wall-alignment (make-parameter "Center"))
 (define default-wall-type-of-material (make-parameter "Basic"))
 (define default-wall-thickness (make-parameter 0.3))
@@ -49,38 +43,58 @@ Example of usage:
 (send (create-wall (list (xy 0 0)(xy 10 0))))
 (send (create-wall (list (xy 0 0)(xy 10 0)) #:type-of-profile "Slanted" #:alpha-angle (* 80 DEGRAD)))
 (send (create-wall (list (xy 0 0)(xy 10 0)) #:type-of-profile "DoubleSlanted" #:alpha-angle (* 100 DEGRAD) #:beta-angle (* 80 DEGRAD)))
+Question:
+Make the wall always double slanted whatever the angles?
 |#
 (define (create-wall guide 
-              #:alignment [alignment (default-wall-alignment)]
-              #:bottom-level [bottom-level (current-level)]
-              #:top-level [top-level (upper-level #:level bottom-level)]
-              ;;ArchiCAD ONLY --------------------------------------------------------------
-              #:thickness [thickness (default-wall-thickness)]
-              #:angle [angle 0]
-              
-              #:type-of-material [type-of-material (default-wall-type-of-material)]
-              #:material [material 
-                          (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
-                                [(eq? type-of-material "Composite") "Generic Wall/Shell"])]
-              #:alpha-angle [alpha-angle (/ pi 2)]
-              #:beta-angle [beta-angle (/ pi 2)]
-              #:type-of-profile [type-of-profile (default-wall-profile)])
+                     #:alignment [alignment (default-wall-alignment)]
+                     #:bottom-level [bottom-level (current-level)]
+                     #:top-level [top-level (upper-level #:level bottom-level)]
+                     ;;ArchiCAD ONLY --------------------------------------------------------------
+                     #:thickness [thickness (default-wall-thickness)]
+                     #:angle [angle 0]
+                     
+                     #:type-of-material [type-of-material (default-wall-type-of-material)]
+                     #:material [material 
+                                 (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
+                                       [(eq? type-of-material "Composite") "Generic Wall/Shell"])]
+                     #:alpha-angle [alpha-angle (/ pi 2)]
+                     #:beta-angle [beta-angle (/ pi 2)]
+                     #:type-of-profile [type-of-profile (default-wall-profile)]
+                     #:height [height null])
   (let* ((p0 (x 0))
          (p1 (x 0))
-         (msg (wallmsg* #:p0x (cx p0)
-                        #:p0y (cy p0)
-                        #:p1x (cx p1)
-                        #:p1y (cy p1)
-                        #:bottomindex (storyinfo-index bottom-level)
-                        #:upperindex (storyinfo-index top-level)
-                        #:thickness thickness
-                        #:angle angle
-                        #:material material
-                        #:type type-of-material
-                        #:referenceline alignment
-                        #:alphaangle alpha-angle
-                        #:betaangle beta-angle
-                        #:typeprofile type-of-profile)))
+         ;Don't like this if, was unable to do (unless (null? height) #:height height)
+         (msg (if (null? height)
+                  (wallmsg* #:p0x (cx p0)
+                            #:p0y (cy p0)
+                            #:p1x (cx p1)
+                            #:p1y (cy p1)
+                            #:bottomindex (storyinfo-index bottom-level)
+                            #:upperindex (storyinfo-index top-level)
+                            #:thickness thickness
+                            #:angle angle
+                            #:material material
+                            #:type type-of-material
+                            #:referenceline alignment
+                            #:alphaangle alpha-angle
+                            #:betaangle beta-angle
+                            #:typeprofile type-of-profile)
+                  (wallmsg* #:p0x (cx p0)
+                            #:p0y (cy p0)
+                            #:p1x (cx p1)
+                            #:p1y (cy p1)
+                            #:bottomindex (storyinfo-index bottom-level)
+                            #:upperindex (storyinfo-index top-level)
+                            #:thickness thickness
+                            #:angle angle
+                            #:material material
+                            #:type type-of-material
+                            #:referenceline alignment
+                            #:alphaangle alpha-angle
+                            #:betaangle beta-angle
+                            #:typeprofile type-of-profile
+                            #:height height))))
     (write-msg "NewWall" msg)
     (send-points guide)
     (let ((result (read-sized (cut deserialize (elementidlist*) <>)input)))
@@ -190,17 +204,17 @@ Example of usage:
 (define default-slab-alignment (make-parameter "Center"))
 (define default-slab-type-of-material (make-parameter "Composite"))
 #;(define default-slab-material  
-  (make-parameter (cond [(eq? (default-slab-type-of-material) "Basic") "GENERIC - INTERNAL CLADDING"]
-                        [(eq? (default-slab-type-of-material) "Composite") "Generic Slab/Roof"])))
+    (make-parameter (cond [(eq? (default-slab-type-of-material) "Basic") "GENERIC - INTERNAL CLADDING"]
+                          [(eq? (default-slab-type-of-material) "Composite") "Generic Slab/Roof"])))
 (define (create-slab guide
-              #:bottom-level [bottom-level (current-level)]
-              ;;ArchiCAD ONLY --------------------------------------------------------------
-              #:thickness [thickness 0.3]
-              #:bottom [bottom 0]
-              #:type-of-material [type-of-material (default-slab-type-of-material)]
-              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - INTERNAL CLADDING"]
-                                         [(eq? type-of-material "Composite") "Generic Slab/Roof"])]
-              #:sub-polygons [sub-polygons (list (length guide))])
+                     #:bottom-level [bottom-level (current-level)]
+                     ;;ArchiCAD ONLY --------------------------------------------------------------
+                     #:thickness [thickness 0.3]
+                     #:bottom [bottom 0]
+                     #:type-of-material [type-of-material (default-slab-type-of-material)]
+                     #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - INTERNAL CLADDING"]
+                                                [(eq? type-of-material "Composite") "Generic Slab/Roof"])]
+                     #:sub-polygons [sub-polygons (list (length guide))])
   (let ((slab-msg (slabmessage* #:level bottom
                                 #:material material
                                 #:thickness thickness
@@ -211,12 +225,12 @@ Example of usage:
     (send-points guide)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
-    (if (and (elementid-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementid-guid result)))))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))))
 
 #|
 Function to create a hole on a slab
@@ -252,12 +266,12 @@ Example of usage:
     (write-msg "WallsSlab" ele-id-msg)
     ;(elementidlist-guid (read-sized (cut deserialize (elementidlist*) <>)input))
     (let ((result (read-sized (cut deserialize (elementidlist*) <>)input)))
-    (if (and (elementidlist-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementidlist-guid result)))))
+      (if (and (elementidlist-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementidlist-guid result)))))
 
 (define create-walls-from-slab-material-default (make-parameter "GENERIC - STRUCTURAL"))
 (define create-walls-from-slab-reference-line-default (make-parameter "Center"))
@@ -306,15 +320,15 @@ Example of usage:
 (send (create-column (xy 0 0) #:slant-angle (/ pi 4) #:slant-direction (/ pi 2)))
 |#
 (define (create-column orig-pos
-              #:bottom-level [bottom-level (current-level)]
-              #:top-level [top-level (upper-level #:level bottom-level)]
-              ;;ArchiCAD ONLY --------------------------------------------------------------
-              #:circle-based? [circle-based? #t]
-              #:angle [angle 0]
-              #:depth [depth 0.15]
-              #:width [width 0.15]
-              #:slant-angle [slant-angle (/ pi 2)]
-              #:slant-direction [slant-direction 0])
+                       #:bottom-level [bottom-level (current-level)]
+                       #:top-level [top-level (upper-level #:level bottom-level)]
+                       ;;ArchiCAD ONLY --------------------------------------------------------------
+                       #:circle-based? [circle-based? #t]
+                       #:angle [angle 0]
+                       #:depth [depth 0.15]
+                       #:width [width 0.15]
+                       #:slant-angle [slant-angle (/ pi 2)]
+                       #:slant-direction [slant-direction 0])
   (let ((msg (columnmsg*  #:posx (cx orig-pos)
                           #:posy (cy orig-pos)
                           #:bottom 0
@@ -330,12 +344,12 @@ Example of usage:
     (write-msg "NewColumn" msg)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
-    (if (and (elementid-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementid-guid result)))))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))))
 
 #|
 Function to create a object
@@ -344,10 +358,23 @@ Function to create a object
 Example of usage: 
 (send (create-object 1324 (xy 0.0 0.0)))
 |#
-(define (create-object index orig-pos)
+(define (create-object index
+                       orig-pos
+                       #:use-xy-fix-size? [use-xy-fix-size? #f]
+                       #:x-ratio [x-ratio 1]
+                       #:y-ratio [y-ratio 1]
+                       #:use-obj-sect-attrs? [use-obj-sect-attrs? #t]
+                       #:angle [angle 0]
+                       #:height [height 0])
   (let ((msg (objectmsg* #:index index
                          #:posx (cx orig-pos)
-                         #:posy (cy orig-pos))))
+                         #:posy (cy orig-pos)
+                         #:usexyfixsize use-xy-fix-size?
+                         #:useobjsectattrs use-obj-sect-attrs?
+                         #:xratio x-ratio
+                         #:yratio y-ratio
+                         #:bottom height
+                         #:angle angle)))
     (write-msg "Object" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     ))
@@ -358,13 +385,13 @@ Function to create stairs
  orig-pos: position of the stairs
 |#
 (define (create-stairs #:name name 
-                #:orig-pos orig-pos 
-                #:angle [angle 0] 
-                #:x-ratio [x-ratio 1] 
-                #:y-ratio [y-ratio 1]
-                #:bottom-offset [bottom-offset 0] 
-                #:bottom-level [bottom-level (current-level)]
-                #:use-xy-fix-size [use-xy-fix-size #f])
+                       #:orig-pos orig-pos 
+                       #:angle [angle 0] 
+                       #:x-ratio [x-ratio 1] 
+                       #:y-ratio [y-ratio 1]
+                       #:bottom-offset [bottom-offset 0] 
+                       #:bottom-level [bottom-level (current-level)]
+                       #:use-xy-fix-size [use-xy-fix-size #f])
   (let ((msg (stairsmsg* #:name name
                          #:posx (cx orig-pos)
                          #:posy (cy orig-pos)
@@ -398,16 +425,16 @@ Example of usage:
 (define default-roof-alignment (make-parameter "Center"))
 (define default-roof-type-of-material (make-parameter "Composite"))
 #;(define default-roof-material  
-  (make-parameter (cond [(eq? (default-roof-type-of-material) "Basic") "GENERIC - STRUCTURAL"]
-                        [(eq? (default-roof-type-of-material) "Composite") "Generic Roof/Shell"])))
+    (make-parameter (cond [(eq? (default-roof-type-of-material) "Basic") "GENERIC - STRUCTURAL"]
+                          [(eq? (default-roof-type-of-material) "Composite") "Generic Roof/Shell"])))
 (define (create-roof guide
-              #:bottom-level [bottom-level (current-level)]
-              ;;ArchiCAD ONLY --------------------------------------------------------------
-              #:thickness [thickness 0.3]
-              #:height [height 0]
-              #:type-of-material [type-of-material (default-roof-type-of-material)]
-              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
-                                         [(eq? type-of-material "Composite") "Generic Roof/Shell"])])
+                     #:bottom-level [bottom-level (current-level)]
+                     ;;ArchiCAD ONLY --------------------------------------------------------------
+                     #:thickness [thickness 0.3]
+                     #:height [height 0]
+                     #:type-of-material [type-of-material (default-roof-type-of-material)]
+                     #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
+                                                [(eq? type-of-material "Composite") "Generic Roof/Shell"])])
   (let ((roof-msg (roofmsg* #:height height
                             #:material material
                             #:thickness thickness
@@ -417,12 +444,12 @@ Example of usage:
     (send-points guide)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
-    (if (and (elementid-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementid-guid result)))))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))))
 #|
 Function to create a poly roof
 |#
@@ -443,12 +470,12 @@ Function to create a poly roof
     (write-sized serialize roof-levels-msg output)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
-    (if (and (elementid-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementid-guid result)))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))
     ))
 
 (define create-poly-roof-material-default (make-parameter "GENERIC - STRUCTURAL"))
@@ -474,11 +501,11 @@ Function to create a poly roof
                      #:level-lines (list (xyz 2 2 2)(xyz 8 2 2)(xyz 8 8 2)(xyz 2 8 2))))
 |#
 (define (create-mesh guide
-              #:bottom-level [bottom-level (current-level)]
-              ;;ArchiCAD ONLY --------------------------------------------------------------
-              #:bottom [bottom 0]
-              #:material [material (default-mesh-material)]
-              #:level-lines [level-lines (list)])
+                     #:bottom-level [bottom-level (current-level)]
+                     ;;ArchiCAD ONLY --------------------------------------------------------------
+                     #:bottom [bottom 0]
+                     #:material [material (default-mesh-material)]
+                     #:level-lines [level-lines (list)])
   (let ((slab-msg (meshmessage* #:level bottom
                                 #:material material
                                 #:bottomlevel (storyinfo-index bottom-level))))
@@ -487,12 +514,12 @@ Function to create a poly roof
     (send-points level-lines)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
-    (if (and (elementid-crashmaterial result) 
-             (crash-on-no-material?))
-        (begin 
-          (disconnect)
-          (error "The material does not exist"))
-        (elementid-guid result)))))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Functions to manipulate objects;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -510,8 +537,8 @@ Example of usage:
     (write-msg "AddArcs" ele-id-msg)
     (send-arcs listarcs)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
-   ))
-  
+    ))
+
 #|NOT WORKING
 Function to translate an element
 Receives a point that represents the translation and the object ID
