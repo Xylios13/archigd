@@ -273,9 +273,9 @@ Example of usage:
             (error "The material does not exist"))
           (elementidlist-guid result)))))
 
-(define create-walls-from-slab-material-default (make-parameter "GENERIC - STRUCTURAL"))
+(define create-walls-from-slab-material-default #;(make-parameter "GENERIC - STRUCTURAL")(make-parameter "Glass"))
 (define create-walls-from-slab-reference-line-default (make-parameter "Center"))
-(define (create-walls-from-slab slab-id [height (default-level-to-level-height)] [thickness 0.3] [material (create-walls-from-slab-material-default)] [reference-line (create-walls-from-slab-reference-line-default)])
+(define (create-walls-from-slab slab-id [height (default-level-to-level-height)] #:thickness [thickness 0.3] #:material [material (create-walls-from-slab-material-default)] [reference-line (create-walls-from-slab-reference-line-default)])
   (internal-create-walls-from-slab slab-id height thickness material reference-line "BasicStructure"))
 
 #|
@@ -350,6 +350,30 @@ Example of usage:
             (disconnect)
             (error "The material does not exist"))
           (elementid-guid result)))))
+
+;(send (create-columns-from-slab (create-slab (list (xy -1 -1)(xy 1 -1)(xy 1 1)(xy -1 1)(xy -1 -1))) 5))
+(define create-columns-from-slab-material-default (make-parameter "GENERIC - STRUCTURAL"))
+(define (create-columns-from-slab slab
+                                  height
+                                  #:depth [depth 0.15]
+                                  #:width [width 0.15]
+                                  #:circle-based? [circle-based? #t]
+                                  #:material [material (create-columns-from-slab-material-default)] )
+  (let ((msg (columnsfromslab*  #:guid slab
+                                #:height height
+                                #:circlebased circle-based?
+                                #:depth depth
+                                #:width width
+                                #:material material)))
+    (write-msg "ColumnsSlab" msg)
+    ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
+    (let ((result (read-sized (cut deserialize (elementidlist*) <>)input)))
+      (if (and (elementidlist-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementidlist-guid result)))))
 
 #|
 Function to create a object

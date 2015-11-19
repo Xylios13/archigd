@@ -225,6 +225,14 @@
   (required primitive:string referenceline 5)
   (required primitive:double thickness 6)))
 (define-message-type
+ columnsfromslab
+ ((required primitive:string guid 1)
+  (required primitive:double height 2)
+  (required primitive:string material 3)
+  (required primitive:double depth 4)
+  (required primitive:double width 5)
+  (required primitive:bool circlebased 6)))
+(define-message-type
  objectmsg
  ((required primitive:int32 index 1)
   (required primitive:double posx 2)
