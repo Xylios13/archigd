@@ -266,7 +266,9 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
 ;Returns the solid points of a vector applied to all given points
 (define (polygon-apply-vector points vector)
   (append points (map (lambda (p)
-                        (+xyz p (cx vector) (cy vector) (cz vector)))
+                        (if (number? vector)
+                            (+z p vector)
+                            (+xyz p (cx vector) (cy vector) (cz vector))))
                       points)))
 
 ;Returns edges for a polygon of n sides
@@ -411,7 +413,34 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
     (write-msg "MorphTrans" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
+#|
+;;Extrusion example
+(send (extrusion (list (xyz -94695.808 -107031.17999999999 0.0)
+       (xyz -94667.651 -107080.392 0.0)
+       (xyz -94651.74400000001 -107071.325 0.0)
+       (xyz -94658.07099999999 -107060.247 0.0)
+       (xyz -94658.68300000001 -107059.165 0.0)
+       (xyz -94662.55100000001 -107061.286 0.0)
+       (xyz -94667.344 -107052.934 0.0)
+       (xyz -94664.406 -107051.342 0.0)
+       (xyz -94669.03 -107042.771 0.0)
+       (xyz -94672.71400000001 -107044.78 0.0)
+       (xyz -94678.067 -107035.45100000001 0.0)
+       (xyz -94673.61100000001 -107033.038 0.0))
+ 11.781))
 
-
-
+(send (extrusion (list (xyz -94.695808 -107.03117999999999 0.0)
+       (xyz -94.667651 -107.080392 0.0)
+       (xyz -94.65174400000001 -107.071325 0.0)
+       (xyz -94.65807099999999 -107.060247 0.0)
+       (xyz -94.65868300000001 -107.059165 0.0)
+       (xyz -94.66255100000001 -107.061286 0.0)
+       (xyz -94.667344 -107.052934 0.0)
+       (xyz -94.664406 -107.051342 0.0)
+       (xyz -94.66903 -107.042771 0.0)
+       (xyz -94.67271400000001 -107.04478 0.0)
+       (xyz -94.678067 -107.03545100000001 0.0)
+       (xyz -94.67361100000001 -107.033038 0.0))
+ 11.781))
+|#
 
