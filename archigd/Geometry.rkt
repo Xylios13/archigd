@@ -8,6 +8,9 @@
 (require "Communication.rkt")
 (require rosetta/revit)
 (require srfi/26)
+;(require math/array)
+(require math/matrix)
+;(require htdp/matrix)
 
 #|
 Function used to create a circle
@@ -412,6 +415,36 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
                             #:scale scale)))
     (write-msg "MorphTrans" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
+
+(define-syntax-rule (mf m i j) (real->double-flonum (matrix-ref m i j)))
+
+(define (loc->matrix p)
+  (let ((m (world-transformation p)))
+    (list (mf m 0 0) (mf m 0 1) (mf m 0 2) (mf m 0 3)
+          (mf m 1 0) (mf m 1 1) (mf m 1 2) (mf m 1 3)
+          (mf m 2 0) (mf m 2 1) (mf m 2 2) (mf m 2 3))))
+
+#|
+(send (apply-matrix-to-morph (create-box (u0) 1 1 1) (list (cos pi/4) (- (sin pi/4)) 0 0
+                                                           (sin pi/4) (cos pi/4)     0 0
+                                                           0          0              1 0)))
+
+(send (apply-matrix-to-morph (create-box (u0) 1 1 1) (list (cos pi/4) (- (sin pi/4)) 0 10
+                                                           (sin pi/4) (cos pi/4)     0 0
+                                                           0          0              1 0)))
+|#
+
+(define (apply-matrix-to-morph el matrix)
+  (let ((msg (applymatrix* #:guid el
+                          #:matrix matrix)))
+    (write-msg "ApplyMatrix" msg)
+    (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
+
+(define (right-cuboid cb width height h/ct)
+  (let-values ([(cb dz) (position-and-height cb h/ct)])
+    (apply-matrix-to-morph 
+     (create-box (+z (u0 world-cs) (/ dz 2.0)) width height dz)
+     (loc->matrix cb))))
 
 #|
 ;;Extrusion example

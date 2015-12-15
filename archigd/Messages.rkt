@@ -21,6 +21,7 @@
   (required primitive:double arcangle 3)))
 (define-message-type doublemessage ((required primitive:double d 1)))
 (define-message-type intlistmsg ((repeated primitive:int32 ilist 1)))
+(define-message-type repeateddoublemsg ((repeated primitive:double dlist 1)))
 (define-message-type
  rooflevelsmsg
  ((repeated primitive:double angle 1) (repeated primitive:double height 2)))
@@ -195,7 +196,7 @@
  ((required primitive:double posx 1)
   (required primitive:double posy 2)
   (required primitive:double bottom 3)
-  (required primitive:double height 4)
+  (optional primitive:double height 4)
   (required primitive:bool circlebased 5)
   (required primitive:double angle 6)
   (required primitive:double depth 7)
@@ -368,5 +369,18 @@
   (required primitive:double z 5)
   (required primitive:double angle 6)
   (required primitive:double scale 7)))
+(define-message-type
+ applymatrix
+ ((required primitive:string guid 1) (repeated primitive:double matrix 2)))
+(define-message-type
+ beammsg
+ ((required primitive:double x0 1)
+  (required primitive:double y0 2)
+  (required primitive:double x1 3)
+  (required primitive:double y1 4)
+  (required primitive:double beamheight 5)
+  (required primitive:double beamwidth 6)
+  (required primitive:double levelheight 7)
+  (required primitive:int32 bottomlevel 8)))
 
 (provide (all-defined-out))

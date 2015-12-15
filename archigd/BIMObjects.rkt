@@ -331,7 +331,7 @@ Example of usage:
                        #:slant-direction [slant-direction 0])
   (let ((msg (columnmsg*  #:posx (cx orig-pos)
                           #:posy (cy orig-pos)
-                          #:bottom 0
+                          #:bottom (cz orig-pos)
                           #:height 0
                           #:circlebased circle-based?
                           #:angle angle
@@ -374,6 +374,30 @@ Example of usage:
             (disconnect)
             (error "The material does not exist"))
           (elementidlist-guid result)))))
+
+(define (create-beam p0
+                     p1
+                     z
+                     #:beam-height [beam-height 0.15]
+                     #:beam-width [beam-width 0.15]
+                     #:bottom-level [bottom-level (current-level)])
+  (let ((msg (beammsg* #:x0 (cx p0)
+                       #:y0 (cy p0)
+                       #:x1 (cx p1)
+                       #:y1 (cy p1)
+                       #:beamheight beam-height
+                       #:beamwidth beam-width
+                       #:levelheight z
+                       #:bottomlevel (storyinfo-index bottom-level))))
+    (write-msg "Beam" msg)
+    ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
+    (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
+      (if (and (elementid-crashmaterial result) 
+               (crash-on-no-material?))
+          (begin 
+            (disconnect)
+            (error "The material does not exist"))
+          (elementid-guid result)))))
 
 #|
 Function to create a object
