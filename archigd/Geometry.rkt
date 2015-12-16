@@ -429,14 +429,33 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
                                                            (sin pi/4) (cos pi/4)     0 0
                                                            0          0              1 0)))
 
+(send (apply-matrix-to-morph (create-box (u0) 1 1 1) (list 1 0 0 10
+                                                           0 1 0  0
+                                                           0 0 1  0)))
+
 (send (apply-matrix-to-morph (create-box (u0) 1 1 1) (list (cos pi/4) (- (sin pi/4)) 0 10
                                                            (sin pi/4) (cos pi/4)     0 0
                                                            0          0              1 0)))
 |#
 
+(define (apply-matrix-to-point p m)
+  (xyz (+ (* (mf m 0 0) (cx p)) (* (mf m 0 1) (cy p)) (* (mf m 0 2) (cz p)) (mf m 0 3))
+       (+ (* (mf m 1 0) (cx p)) (* (mf m 1 1) (cy p)) (* (mf m 1 2) (cz p)) (mf m 1 3))
+       (+ (* (mf m 2 0) (cx p)) (* (mf m 2 1) (cy p)) (* (mf m 2 2) (cz p)) (mf m 2 3))))
+
+(define (apply-rotation-matrix-to-point p m)
+  (xyz (+ (* (mf m 0 0) (cx p)) (* (mf m 0 1) (cy p)) (* (mf m 0 2) (cz p)))
+       (+ (* (mf m 1 0) (cx p)) (* (mf m 1 1) (cy p)) (* (mf m 1 2) (cz p)))
+       (+ (* (mf m 2 0) (cx p)) (* (mf m 2 1) (cy p)) (* (mf m 2 2) (cz p)))))
+
+(define (apply-translation-matrix-to-point p m)
+  (xyz (+ (cx p) (mf m 0 3))
+       (+ (cy p) (mf m 1 3))
+       (+ (cz p) (mf m 2 3))))
+
 (define (apply-matrix-to-morph el matrix)
   (let ((msg (applymatrix* #:guid el
-                          #:matrix matrix)))
+                           #:matrix matrix)))
     (write-msg "ApplyMatrix" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
@@ -445,6 +464,7 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
     (apply-matrix-to-morph 
      (create-box (+z (u0 world-cs) (/ dz 2.0)) width height dz)
      (loc->matrix cb))))
+
 
 #|
 ;;Extrusion example
