@@ -460,10 +460,12 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
 (define (right-cuboid cb width height h/ct)
+  (displayln (loc->matrix cb))
   (let-values ([(cb dz) (position-and-height cb h/ct)])
     (apply-matrix-to-morph 
      (create-box (+z (u0 world-cs) (/ dz 2.0)) width height dz)
-     (loc->matrix cb))))
+     (loc->matrix cb))
+    ))
 
 
 #|

@@ -323,24 +323,37 @@ Example of usage:
                        #:bottom-level [bottom-level (current-level)]
                        #:top-level [top-level (upper-level #:level bottom-level)]
                        ;;ArchiCAD ONLY --------------------------------------------------------------
-                       #:circle-based? [circle-based? #t]
+                       #:circle-based? [circle-based? #f]
                        #:angle [angle 0]
                        #:depth [depth 0.15]
                        #:width [width 0.15]
                        #:slant-angle [slant-angle (/ pi 2)]
-                       #:slant-direction [slant-direction 0])
-  (let ((msg (columnmsg*  #:posx (cx orig-pos)
-                          #:posy (cy orig-pos)
-                          #:bottom (cz orig-pos)
-                          #:height 0
-                          #:circlebased circle-based?
-                          #:angle angle
-                          #:depth depth
-                          #:width width
-                          #:slantangle slant-angle
-                          #:slantdirection slant-direction
-                          #:bottomindex (storyinfo-index bottom-level)
-                          #:upperindex (storyinfo-index top-level))))
+                       #:slant-direction [slant-direction 0]
+                       #:height [height null])
+  (let ((msg (if (null? height)
+                 (columnmsg*  #:posx (cx orig-pos)
+                              #:posy (cy orig-pos)
+                              #:bottom (cz orig-pos)
+                              #:circlebased circle-based?
+                              #:angle angle
+                              #:depth depth
+                              #:width width
+                              #:slantangle slant-angle
+                              #:slantdirection slant-direction
+                              #:bottomindex (storyinfo-index bottom-level)
+                              #:upperindex (storyinfo-index top-level))
+                 (columnmsg*  #:posx (cx orig-pos)
+                              #:posy (cy orig-pos)
+                              #:bottom (cz orig-pos)
+                              #:height height
+                              #:circlebased circle-based?
+                              #:angle angle
+                              #:depth depth
+                              #:width width
+                              #:slantangle slant-angle
+                              #:slantdirection slant-direction
+                              #:bottomindex (storyinfo-index bottom-level)
+                              #:upperindex (storyinfo-index top-level)))))
     (write-msg "NewColumn" msg)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
