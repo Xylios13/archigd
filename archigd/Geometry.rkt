@@ -436,6 +436,10 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
 (send (apply-matrix-to-morph (create-box (u0) 1 1 1) (list (cos pi/4) (- (sin pi/4)) 0 10
                                                            (sin pi/4) (cos pi/4)     0 0
                                                            0          0              1 0)))
+
+(send (apply-matrix-to-morph (create-box (+xyz (u0) -0.5 -0.5 -0.5) 1 1 1) (list (cos pi/4) (- (sin pi/4)) 0 0
+                                                           (sin pi/4) (cos pi/4)     0 0
+                                                           0          0              1 0)))
 |#
 
 (define (apply-matrix-to-point p m)
@@ -460,10 +464,13 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
 (define (right-cuboid cb width height h/ct)
-  (displayln (loc->matrix cb))
   (let-values ([(cb dz) (position-and-height cb h/ct)])
-    (apply-matrix-to-morph 
+    (displayln (loc->matrix cb))
+    #;(apply-matrix-to-morph
      (create-box (+z (u0 world-cs) (/ dz 2.0)) width height dz)
+     (loc->matrix cb))
+    (apply-matrix-to-morph 
+     (create-box (+xyz (u0 world-cs) (- (/ width 2.0)) (- (/ height 2.0)) (- (/ dz 2.0))) width height dz)
      (loc->matrix cb))
     ))
 
