@@ -465,14 +465,9 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
 
 (define (right-cuboid cb width height h/ct)
   (let-values ([(cb dz) (position-and-height cb h/ct)])
-    (displayln (loc->matrix cb))
-    #;(apply-matrix-to-morph
-     (create-box (+z (u0 world-cs) (/ dz 2.0)) width height dz)
-     (loc->matrix cb))
     (apply-matrix-to-morph 
-     (create-box (+xyz (u0 world-cs) (- (/ width 2.0)) (- (/ height 2.0)) (- (/ dz 2.0))) width height dz)
-     (loc->matrix cb))
-    ))
+     (create-box (+xy (u0 world-cs) (- (/ width 2.0)) (- (/ height 2.0))) width height dz)
+     (loc->matrix cb))))
 
 
 #|

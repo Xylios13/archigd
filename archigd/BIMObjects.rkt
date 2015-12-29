@@ -390,18 +390,20 @@ Example of usage:
 
 (define (create-beam p0
                      p1
-                     z
                      #:beam-height [beam-height 0.15]
                      #:beam-width [beam-width 0.15]
                      #:bottom-level [bottom-level (current-level)])
-  (let ((msg (beammsg* #:x0 (cx p0)
-                       #:y0 (cy p0)
-                       #:x1 (cx p1)
-                       #:y1 (cy p1)
-                       #:beamheight beam-height
-                       #:beamwidth beam-width
-                       #:levelheight z
-                       #:bottomlevel (storyinfo-index bottom-level))))
+  (let* ((new-p0 (loc-in-world p0))
+         (new-p1 (loc-in-world p1))
+         (msg (beammsg* #:x0 (cx new-p0)
+                        #:y0 (cy new-p0)
+                        #:x1 (cx new-p1)
+                        #:y1 (cy new-p1)
+                        #:beamheight beam-height
+                        #:beamwidth beam-width
+                        #:levelheight (cz new-p0)
+                        #:bottomlevel (storyinfo-index bottom-level)
+                        #:angle (- pi/2 (sph-psi (p-p p1 p0))))))
     (write-msg "Beam" msg)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
