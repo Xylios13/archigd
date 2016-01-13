@@ -568,10 +568,16 @@ Function to create a poly roof
                      ;;ArchiCAD ONLY --------------------------------------------------------------
                      #:bottom [bottom 0]
                      #:material [material (default-mesh-material)]
-                     #:level-lines [level-lines (list)])
-  (let ((slab-msg (meshmessage* #:level bottom
-                                #:material material
-                                #:bottomlevel (storyinfo-index bottom-level))))
+                     #:level-lines [level-lines (list)]
+                     #:override-material [override-material null])
+  (let ((slab-msg (if (null? override-material)
+                      (meshmessage* #:level bottom
+                                    #:material material
+                                    #:bottomlevel (storyinfo-index bottom-level))
+                      (meshmessage* #:level bottom
+                                    #:material material
+                                    #:bottomlevel (storyinfo-index bottom-level)
+                                    #:overridematerial override-material))))
     (write-msg "Mesh" slab-msg)  
     (send-points guide)
     (send-points level-lines)

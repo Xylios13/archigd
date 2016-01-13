@@ -178,7 +178,8 @@
  meshmessage
  ((required primitive:double level 1)
   (required primitive:string material 2)
-  (required primitive:int32 bottomlevel 3)))
+  (required primitive:int32 bottomlevel 3)
+  (optional primitive:string overridematerial 4)))
 (define-message-type
  rotatemsg
  ((repeated primitive:string guid 1)
