@@ -383,6 +383,7 @@
   (required primitive:double beamwidth 6)
   (required primitive:double levelheight 7)
   (required primitive:int32 bottomlevel 8)
-  (required primitive:double angle 9)))
+  (required primitive:double angle 9)
+  (required primitive:string material 10)))
 
 (provide (all-defined-out))

@@ -392,7 +392,8 @@ Example of usage:
                      p1
                      #:beam-height [beam-height 0.15]
                      #:beam-width [beam-width 0.15]
-                     #:bottom-level [bottom-level (current-level)])
+                     #:bottom-level [bottom-level (current-level)]
+                     #:material [material "GENERIC - STRUCTURAL"])
   (let* ((new-p0 (loc-in-world p0))
          (new-p1 (loc-in-world p1))
          (msg (beammsg* #:x0 (cx new-p0)
@@ -403,7 +404,8 @@ Example of usage:
                         #:beamwidth beam-width
                         #:levelheight (cz new-p0)
                         #:bottomlevel (storyinfo-index bottom-level)
-                        #:angle (- pi/2 (sph-psi (p-p p1 p0))))))
+                        #:angle (- pi/2 (sph-psi (p-p p1 p0)))
+                        #:material material)))
     (write-msg "Beam" msg)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
