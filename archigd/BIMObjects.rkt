@@ -444,6 +444,27 @@ Example of usage:
             (error "The material does not exist"))
           (elementid-guid result)))))
 
+(define (split-params-list lsst)
+  (let ((names (list))
+        (double-values (list))
+        (string-values (list))
+        (is-string? (list)))
+    (for ([lst lsst])
+         (let ((name (car lst))
+               (value (cadr lst)))
+           (set! names (append names (list name)))
+           (if (string? value)
+               (begin
+                 (set! string-values (append string-values (list value)))
+                 (set! is-string? (append is-string? (list #t))))
+               (begin
+                 (set! double-values (append double-values (list value)))
+                 (set! is-string? (append is-string? (list #f)))))))
+    (list names double-values string-values is-string?)))
+
+
+
+
 #|
 Function to create a object
  index: index that indentifies what object will be used (needs better documentation)
@@ -458,8 +479,10 @@ Example of usage:
                        #:y-ratio [y-ratio 1]
                        #:use-obj-sect-attrs? [use-obj-sect-attrs? #t]
                        #:angle [angle 0]
-                       #:height [height 0])
-  (let ((msg (objectmsg* #:index index
+                       #:height [height 0]
+                       #:additional-parameters [additional-parameters (list)])
+  (let* ((splitted-list (split-params-list additional-parameters))
+         (msg (objectmsg* #:index index
                          #:posx (cx orig-pos)
                          #:posy (cy orig-pos)
                          #:usexyfixsize use-xy-fix-size?
@@ -467,7 +490,11 @@ Example of usage:
                          #:xratio x-ratio
                          #:yratio y-ratio
                          #:bottom height
-                         #:angle angle)))
+                         #:angle angle
+                         #:names (car splitted-list)
+                         #:values (cadr splitted-list)
+                         #:strings (caddr splitted-list)
+                         #:isstring (cadddr splitted-list))))
     (write-msg "Object" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     ))

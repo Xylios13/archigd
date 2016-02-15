@@ -244,7 +244,11 @@
   (required primitive:double yratio 6)
   (required primitive:bool useobjsectattrs 7)
   (required primitive:double bottom 8)
-  (required primitive:double angle 9)))
+  (required primitive:double angle 9)
+  (repeated primitive:string names 10)
+  (repeated primitive:double values 11)
+  (repeated primitive:string strings 12)
+  (repeated primitive:bool isstring 13)))
 (define-message-type
  stairsmsg
  ((required primitive:string name 1)
