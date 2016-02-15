@@ -190,8 +190,7 @@ Example of usage:
     (write-msg "CurtainWall" c-wall-msg)
     (send-points guide)
     (send-arcs listarcs)
-    (elementid-guid (read-sized (cut deserialize (elementid*) <>)input)))
-  )
+    (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
 #|
 Function to create a Slab
@@ -201,6 +200,32 @@ Example of usage:
 (send (slab cPoints))
 
 |#
+
+(define (sub-polys-position-specific-argument points [counter 0])
+  (cond
+    [(null? points) (list)]
+    [(list? (car points)) (cons (+ counter (length (car points))) (sub-polys-position-specific-argument (cdr points) (+ counter (length (car points)))))]
+    [else (sub-polys-position-specific-argument (cdr points) counter)]))
+
+(define (sub-polys-position points [counter 0])
+  (cond
+    [(null? points) (list counter)]
+    [(list? (car points)) (cons counter (sub-polys-position (cdr points) (+ counter (length (car points)))))]
+    [else (sub-polys-position (cdr points) (+ counter 1))]))
+
+;;TODO rework conditions, too confusing...
+(define (close-guide points first-el [no-lists? #t])
+  (cond
+    [(and (null? points) no-lists?)(list first-el)]
+    [(null? points) (list)]
+    [(and (list? (car points)) no-lists?) (cons first-el (cons (append (car points) (list (caar points))) (close-guide (cdr points) first-el #f)))]
+    [(list? (car points))(cons (append (car points) (list (caar points))) (close-guide (cdr points) first-el #f))]
+    [else (cons (car points) (close-guide (cdr points) first-el no-lists?))]))
+
+(define (prepare-points points)
+  (let ((points (close-guide points (car points))))
+    (list (flatten points) (sub-polys-position points))))
+
 (define default-slab-alignment (make-parameter "Center"))
 (define default-slab-type-of-material (make-parameter "Composite"))
 #;(define default-slab-material  
@@ -214,15 +239,18 @@ Example of usage:
                      #:type-of-material [type-of-material (default-slab-type-of-material)]
                      #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - INTERNAL CLADDING"]
                                                 [(eq? type-of-material "Composite") "Generic Slab/Roof"])]
-                     #:sub-polygons [sub-polygons (list (length guide))])
-  (let ((slab-msg (slabmessage* #:level bottom
-                                #:material material
-                                #:thickness thickness
-                                #:type type-of-material
-                                #:bottomlevel (storyinfo-index bottom-level)
-                                #:subpolygons sub-polygons)))
+                     ;#:sub-polygons [sub-polygons (list (length guide))]
+                     )
+  (let* ((slab-info (prepare-points guide))
+         (slab-msg (slabmessage* #:level bottom
+                                 #:material material
+                                 #:thickness thickness
+                                 #:type type-of-material
+                                 #:bottomlevel (storyinfo-index bottom-level)
+                                 #:subpolygons (cadr slab-info))))
     (write-msg "NewSlab" slab-msg)  
-    (send-points guide)
+    ;(send-points guide)
+    (send-points (car slab-info))
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
       (if (and (elementid-crashmaterial result) 
@@ -246,7 +274,7 @@ Example of usage:
 (define (create-hole-slab slab-id listpoints [listarcs (list)])
   (let ((slab-msg (holemsg* #:guid slab-id)))
     (write-msg "HoleSlab" slab-msg)  
-    (send-points listpoints)
+    (send-points (append listpoints (list (car listpoints))))
     (send-arcs listarcs)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
@@ -500,13 +528,14 @@ Example of usage:
                      #:type-of-material [type-of-material (default-roof-type-of-material)]
                      #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
                                                 [(eq? type-of-material "Composite") "Generic Roof/Shell"])])
-  (let ((roof-msg (roofmsg* #:height height
+  (let ((roof-info (prepare-points guide))
+        (roof-msg (roofmsg* #:height height
                             #:material material
                             #:thickness thickness
                             #:type type-of-material
                             #:bottomlevel (storyinfo-index bottom-level))))
     (write-msg "NewRoof" roof-msg)  
-    (send-points guide)
+    (send-points (car roof-info))
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
       (if (and (elementid-crashmaterial result) 
