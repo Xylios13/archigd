@@ -446,21 +446,58 @@ Example of usage:
 
 (define (split-params-list lsst)
   (let ((names (list))
+        (int-values (list))
         (double-values (list))
         (string-values (list))
-        (is-string? (list)))
+        (bool-values (list))
+        (lst-int-values (list))
+        (lst-double-values (list))
+        (lst-string-values (list))
+        (lst-bool-values (list))
+        (param-types (list))
+        (is-array? (list)))
     (for ([lst lsst])
          (let ((name (car lst))
                (value (cadr lst)))
            (set! names (append names (list name)))
-           (if (string? value)
+           (if (list? value)
                (begin
-                 (set! string-values (append string-values (list value)))
-                 (set! is-string? (append is-string? (list #t))))
+                 (set! is-array? (append is-array? (list #t)))
+                 (cond [(string? (car value))
+                        (begin
+                          (set! param-types (append param-types (list "s")))
+                          (set! lst-string-values (append lst-string-values (list (stringarray* #:lst value)))))]
+                       [(real? (car value))
+                        (begin
+                          (set! param-types (append param-types (list "d")))
+                          (set! lst-double-values (append lst-double-values (list (doublearray* #:lst value)))))]
+                       [(integer? (car value))
+                        (begin
+                          (set! param-types (append param-types (list "i")))
+                          (set! lst-int-values (append lst-int-values (list (intarray* #:lst value)))))]
+                       [(boolean? (car value))
+                        (begin
+                          (set! param-types (append param-types (list "b")))
+                          (set! lst-bool-values (append lst-bool-values (list (boolarray* #:lst value)))))]))
                (begin
-                 (set! double-values (append double-values (list value)))
-                 (set! is-string? (append is-string? (list #f)))))))
-    (list names double-values string-values is-string?)))
+                 (set! is-array? (append is-array? (list #f)))
+                 (cond [(string? value)
+                        (begin
+                          (set! param-types (append param-types (list "s")))
+                          (set! string-values (append string-values (list value))))]
+                       [(real? value)
+                        (begin
+                          (set! param-types (append param-types (list "d")))
+                          (set! double-values (append double-values (list value))))]
+                       [(integer? value)
+                        (begin
+                          (set! param-types (append param-types (list "i")))
+                          (set! int-values (append int-values (list value))))]
+                       [(boolean? value)
+                        (begin
+                          (set! param-types (append param-types (list "b")))
+                          (set! bool-values (append bool-values (list value))))])))))
+    (list names int-values double-values string-values bool-values lst-int-values lst-double-values lst-string-values lst-bool-values param-types is-array?)))
 
 
 
@@ -472,7 +509,7 @@ Function to create a object
 Example of usage: 
 (send (create-object 1324 (xy 0.0 0.0)))
 |#
-(define (create-object index
+(define (create-object index/name
                        orig-pos
                        #:use-xy-fix-size? [use-xy-fix-size? #f]
                        #:x-ratio [x-ratio 1]
@@ -482,19 +519,48 @@ Example of usage:
                        #:height [height 0]
                        #:additional-parameters [additional-parameters (list)])
   (let* ((splitted-list (split-params-list additional-parameters))
-         (msg (objectmsg* #:index index
-                         #:posx (cx orig-pos)
-                         #:posy (cy orig-pos)
-                         #:usexyfixsize use-xy-fix-size?
-                         #:useobjsectattrs use-obj-sect-attrs?
-                         #:xratio x-ratio
-                         #:yratio y-ratio
-                         #:bottom height
-                         #:angle angle
-                         #:names (car splitted-list)
-                         #:values (cadr splitted-list)
-                         #:strings (caddr splitted-list)
-                         #:isstring (cadddr splitted-list))))
+         (msg (if (string? index/name)
+                  (objectmsg* #:index 0
+                              #:posx (cx orig-pos)
+                              #:posy (cy orig-pos)
+                              #:usexyfixsize use-xy-fix-size?
+                              #:useobjsectattrs use-obj-sect-attrs?
+                              #:xratio x-ratio
+                              #:yratio y-ratio
+                              #:bottom height
+                              #:angle angle
+                              #:names (list-ref splitted-list 0)
+                              #:integers (list-ref splitted-list 1)
+                              #:doubles (list-ref splitted-list 2)
+                              #:strings (list-ref splitted-list 3)
+                              #:booleans (list-ref splitted-list 4)
+                              #:intarrays (list-ref splitted-list 5)
+                              #:doublearrays (list-ref splitted-list 6)
+                              #:stringarrays (list-ref splitted-list 7)
+                              #:boolarrays (list-ref splitted-list 8)
+                              #:paramtype (list-ref splitted-list 9)
+                              #:isarray (list-ref splitted-list 10)
+                              #:name index/name)
+                  (objectmsg* #:index index/name
+                              #:posx (cx orig-pos)
+                              #:posy (cy orig-pos)
+                              #:usexyfixsize use-xy-fix-size?
+                              #:useobjsectattrs use-obj-sect-attrs?
+                              #:xratio x-ratio
+                              #:yratio y-ratio
+                              #:bottom height
+                              #:angle angle
+                              #:names (list-ref splitted-list 0)
+                              #:integers (list-ref splitted-list 1)
+                              #:doubles (list-ref splitted-list 2)
+                              #:strings (list-ref splitted-list 3)
+                              #:booleans (list-ref splitted-list 4)
+                              #:intarrays (list-ref splitted-list 5)
+                              #:doublearrays (list-ref splitted-list 6)
+                              #:stringarrays (list-ref splitted-list 7)
+                              #:boolarrays (list-ref splitted-list 8)
+                              #:paramtype (list-ref splitted-list 9)
+                              #:isarray (list-ref splitted-list 10)))))
     (write-msg "Object" msg)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     ))
@@ -504,23 +570,39 @@ Function to create stairs
  index: index that indentifies what stairs will be used (needs better documentation)
  orig-pos: position of the stairs
 |#
-(define (create-stairs #:name name 
-                       #:orig-pos orig-pos 
+(define (create-stairs name 
+                       orig-pos 
                        #:angle [angle 0] 
                        #:x-ratio [x-ratio 1] 
                        #:y-ratio [y-ratio 1]
                        #:bottom-offset [bottom-offset 0] 
                        #:bottom-level [bottom-level (current-level)]
-                       #:use-xy-fix-size [use-xy-fix-size #f])
-  (let ((msg (stairsmsg* #:name name
-                         #:posx (cx orig-pos)
-                         #:posy (cy orig-pos)
-                         #:bottom bottom-offset
-                         #:xratio x-ratio
-                         #:yratio y-ratio
-                         #:angle angle
-                         #:bottomindex (storyinfo-index bottom-level)
-                         #:usexyfixsize use-xy-fix-size)))
+                       #:use-xy-fix-size [use-xy-fix-size #f]
+                       #:additional-parameters [additional-parameters (list)])
+  (let* ((splitted-list (split-params-list additional-parameters))
+         (msg (stairsmsg* #:name name
+                          #:posx (cx orig-pos)
+                          #:posy (cy orig-pos)
+                          #:bottom bottom-offset
+                          #:xratio x-ratio
+                          #:yratio y-ratio
+                          #:angle angle
+                          #:bottomindex (storyinfo-index bottom-level)
+                          #:usexyfixsize use-xy-fix-size
+                          #:names (list-ref splitted-list 0)
+                          #:integers (list-ref splitted-list 1)
+                          #:doubles (list-ref splitted-list 2)
+                          #:strings (list-ref splitted-list 3)
+                          #:booleans (list-ref splitted-list 4)
+                          #:intarrays (list-ref splitted-list 5)
+                          #:doublearrays (list-ref splitted-list 6)
+                          #:stringarrays (list-ref splitted-list 7)
+                          #:boolarrays (list-ref splitted-list 8)
+                          #:paramtype (list-ref splitted-list 9)
+                          #:isarray (list-ref splitted-list 10)
+                          
+                          )))
+    ;(list names int-values double-values string-values bool-values lst-int-values lst-double-values lst-string-values lst-bool-values param-types is-array?)
     (write-msg "Stairs" msg)
     ;(elementid-guid (read-sized (cut deserialize (elementid*) <>)input))
     (let ((result (read-sized (cut deserialize (elementid*) <>)input)))
@@ -530,6 +612,49 @@ Function to create stairs
             (disconnect)
             (error "The name does not exist"))
           (elementid-guid result)))      
+    ))
+#|
+Function to create a library part
+At the moment does not return anything. It would be more interesting than returning an idex, to be able to use the name given to the library part.
+Example:
+ (send (create-library-part "Test Library Part 1"
+                            "PROJECT2 3, 270, 2 \r\n"
+                            "MATERIAL mat \r\n BLOCK a, b, 1 \r\n ADD a * 0.5, b* 0.5, 1 \r\n CYLIND zzyzx - 3, MIN (a, b) * 0.5 \r\n ADDZ zzyzx - 3 \r\n CONE 2, MIN (a, b) * 0.5, 0.0, 90, 90 \r\n"
+                            #:parameter-code "VALUES \"zzyzx\" RANGE [6,]"))
+This example uses \r\n, newline for windows, it also works with \n...
+
+To use the created library part, reference by name!
+(send (create-object "Test Library Part 1" (u0)))
+|#
+(define (create-library-part name
+                             2D-section
+                             3D-section
+                             #:master-code [master-code ""]
+                             #:parameter-code [parameter-code ""]
+                             #:type [type "Object"]
+                             #:parent-id [parent-id "ModelElement"]
+                             #:additional-parameters [additional-parameters (list)])
+  (let* ((splitted-list (split-params-list additional-parameters))
+         (msg (libpartmsg* #:name name
+                           #:twocode 2D-section
+                           #:threecode 3D-section
+                           #:mastercode master-code
+                           #:parametercode parameter-code
+                           #:type type
+                           #:parentid parent-id
+                           #:names (list-ref splitted-list 0)
+                           #:integers (list-ref splitted-list 1)
+                           #:doubles (list-ref splitted-list 2)
+                           #:strings (list-ref splitted-list 3)
+                           #:booleans (list-ref splitted-list 4)
+                           #:intarrays (list-ref splitted-list 5)
+                           #:doublearrays (list-ref splitted-list 6)
+                           #:stringarrays (list-ref splitted-list 7)
+                           #:boolarrays (list-ref splitted-list 8)
+                           #:paramtype (list-ref splitted-list 9)
+                           #:isarray (list-ref splitted-list 10))))
+    (write-msg "LibraryPart" msg)
+    name
     ))
 #|
 Function to create a plane roof
