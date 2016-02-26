@@ -8,6 +8,8 @@
 (require rosetta/revit)
 (require srfi/26)
 
+(define visual-feedback? (make-parameter #f))
+
 (define input #f)
 (define output #f)
 (define server-addr "localhost")
@@ -62,13 +64,14 @@
     (disconnect)))
 
 ;;Function to send name 
-(define (write-msg-name name)
-  (write-sized serialize (namemessage* #:name name) output))
+(define (write-msg-name name [visual-feedback? (visual-feedback?)])
+  (write-sized serialize (namemessage* #:name name
+                                       #:visualfeedback visual-feedback?) output))
 
 ;;Function to call 
 ;;a function with a 'name' and 'strct'
-(define (write-msg name strct)
-  (write-msg-name name)
+(define (write-msg name strct [visual-feedback? (visual-feedback?)])
+  (write-msg-name name visual-feedback?)
   (write-sized serialize strct output))
 
 ;;Function to send a double

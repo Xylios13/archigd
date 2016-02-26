@@ -120,17 +120,24 @@ Function used to create a door into an existing wall
 Example of usage:
 (send (create-door wallId 1.0 0.0))
 |#
-(define (create-door guid objloc [width -10000] [bottom 0] [height -10000])
+(define (create-door guid
+                     objloc
+                     #:type-of-door [type-of-door "Door 18"]
+                     #:width [width -10000]
+                     #:bottom [bottom 0]
+                     #:height [height -10000])
   (let ((door-to-create (doormessage* #:guid guid
                                       #:objloc objloc
                                       #:zpos bottom
                                       #:height height
                                       #:width width
                                       #:hole #f
+                                      #:name type-of-door
                                       )))
     (write-msg "Door" door-to-create)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
+;;TODO Review this function
 (define (create-hole-in-wall guid objloc [width -10000] [bottom 0] [height -10000])
   (let ((door-to-create (doormessage* #:guid guid
                                       #:objloc objloc
@@ -138,10 +145,12 @@ Example of usage:
                                       #:height height
                                       #:width width
                                       #:hole #t
+                                      #:name ""
                                       )))
     (write-msg "Door" door-to-create)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
+;;TODO Review this function
 (define (create-hole-in-wall-test guid list-points [list-arcs (list)])
   (let ((msg (holemsg* #:guid guid )))
     (write-msg "HoleTest" msg)
@@ -162,10 +171,14 @@ Function used to create a window into a existing wall
 Example of usage:
 (send (create-window wallId 1.0 1.0))
 |#
-(define (create-window guid objloc zpos)
+(define (create-window guid
+                       objloc
+                       #:type-of-window [type-of-window "Window 18"]
+                       #:zpos [zpos 0])
   (let ((window-to-create (windowmessage* #:guid guid
                                           #:objloc objloc
-                                          #:zpos zpos)))
+                                          #:zpos zpos
+                                          #:name type-of-window)))
     (write-msg "Window" window-to-create)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 

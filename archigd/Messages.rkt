@@ -2,7 +2,10 @@
 ;; Generated using protoc-gen-racket v1.1
 (require "protobuf1/syntax.rkt")
 
-(define-message-type namemessage ((required primitive:string name 1)))
+(define-message-type
+ namemessage
+ ((required primitive:string name 1)
+  (required primitive:bool visualfeedback 2)))
 (define-message-type
  elementid
  ((required primitive:string guid 1)
@@ -78,12 +81,14 @@
   (required primitive:double zpos 3)
   (required primitive:double height 4)
   (required primitive:double width 5)
-  (required primitive:bool hole 6)))
+  (required primitive:bool hole 6)
+  (required primitive:string name 7)))
 (define-message-type
  windowmessage
  ((required primitive:string guid 1)
   (required primitive:double objloc 2)
-  (required primitive:double zpos 3)))
+  (required primitive:double zpos 3)
+  (required primitive:string name 4)))
 (define-message-type
  circlemessage
  ((required primitive:double p0x 1)
