@@ -2,10 +2,7 @@
 ;; Generated using protoc-gen-racket v1.1
 (require "protobuf1/syntax.rkt")
 
-(define-message-type
- namemessage
- ((required primitive:string name 1)
-  (required primitive:bool visualfeedback 2)))
+(define-message-type namemessage ((required primitive:string name 1)))
 (define-message-type
  elementid
  ((required primitive:string guid 1)

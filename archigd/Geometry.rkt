@@ -1,6 +1,5 @@
 #lang racket
-(provide (except-out (all-defined-out)
-                     extrusion-shell))
+(provide (except-out (all-defined-out)))
 
 (require "protobuf1/protobuf.rkt")
 (require "protobuf1/encoding.rkt")
@@ -238,21 +237,6 @@ Example of usage: (create-hole-on-shell hpoints harcs hheight shellId)
                                         #:radius radius
                                         #:level (storyinfo-index level))))
     (write-msg "Cylinder" sphere-to-create)
-    (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
-
-;(send (extrusion-shell (list (xy -1 0)(xy 1 0)(xy -1 0)) (z 10) 0 (list pi pi)))
-;Not used
-(define (extrusion-shell polygon vector base-height [poly-arcs (list)])
-  (let* ((sphere-to-create (extrusionmsg* #:vx (cx vector)
-                                          #:vy (cy vector)
-                                          #:vz (cz vector)
-                                          #:height base-height))
-         (sub-poly-list (get-sub-polys polygon))
-         (sub-poly-msg (intlistmsg* #:ilist sub-poly-list)))
-    (write-msg "Extrusion" sphere-to-create)
-    (send-points (flatten polygon))
-    (send-arcs poly-arcs)
-    (write-sized serialize sub-poly-msg output)
     (elementid-guid (read-sized (cut deserialize (elementid*) <>)input))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -64,15 +64,22 @@
     (disconnect)))
 
 ;;Function to send name 
-(define (write-msg-name name [visual-feedback? (visual-feedback?)])
-  (write-sized serialize (namemessage* #:name name
-                                       #:visualfeedback visual-feedback?) output))
+(define (write-msg-name name)
+  (write-sized serialize (namemessage* #:name name) output))
 
 ;;Function to call 
 ;;a function with a 'name' and 'strct'
-(define (write-msg name strct [visual-feedback? (visual-feedback?)])
-  (write-msg-name name visual-feedback?)
+(define (write-msg name strct)
+  (write-msg-name name)
   (write-sized serialize strct output))
+
+;;Function to enable 3D visual feedback
+(define (visual-feedback-on)
+  (write-msg-name "RefreshOn"))
+
+;;Function to disable 3D visual feedback
+(define (visual-feedback-off)
+  (write-msg-name "RefreshOff"))
 
 ;;Function to send a double
 (define (send-double d)
@@ -81,9 +88,9 @@
 ;;Function to send list of points
 (define (send-list-points lst)
   (for-each (lambda (point)
-                (write-sized serialize (pointmessage* #:p0x (car point) 
-                                                      #:p0y (cdr point)) output)) 
-              lst))
+              (write-sized serialize (pointmessage* #:p0x (car point) 
+                                                    #:p0y (cdr point)) output)) 
+            lst))
 
 ;;Function to send list of points using repeated fields
 (define (send-points-old lst)
@@ -91,8 +98,8 @@
         (lst-y (list))
         (lst-z (list)))
     (for-each (lambda (point)
-               (set! lst-x (append lst-x (list (car point))))
-               (set! lst-y (append lst-y (list (cdr point)))))
+                (set! lst-x (append lst-x (list (car point))))
+                (set! lst-y (append lst-y (list (cdr point)))))
               lst)
     (write-sized serialize (pointsmessage* #:px lst-x 
                                            #:py lst-y 
@@ -104,9 +111,9 @@
         (lst-y (list))
         (lst-z (list)))
     (for-each (lambda (point)
-               (set! lst-x (append lst-x (list (cx point))))
-               (set! lst-y (append lst-y (list (cy point))))
-               (set! lst-z (append lst-z (list (cz point)))))
+                (set! lst-x (append lst-x (list (cx point))))
+                (set! lst-y (append lst-y (list (cy point))))
+                (set! lst-z (append lst-z (list (cz point)))))
               lst)
     (write-sized serialize (pointsmessage* #:px lst-x 
                                            #:py lst-y 
@@ -115,10 +122,10 @@
 ;;Function to send list of arcs
 (define (send-list-arcs lst)
   (for-each (lambda (arc)
-                (write-sized serialize (polyarcmessage* #:begindex (car arc) 
-                                                        #:endindex (car (cdr arc)) 
-                                                        #:arcangle (car (cdr (cdr arc)))) output)) 
-              lst))
+              (write-sized serialize (polyarcmessage* #:begindex (car arc) 
+                                                      #:endindex (car (cdr arc)) 
+                                                      #:arcangle (car (cdr (cdr arc)))) output)) 
+            lst))
 
 ;;Function to send list of arcs using repeated fields
 (define (send-arcs-complex lst)
@@ -126,13 +133,13 @@
         (lst-end-index (list))
         (lst-arc-angle (list)))
     (for-each (lambda (arc)
-               (set! lst-beg-index (append lst-beg-index (list (car arc))))
-               (set! lst-end-index (append lst-end-index (list (car (cdr arc)))))
-               (set! lst-arc-angle (append lst-arc-angle (list (car (cdr (cdr arc)))))))
+                (set! lst-beg-index (append lst-beg-index (list (car arc))))
+                (set! lst-end-index (append lst-end-index (list (car (cdr arc)))))
+                (set! lst-arc-angle (append lst-arc-angle (list (car (cdr (cdr arc)))))))
               lst)
     (write-sized serialize (polyarcsmessage* #:begindex lst-beg-index 
-                                           #:endindex lst-end-index 
-                                           #:arcangle lst-arc-angle) output)))
+                                             #:endindex lst-end-index 
+                                             #:arcangle lst-arc-angle) output)))
 
 #|
  Function to send list of arcs with assumed order
@@ -148,14 +155,14 @@
         (lst-arc-angle (list))
         (index 1))
     (for-each (lambda (arc)
-               (set! lst-beg-index (append lst-beg-index (list index)))
-               (set! lst-end-index (append lst-end-index (list (+ index 1))))
-               (set! lst-arc-angle (append lst-arc-angle (list  arc)))
-               (set! index (+ index 1)))
+                (set! lst-beg-index (append lst-beg-index (list index)))
+                (set! lst-end-index (append lst-end-index (list (+ index 1))))
+                (set! lst-arc-angle (append lst-arc-angle (list  arc)))
+                (set! index (+ index 1)))
               lst)
     (write-sized serialize (polyarcsmessage* #:begindex lst-beg-index 
-                                           #:endindex lst-end-index 
-                                           #:arcangle lst-arc-angle) output)))
+                                             #:endindex lst-end-index 
+                                             #:arcangle lst-arc-angle) output)))
 
 #|
 Function to update file materials
@@ -164,6 +171,9 @@ The file is merely used for consulting
 |#
 (define (update-material-file)
   (write-msg-name "WriteMaterialsFile"))
+
+(define (refresh-3d-view)
+  (write-msg-name "Refresh"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;       Levels       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
