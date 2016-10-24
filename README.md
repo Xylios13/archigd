@@ -25,16 +25,27 @@ Right-click your project on the left side of visual studio by default, and go to
 Go to C/C++, and in the Additional Include Directories make sure you have the correct path for all the necessary files in Support
 In my solution I had the following:
 ..\..\Support\Inc
+
 ..\..\Support\Modules\GSRoot
+
 ..\..\Support\Modules\GSRoot\STL\imp
+
 ..\..\Support\Modules\GSUtils
+
 ..\..\Support\Modules\Geometry
+
 ..\..\Support\Modules\GDL
+
 ..\..\Support\Modules\DGLib
+
 ..\..\Support\Modules\InputOutput
+
 ..\..\Support\Modules\UCLib
+
 ..\..\Support\Modules\VectorImage
+
 ..\..\Support\Modules\VBUtils
+
 ..\..\Support\Modules\Pattern
 
 Still in C/C++ General I have my Warning level set to Level2 and not Level4
@@ -43,23 +54,33 @@ C/C++ -> Preprocessor
 Preprocessor Definitions I have 
 
 WIN32
+
 NDEBUG
+
 _WINDOWS
+
 _USRDLL
+
 _STLP_DONT_FORCE_MSVC_LIB_NAME
 
 Linker -> InputOutput
 I have:
 
 msvcrt.lib
-msvcprt.lib
-ws2_32.lib
-libprotobuf.lib
-libprotobuf-lite.lib
-libprotoc.lib
-OLDNAMES.lib
-Ws2_32.lib
 
+msvcprt.lib
+
+ws2_32.lib
+
+libprotobuf.lib
+
+libprotobuf-lite.lib
+
+libprotoc.lib
+
+OLDNAMES.lib
+
+Ws2_32.lib
 
 
 Check MySolutionFiles.png to see what files I have on my project, including .lib. I manually added VBUtilsImp.LIB and VectorImageImp.LIB found in API Development Kit 18.3006/Support/Modules
