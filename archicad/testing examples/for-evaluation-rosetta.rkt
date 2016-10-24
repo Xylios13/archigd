@@ -1,0 +1,30 @@
+#lang racket
+;(require "main.rkt")
+(require rosetta/archicad)
+
+(define (floors points levels)
+  (for ([lvl levels])
+       (slab points lvl)))
+
+(define (building-walls points levels)
+  (let* ((p1 (car points))
+         (p2 (car (cdr points)))
+         (wall-length (sqrt (+ (* (- (cx p2) (cx p1))
+                                  (- (cx p2) (cx p1)))
+                               (* (- (cy p2) (cy p1))
+                                  (- (cy p2) (cy p1)))))))
+    (for ([lvl levels])
+         (displayln (walls (cons (last points) points) lvl))
+         #;(for ([wall-index (walls (cons (last points) points) lvl)])
+              (door wall-index (/ wall-length 2))))))
+
+(define (tower points n-floors)
+  (let ((levels (for/list ([i n-floors])
+                          (level (* i (default-level-to-level-height))))))
+    (floors points levels)
+    (building-walls points levels)
+    (roof points (upper-level (last levels)))))
+
+(shape-ref (walls (list (x 0)(x 2)(xy 4 4))))
+;(tower (list (xy 0 0)(xy 5 0)(xy 5 5)(xy 0 5)) 5)
+(disconnect)
