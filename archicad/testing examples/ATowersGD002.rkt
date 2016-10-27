@@ -184,17 +184,17 @@ Torre dois: Andares: 50; Altura: 150
             (i (length pts)))
            ; (1) used for predefined railing object
            (if (= lod 1)
-               (object "Rail Solid Frame Filled 18"
-                       #;"Railing Vertical 18"
+               (object #;"Rail Solid Frame Filled 18"
+                       "Railing Vertical 18"
                        p0
                        #:angle (+ (sph-phi (p-p p1 p0)) 0)
-                       #:properties (list (list "lra" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2))))
-                                                     (list "fsw" 0.05)
-                                                     (list "ftw" 0.01)
-                                                     (list "fbw" 0.01)
-                                                     (list "fdf" 0)
-                                                     (list "ds" 0.05)
-                                                     (list "fmat" "Metal - Aluminium")))
+                       #:properties (list "lra" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
+                                          "fsw" 0.05
+                                          "ftw" 0.01
+                                          "fbw" 0.01
+                                          "fdf" 0
+                                          "ds" 0.05
+                                          "fmat" "Metal - Aluminium"))
                ; (3) used for custom railing
                (let ((rail-length (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2))))
                      (angle (sph-phi (p-p p1 p0))))
