@@ -216,6 +216,10 @@ void createNewWall(){
 		material = searchCompositeMaterials(wallMsg.material());
 		wallElement.wall.modelElemStructureType = API_CompositeStructure;
 		wallElement.wall.composite = material;
+		if (wallMsg.thickness() != 0.3){
+			msgArchiCAD("Composite Material do not support thickness!");
+			quit();
+		}
 	}
 
 	if (material == -1){
@@ -556,6 +560,10 @@ void createMultiWall(){
 		material = searchCompositeMaterials(wallMsg.material());
 		wallElement.wall.modelElemStructureType = API_CompositeStructure;
 		wallElement.wall.composite = material;
+		if (wallMsg.thickness() != 0.3){
+			msgArchiCAD("Composite Material do not support thickness!");
+			quit();
+		}
 	}
 
 	if (material == -1){
@@ -1569,13 +1577,14 @@ void createBeam(){
 
 	BNZeroMemory(&element, sizeof(API_Element));
 	element.header.typeID = API_BeamID;
-	element.header.layer = getLayerNumber(beamMsg.layer());
 
 	err = ACAPI_Element_GetDefaults(&element, &memo);
 	if (err != NoError) {
 		ErrorBeep("ACAPI_Element_GetMemo", err);
 		return;
 	}
+
+	element.header.layer = getLayerNumber(beamMsg.layer());
 
 	element.header.floorInd = beamMsg.bottomlevel();
 
@@ -1860,6 +1869,10 @@ void createNewSlab(){
 		material = searchCompositeMaterials(msg.material());
 		element.slab.composite = material;
 		element.slab.modelElemStructureType = API_CompositeStructure;
+		if (msg.thickness() != 0.3){
+			msgArchiCAD("Composite Material do not support thickness!");
+			quit();
+		}
 	}
 
 	if (material == -1){
@@ -2742,6 +2755,10 @@ void createRoof(){
 		material = searchCompositeMaterials(roofMsg.material());
 		element.roof.shellBase.composite = material;
 		element.roof.shellBase.modelElemStructureType = API_CompositeStructure;
+		if (roofMsg.thickness() != 0.3){
+			msgArchiCAD("Composite Material do not support thickness!");
+			quit();
+		}
 	}
 
 	if (material == -1){
@@ -2897,6 +2914,10 @@ void createNewRoof(){
 		material = searchCompositeMaterials(roofMsg.material());
 		element.roof.shellBase.composite = material;
 		element.roof.shellBase.modelElemStructureType = API_CompositeStructure;
+		if (roofMsg.thickness() != 0.3){
+			msgArchiCAD("Composite Material do not support thickness!");
+			quit();
+		}
 	}
 
 	if (material == -1){

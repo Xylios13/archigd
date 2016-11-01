@@ -16,13 +16,21 @@
 
 (define (bim-connection)
   (unless conn
-    (ensure-connection))
+    (set! conn (start-connection))
+    (set-current-level! (make-parameter (check-level)))
+    (create-layer "Non Trim Layer" 0)
+    (create-layer "Trim Layer"))
   conn)
 
-(define server-addr "localhost")
+;;Function to quit
+(define (disconnect)
+  (when conn
+    (write-msg-name "quit")
+    (set! conn #f))
+  (void))
 
-(define (connect)
-  (ensure-connection))
+
+(define server-addr "localhost")
 
 (define moved-addon-files? #f)
 
@@ -34,8 +42,7 @@
     (displayln "done!")
     (set! moved-addon-files? #t)))
 
-
-(define (ensure-connection)
+(define (start-connection)
   (move-addon-files)
   (define time-out-tries 10)
   (let rec ((n time-out-tries))
@@ -50,22 +57,18 @@
                              (sleep 2)
                              (rec (- n 1)))
                            (raise e)))])
-      (start-connection))))
-
-(define (start-connection)
   (let-values([(in out) (tcp-connect server-addr 53800)])
     (file-stream-buffer-mode in 'none)
     (file-stream-buffer-mode out 'none)
-    (set! conn (connection in out))
-    (set-current-level! (make-parameter (check-level)))))
-
-;;Function to quit
-(define (disconnect)
-  (write-msg-name "quit")
-  "quit successful")
+    (connection in out)))))
 
 ;;Usage: (send (create-...) (create-...) ... )
-(define-syntax-rule (send expr ...)
+(define-syntax-rule
+  (send expr ...)
+  (begin0
+    (begin expr ...)
+    (disconnect)))
+#;(define-syntax-rule (send expr ...)
   (begin
     (connect)
     (parameterize ((current-level (check-level)))
@@ -302,8 +305,8 @@ Example of usage:
     (read-sized (cut deserialize (storyinfo*) <>)
                 (connection-in (bim-connection)))))
 
-(define (upper-level #:level [level (current-level)]
-                     #:height [height (default-level-to-level-height)])
+(define (upper-level [level (current-level)]
+                     [height (default-level-to-level-height)])
   (let ((msg (upperlevelmsg* #:height height
                              #:index (storyinfo-index level))))
     (write-msg "UpperLevel" msg)
@@ -346,7 +349,7 @@ Example of usage:
                         #:connection connection)))
     (write-msg "Layer" msg)))
 
-(define (shape-layer name guid)
+(define (shape-layer guid name)
   (let ((msg (layerelementmsg* #:layer name
                                #:guid guid)))
     (write-msg "LayerElem" msg)))

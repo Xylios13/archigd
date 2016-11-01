@@ -11,15 +11,19 @@
 (require (prefix-in % "geometry.rkt"))
 (require (prefix-in % "objects.rkt"))
 (require (prefix-in % "communication.rkt"))
-(require "objects.rkt")
 (provide immediate-mode?
          current-backend-name
          (rename-out [%disconnect disconnect]
-                     [%send send]
-                     [%ensure-connection start-backend])
+                     [%send send]))
+;;This needs to be fixed to only provide what is relevant
+(require "objects.rkt")
+(provide (all-from-out "objects.rkt"))
          ;;This needs to be fixed to only provide what is relevant
-         (all-from-out "objects.rkt")
-#|         mt
+(require "geometry.rkt")
+(provide (all-from-out "geometry.rkt"))
+
+(provide
+ #|         mt
          ft
          box
          boxb
@@ -111,11 +115,10 @@
 
 (provide Ref Shape Shapes)
 
-#|
 (require racket/include)
-(include "../base/common.rkc")
+;(include "../base/common.rkc")
+(include "../base/turtle.rkc")
 
-|#
 (define (current-backend-name) "ArchiCAD")
 
 #|
@@ -207,28 +210,28 @@
 (def-shape (point [position : Loc (u0)])
   (%add-point position))
 
+|#
+
 (def-shape (circle [center : Loc (u0)] [radius : Real 1])
-  (%transform
-   (%add-circle (u0 world-cs) radius)
-   center))
+  ;;Validate transformation matrix only include translation and Z-rotation
+  (%circle (loc-in-world center) radius))
 
 (def-shape (arc [center : Loc (u0)] [radius : Real 1] [start-angle : Real 0] [amplitude : Real pi])
   (cond ((= radius 0)
-         (%add-point center))
+         (error "Finish this") #;(%add-point center))
         ((= amplitude 0)
-         (%add-point (+pol center radius start-angle)))
+         (error "Finish this") #;(%add-point (+pol center radius start-angle)))
         ((>= (abs amplitude) 2pi)
-         (%transform
-          (%add-circle (u0 world-cs) radius)
-          center))
+         ;;Validate transformation matrix only include translation and Z-rotation
+         (%circle (loc-in-world center) radius))
         (else
          (let ((end-angle (+ start-angle amplitude)))
-           (%transform
-            (if (> end-angle start-angle)
-                (%add-arc (u0 world-cs) radius start-angle end-angle)
-                (%add-arc (u0 world-cs) radius end-angle start-angle))
-            center)))))
+           ;;Validate transformation matrix only include translation and Z-rotation
+           (if (> end-angle start-angle)
+               (%arc (loc-in-world center) radius 0.0 start-angle end-angle)
+               (%arc (loc-in-world center) radius 0.0 end-angle start-angle))))))
 
+#|
 (def-shape (ellipse [center : Loc (u0)] [radius-x : Real 1] [radius-y : Real 1])
   (%transform
    (if (> radius-x radius-y)
@@ -268,10 +271,12 @@
              (begin0
                (singleton-ref (%add-region curves))
                (for ((c (in-list curves))) (%delete c))))))))
+|#
 
 (def-shape* (line [pts : Loc *])
-  (%add-3d-poly pts))
+  (%line pts))
 
+#|
 (def-shape* (closed-line [pts : Loc *])
   (let ((com (%add-3d-poly (append pts (list (car pts))))))
     (%closed com #t)
@@ -509,18 +514,18 @@ The following example does not work as intended. Rotating the args to closed-spl
         (begin #;%transform
          (%box c dx dy dz)
          #;c))))
-
-#|
+#;
 (def-shape (cone [cb : Loc (u0)] [r : Real 1] [h/ct : LocOrZ 1])
   (let-values ([(c h) (position-and-height cb h/ct)])
     (or #;(axial-morph c r h
                      %add-point 
                      %add-circle 
                      %add-line2)
-        (%transform
+        (begin #;%transform
          (%add-cone (+z (u0 world-cs) (/ h 2)) r h)
-         c))))
+         #;c))))
 
+#|
 (def-shape (cone-frustum [cb : Loc (u0)] [rb : Real 1] [h/ct : LocOrZ 1] [rt : Real 1])
   (let-values ([(c h) (position-and-height cb h/ct)])
     (%transform
@@ -850,16 +855,33 @@ The following example does not work as intended. Rotating the args to closed-spl
 
 (define (upper-level [lvl : Level (current-level)]
                      [height : Real (default-level-to-level-height)])
-  (%upper-level #:level lvl
-                #:height height))
+  (%upper-level lvl
+                height))
 
 (require "../base/bim-families.rkt")
 (provide (all-from-out "../base/bim-families.rkt"))
 
-(def-shape (beam [p0 : Loc] [p1 : Loc] [family : Beam-Family (default-beam-family)])
-  (%beam (loc-in-world p0) (loc-in-world p1)
-         #:beam-width (beam-family-width family)
-         #:beam-height (beam-family-height family)))
+(define (vertical? p0 p1)
+  (< (cyl-rho (p-p p0 p1)) 0.1))
+
+;;Added angle must propagate to other backends.
+(def-shape (beam [p0 : Loc] [p1 : Loc] [angle : Real 0] [family : Beam-Family (default-beam-family)])
+  (if (vertical? p0 p1)
+      (if (< (cz p0) (cz p1))
+          (%column-two-points
+           p0 p1
+           #:width (beam-family-width family)
+           #:depth (beam-family-height family)
+           #:angle angle)
+          (%column-two-points
+           p1 p0
+           #:width (beam-family-width family)
+           #:depth (beam-family-height family)
+           #:angle angle))
+      (%beam (loc-in-world p0) (loc-in-world p1)
+             #:beam-width (beam-family-width family)
+             #:beam-height (beam-family-height family)
+             #;#; #:angle angle)))
 
 (def-shape (column [center : Loc]
                    [bottom-level : Level (current-level)]
@@ -870,21 +892,25 @@ The following example does not work as intended. Rotating the args to closed-spl
            #:top-level top-level
            #:width (column-family-width family)
            #:depth (or (column-family-depth family)
-                       (column-family-width family))))
+                       (column-family-width family))
+           #:circle-based? (column-family-circular-section? family)))
 
 (def-shape (slab [vertices : Locs] [level : Any (current-level)] [family : Slab-Family (default-slab-family)])
-  (%slab (map loc-in-world vertices) #:bottom-level level
+  (%slab (map loc-in-world vertices)
+         #:bottom-level level
          #:thickness (slab-family-thickness family)))
 
 (def-shape (roof [vertices : Locs] [level : Any (current-level)] [family : Roof-Family (default-roof-family)])
-  (%roof (map loc-in-world vertices) #:bottom-level level
+  (%roof (map loc-in-world vertices)
+         #:bottom-level level
          #:thickness (roof-family-thickness family)))
 
 (def-shape (wall [p0 : Loc] [p1 : Loc]
                  [bottom-level : Level (current-level)]
                  [top-level : Level (upper-level bottom-level)]
                  [family : Any (default-wall-family)])
-  (%wall (list p0 p1)
+  (%wall p0
+         p1
          #:bottom-level bottom-level
          #:top-level top-level
          #:thickness (or (wall-family-thickness family)
@@ -894,24 +920,35 @@ The following example does not work as intended. Rotating the args to closed-spl
                  [bottom-level : Level (current-level)]
                  [top-level : Level (upper-level bottom-level)]
                  [family : Any (default-wall-family)])
-  (%wall vertices
-         #:bottom-level bottom-level
-         #:top-level top-level
-         #:thickness (or (wall-family-thickness family)
-                         (%default-wall-thickness))))
+  (%walls vertices
+          #:bottom-level bottom-level
+          #:top-level top-level
+          #:thickness (or (wall-family-thickness family)
+                          (%default-wall-thickness))))
 
 (def-shape (door [wall : Any] [loc : Loc] [family : Any (default-door-family)])
   (%door (shape-reference wall)
-         (cx loc)
-         #:bottom (cy loc)
+         (loc-in-world loc)
          #:width (or (door-family-width family)
                      -10000)
          #:height (or (door-family-height family)
                       -10000)))
 
+(def-shape (panel [vertices : Locs] [level : Any (current-level)] [family : Panel-Family (default-panel-family)])
+  (let ((p0 (second vertices))
+        (p1 (first vertices))
+        (p2 (third vertices)))
+    (let ((n (vz (panel-family-thickness family)
+                 (cs-from-o-vx-vy p0 (p-p p1 p0) (p-p p2 p0)))))
+      (%solid (map loc-in-world
+                   (append (map (lambda (v) (p+v v n)) vertices)
+                           (map (lambda (v) (p-v v n)) vertices)))
+              (panel-family-material family)
+              #:level level))))
 
 ;;This should be moved to a different place (probably, an independent unit)
-(provide slab-rectangle roof-rectangle)
+(provide slab-rectangle roof-rectangle slab-path slab-opening slab-opening-path)
+
 (define (slab-rectangle [p : Loc] [length : Real] [width : Real] [level : Level (current-level)] [family : Slab-Family (default-slab-family)])
   (slab (list p (+x p length) (+xy p length width) (+y p width))
         level
@@ -921,3 +958,55 @@ The following example does not work as intended. Rotating the args to closed-spl
   (roof (list p (+x p length) (+xy p length width) (+y p width))
         level
         family))
+
+(define (locs-and-arcs path)
+  (let loop ((p path) (vs (list)) (arcs (list)))
+    (if (null? p)
+        (values vs arcs)
+        (let ((e (car p)))
+          (cond ((line? e)
+                 (let ((line-vs (line-vertices e)))
+                   (loop (cdr p)
+                         (append vs (drop-right line-vs 1))
+                         (append arcs (make-list (length (cdr line-vs)) 0)))))
+                ((arc? e)
+                 (loop (cdr p)
+                       (append vs (list (+pol (arc-center e) (arc-radius e) (arc-start-angle e))))
+                       (append arcs (list (arc-amplitude e)))))
+                ((circle? e)
+                 (loop
+                  (virtual
+                   (cons (arc (circle-center e) (circle-radius e) 0 pi)
+                         (cons (arc (circle-center e) (circle-radius e) pi pi)
+                               (cdr p))))
+                  vs
+                  arcs))
+                (else
+                 (error "Unknown path component" e)))))))
+
+#|
+
+Slabs should be updated to support paths instead of vertices. Vertices are just a particular case that can trivially generate a path
+|#
+(define (slab-path [path : path] [level : Level (current-level)] [family : Slab-Family (default-slab-family)])
+  (let-values ([(locs arcs) (locs-and-arcs path)])
+    (new-slab
+     (lambda ()
+       (%slab (map loc-in-world locs)
+              #:parcs arcs
+              #:bottom-level level
+              #:thickness (slab-family-thickness family)))
+     locs level family)))
+
+(define (slab-opening [slab : Any] [vertices : Locs])
+  (%hole-slab (shape-reference slab)
+              (map loc-in-world vertices))
+  slab)
+
+(define (slab-opening-path [slab : Any] [path : path])
+  (let-values ([(locs arcs) (locs-and-arcs path)])
+    (%hole-slab (shape-reference slab)
+                (map loc-in-world locs)
+                arcs)
+    slab))
+

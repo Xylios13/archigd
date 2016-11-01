@@ -15,7 +15,13 @@
 
 (define crash-on-no-material? (make-parameter #t))
 (define crash-on-no-name? (make-parameter #t))
-(define default-layer (make-parameter "Default Layer"))
+(define trim? (make-parameter #f))
+(define non-trim-layer (make-parameter "Non Trim Layer"))
+(define trim-layer (make-parameter "Trim Layer"))
+(define (default-layer)
+  (if (trim?)
+      (trim-layer)
+      (non-trim-layer)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Functions to create objects;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -442,7 +448,7 @@ Example of usage:
     (list (flatten points) (sub-polys-position points))))
 
 (define default-slab-reference (make-parameter "Top"))
-(define default-slab-type-of-material (make-parameter "Composite"))
+(define default-slab-type-of-material (make-parameter "Basic"))
 #;(define default-slab-material  
     (make-parameter (cond [(eq? (default-slab-type-of-material) "Basic") "GENERIC - INTERNAL CLADDING"]
                           [(eq? (default-slab-type-of-material) "Composite") "Generic Slab/Roof"])))
@@ -1005,7 +1011,7 @@ Example of usage:
 (send (roof slabPoints 3))
 |#
 (define default-roof-alignment (make-parameter "Center"))
-(define default-roof-type-of-material (make-parameter "Composite"))
+(define default-roof-type-of-material (make-parameter "Basic"))
 #;(define default-roof-material  
     (make-parameter (cond [(eq? (default-roof-type-of-material) "Basic") "GENERIC - STRUCTURAL"]
                           [(eq? (default-roof-type-of-material) "Composite") "Generic Roof/Shell"])))
