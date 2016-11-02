@@ -3527,7 +3527,8 @@ void createStairs(){
 				} else{
 					API_StoryInfo	storyInfo;
 					err = ACAPI_Environment(APIEnv_GetStorySettingsID, &storyInfo, NULL);
-					(*getParams.params)[j].value.real = (*storyInfo.data)[stairsMsg.upperindex()].level - (*storyInfo.data)[stairsMsg.bottomindex()].level - stairsMsg.bottom();
+					//(*getParams.params)[j].value.real = (*storyInfo.data)[stairsMsg.upperindex()].level - (*storyInfo.data)[stairsMsg.bottomindex()].level - stairsMsg.bottom();
+					(*getParams.params)[j].value.real = (*storyInfo.data)[stairsMsg.upperindex()].level - (*storyInfo.data)[stairsMsg.bottomindex()].level;
 				}
 			}
 		}
