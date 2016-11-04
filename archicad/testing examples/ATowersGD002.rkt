@@ -15,6 +15,12 @@ Torre dois: Andares: 50; Altura: 150
 (send (absolute-towers (u0) 176 56 #:list-angles-rotation list-angles-tower2))
 ;;;;
 
+#:Railings
+(send (delete-levels)(absolute-towers (u0) 44 14 #:lod 1))
+(send (delete-levels)(absolute-towers (u0) 44 14 #:lod 3))
+
+
+
 |#
 ;;Functions made by Sofia
 ;;Superellipse
@@ -182,33 +188,56 @@ Torre dois: Andares: 50; Altura: 150
       (for ((p0 pts)
             (p1 (cdr pts))
             (i (length pts)))
-           ; (1) used for predefined railing object
-           (if (= lod 1)
-               (object #;"Rail Solid Frame Filled 18"
-                       "Railing Vertical 18"
-                       p0
-                       #:angle (+ (sph-phi (p-p p1 p0)) 0)
-                       #:properties (list "lra" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
+           (let ([properties-list-1 (list "lra" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
                                           "fsw" 0.05
                                           "ftw" 0.01
                                           "fbw" 0.01
                                           "fdf" 0
                                           "ds" 0.05
-                                          "fmat" "Metal - Aluminium"))
-               ; (3) used for custom railing
-               (let ((rail-length (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2))))
-                     (angle (sph-phi (p-p p1 p0))))
-                 (object "railing-test"
-                         (if (even? i)
-                             p0
-                             (+xy p0 (* (cos angle) rail-length)(* (sin angle) rail-length)))
-                         #:angle (if (even? i)
-                                     (- angle pi/2)
-                                     (+ angle pi/2))
-                         #:properties (list "lLen" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
-                                            "lSlo" pi/4
-                                            #;"mHandrail" #;"Grass - Green")))))
-      ))
+                                          "fmat" "Metal - Aluminium")])
+             (cond
+               [(= lod 1)
+                (object "Rail Solid Frame Filled 18"
+                        p0
+                        #:angle (+ (sph-phi (p-p p1 p0)) 0)
+                        #:properties properties-list-1)]
+               [(= lod 2)
+                (object "Railing Vertical 18"
+                        p0
+                        #:angle (+ (sph-phi (p-p p1 p0)) 0)
+                        #:properties properties-list-1)]
+               [(= lod 3)
+                (let ((rail-length (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2))))
+                      (angle (sph-phi (p-p p1 p0))))
+                  (object "BALUSTRADE_SENTREL_BO"
+                          #;"railing-test"
+                          (if (even? i)
+                              p0
+                              (+xy p0 (* (cos angle) rail-length)(* (sin angle) rail-length)))
+                          #:angle (if (even? i)
+                                      (- angle pi/2)
+                                      (+ angle pi/2))
+                          #:height -0.1
+                          #:properties (list "lLen" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
+                                             "lSlo" (/ pi 18)
+                                             "mHandrail" "Paint - Anthracite"
+                                             "mRail" "Metal - Stainless Steel")))]
+               [(= lod 4)
+                (let ((rail-length (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2))))
+                      (angle (sph-phi (p-p p1 p0))))
+                  (object "railing-test"
+                          (if (even? i)
+                              p0
+                              (+xy p0 (* (cos angle) rail-length)(* (sin angle) rail-length)))
+                          #:angle (if (even? i)
+                                      (- angle pi/2)
+                                      (+ angle pi/2))
+                          #:height -0.1
+                          #:properties (list "lLen" (sqrt (+ (expt (- (cx p1)(cx p0)) 2)(expt (- (cy p1)(cy p0)) 2)))
+                                             "lSlo" (/ pi 18)
+                                             "mHandrail" "Paint - Anthracite"
+                                             "mRail" "Metal - Stainless Steel")))]
+               )))))
 
 
 ;;;Building
@@ -266,7 +295,7 @@ Torre dois: Andares: 50; Altura: 150
          (parameterize ((current-level level)
                         (default-level-to-level-height wallheight))
            (let* ((h (current-level-elevation))
-                  (slab-id (slab (slab-shape alfa) #:material "Generic Wall/Shell"))
+                  (slab-id (slab (slab-shape alfa) #:type-of-material "Composite" #:material "Generic Wall/Shell"))
                   #;(interior-slab-id (slab #;(points-polygon (u0) 13.6 100) (interior-shape alfa)))
                   #;(interior-slab-id (slab #;(points-polygon (u0) 13.6 100) (interior-shape alfa) #:type-of-material "Basic" #:material "GENERIC - STRUCTURAL" #:thickness wallheight #:bottom wallheight ))
                   (interior-slab-id (slab #;(points-polygon (u0) 13.6 100) (interior-shape alfa) #:type-of-material "Basic" #:material "GENERIC - STRUCTURAL")))
@@ -284,7 +313,7 @@ Torre dois: Andares: 50; Altura: 150
        (range 0 (length levels-list) 1))
   (roof #;(points-polygon (u0) 13.6 100)
         (interior-shape (last rots))
-        #:bottom-level (upper-level #:level (last levels-list) #:height wallheight)
+        #:bottom-level (upper-level (last levels-list) wallheight)
         #:type-of-material "Basic"
         #:material "GENERIC - STRUCTURAL"))
 
@@ -364,7 +393,7 @@ Torre dois: Andares: 50; Altura: 150
 (define variation-list (division min max number-frames))
 
 (define (renders-loop)
-  (connect)
+  ;(connect)
   (for ([i variation-list]
         [name-i (length variation-list)])
        (let ((before-sec (current-seconds)))

@@ -656,3 +656,15 @@ message extshellmsg{
 message rendermsg{
 	required string file = 1;
 }
+
+message cameramsg{
+	required double cx = 1;
+	required double cy = 2;
+	required double cz = 3;
+	required double tx = 4;
+	required double ty = 5;
+	required double tz = 6;
+	required double lens = 7;
+	required double sunazimuth = 8;
+	required double sunaltitude = 9;
+}

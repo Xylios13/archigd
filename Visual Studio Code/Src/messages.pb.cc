@@ -246,6 +246,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* rendermsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   rendermsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* cameramsg_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  cameramsg_reflection_ = NULL;
 
 }  // namespace
 
@@ -1750,6 +1753,29 @@ void protobuf_AssignDesc_messages_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(rendermsg));
+  cameramsg_descriptor_ = file->message_type(76);
+  static const int cameramsg_offsets_[9] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, cx_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, cy_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, cz_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, tx_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, ty_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, tz_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, lens_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, sunazimuth_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, sunaltitude_),
+  };
+  cameramsg_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      cameramsg_descriptor_,
+      cameramsg::default_instance_,
+      cameramsg_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(cameramsg, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(cameramsg));
 }
 
 namespace {
@@ -1914,6 +1940,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
     extshellmsg_descriptor_, &extshellmsg::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     rendermsg_descriptor_, &rendermsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    cameramsg_descriptor_, &cameramsg::default_instance());
 }
 
 }  // namespace
@@ -2071,6 +2099,8 @@ void protobuf_ShutdownFile_messages_2eproto() {
   delete extshellmsg_reflection_;
   delete rendermsg::default_instance_;
   delete rendermsg_reflection_;
+  delete cameramsg::default_instance_;
+  delete cameramsg_reflection_;
 }
 
 void protobuf_AddDesc_messages_2eproto() {
@@ -2303,7 +2333,11 @@ void protobuf_AddDesc_messages_2eproto() {
     "\002(\001\022\014\n\004extx\030\007 \002(\001\022\014\n\004exty\030\010 \002(\001\022\014\n\004extz\030"
     "\t \002(\001\022\017\n\007visible\030\n \003(\010\022\020\n\010material\030\013 \002(\t"
     "\022\014\n\004type\030\014 \002(\t\022\021\n\tthickness\030\r \002(\001\"\031\n\tren"
-    "dermsg\022\014\n\004file\030\001 \002(\t", 8940);
+    "dermsg\022\014\n\004file\030\001 \002(\t\"\212\001\n\tcameramsg\022\n\n\002cx"
+    "\030\001 \002(\001\022\n\n\002cy\030\002 \002(\001\022\n\n\002cz\030\003 \002(\001\022\n\n\002tx\030\004 \002"
+    "(\001\022\n\n\002ty\030\005 \002(\001\022\n\n\002tz\030\006 \002(\001\022\014\n\004lens\030\007 \002(\001"
+    "\022\022\n\nsunazimuth\030\010 \002(\001\022\023\n\013sunaltitude\030\t \002("
+    "\001", 9081);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "messages.proto", &protobuf_RegisterTypes);
   namemessage::default_instance_ = new namemessage();
@@ -2382,6 +2416,7 @@ void protobuf_AddDesc_messages_2eproto() {
   revshellmsg::default_instance_ = new revshellmsg();
   extshellmsg::default_instance_ = new extshellmsg();
   rendermsg::default_instance_ = new rendermsg();
+  cameramsg::default_instance_ = new cameramsg();
   namemessage::default_instance_->InitAsDefaultInstance();
   elementid::default_instance_->InitAsDefaultInstance();
   elementidlist::default_instance_->InitAsDefaultInstance();
@@ -2458,6 +2493,7 @@ void protobuf_AddDesc_messages_2eproto() {
   revshellmsg::default_instance_->InitAsDefaultInstance();
   extshellmsg::default_instance_->InitAsDefaultInstance();
   rendermsg::default_instance_->InitAsDefaultInstance();
+  cameramsg::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_messages_2eproto);
 }
 
@@ -35746,6 +35782,536 @@ void rendermsg::Swap(rendermsg* other) {
   ::google::protobuf::Metadata metadata;
   metadata.descriptor = rendermsg_descriptor_;
   metadata.reflection = rendermsg_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int cameramsg::kCxFieldNumber;
+const int cameramsg::kCyFieldNumber;
+const int cameramsg::kCzFieldNumber;
+const int cameramsg::kTxFieldNumber;
+const int cameramsg::kTyFieldNumber;
+const int cameramsg::kTzFieldNumber;
+const int cameramsg::kLensFieldNumber;
+const int cameramsg::kSunazimuthFieldNumber;
+const int cameramsg::kSunaltitudeFieldNumber;
+#endif  // !_MSC_VER
+
+cameramsg::cameramsg()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:cameramsg)
+}
+
+void cameramsg::InitAsDefaultInstance() {
+}
+
+cameramsg::cameramsg(const cameramsg& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:cameramsg)
+}
+
+void cameramsg::SharedCtor() {
+  _cached_size_ = 0;
+  cx_ = 0;
+  cy_ = 0;
+  cz_ = 0;
+  tx_ = 0;
+  ty_ = 0;
+  tz_ = 0;
+  lens_ = 0;
+  sunazimuth_ = 0;
+  sunaltitude_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+cameramsg::~cameramsg() {
+  // @@protoc_insertion_point(destructor:cameramsg)
+  SharedDtor();
+}
+
+void cameramsg::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void cameramsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* cameramsg::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return cameramsg_descriptor_;
+}
+
+const cameramsg& cameramsg::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_messages_2eproto();
+  return *default_instance_;
+}
+
+cameramsg* cameramsg::default_instance_ = NULL;
+
+cameramsg* cameramsg::New() const {
+  return new cameramsg;
+}
+
+void cameramsg::Clear() {
+#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
+  &reinterpret_cast<cameramsg*>(16)->f) - \
+   reinterpret_cast<char*>(16))
+
+#define ZR_(first, last) do {                              \
+    size_t f = OFFSET_OF_FIELD_(first);                    \
+    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
+    ::memset(&first, 0, n);                                \
+  } while (0)
+
+  if (_has_bits_[0 / 32] & 255) {
+    ZR_(cx_, sunazimuth_);
+  }
+  sunaltitude_ = 0;
+
+#undef OFFSET_OF_FIELD_
+#undef ZR_
+
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool cameramsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:cameramsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required double cx = 1;
+      case 1: {
+        if (tag == 9) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &cx_)));
+          set_has_cx();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(17)) goto parse_cy;
+        break;
+      }
+
+      // required double cy = 2;
+      case 2: {
+        if (tag == 17) {
+         parse_cy:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &cy_)));
+          set_has_cy();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(25)) goto parse_cz;
+        break;
+      }
+
+      // required double cz = 3;
+      case 3: {
+        if (tag == 25) {
+         parse_cz:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &cz_)));
+          set_has_cz();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(33)) goto parse_tx;
+        break;
+      }
+
+      // required double tx = 4;
+      case 4: {
+        if (tag == 33) {
+         parse_tx:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &tx_)));
+          set_has_tx();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(41)) goto parse_ty;
+        break;
+      }
+
+      // required double ty = 5;
+      case 5: {
+        if (tag == 41) {
+         parse_ty:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &ty_)));
+          set_has_ty();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(49)) goto parse_tz;
+        break;
+      }
+
+      // required double tz = 6;
+      case 6: {
+        if (tag == 49) {
+         parse_tz:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &tz_)));
+          set_has_tz();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(57)) goto parse_lens;
+        break;
+      }
+
+      // required double lens = 7;
+      case 7: {
+        if (tag == 57) {
+         parse_lens:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &lens_)));
+          set_has_lens();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(65)) goto parse_sunazimuth;
+        break;
+      }
+
+      // required double sunazimuth = 8;
+      case 8: {
+        if (tag == 65) {
+         parse_sunazimuth:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &sunazimuth_)));
+          set_has_sunazimuth();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(73)) goto parse_sunaltitude;
+        break;
+      }
+
+      // required double sunaltitude = 9;
+      case 9: {
+        if (tag == 73) {
+         parse_sunaltitude:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &sunaltitude_)));
+          set_has_sunaltitude();
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:cameramsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:cameramsg)
+  return false;
+#undef DO_
+}
+
+void cameramsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:cameramsg)
+  // required double cx = 1;
+  if (has_cx()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(1, this->cx(), output);
+  }
+
+  // required double cy = 2;
+  if (has_cy()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(2, this->cy(), output);
+  }
+
+  // required double cz = 3;
+  if (has_cz()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(3, this->cz(), output);
+  }
+
+  // required double tx = 4;
+  if (has_tx()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(4, this->tx(), output);
+  }
+
+  // required double ty = 5;
+  if (has_ty()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(5, this->ty(), output);
+  }
+
+  // required double tz = 6;
+  if (has_tz()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(6, this->tz(), output);
+  }
+
+  // required double lens = 7;
+  if (has_lens()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(7, this->lens(), output);
+  }
+
+  // required double sunazimuth = 8;
+  if (has_sunazimuth()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(8, this->sunazimuth(), output);
+  }
+
+  // required double sunaltitude = 9;
+  if (has_sunaltitude()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(9, this->sunaltitude(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:cameramsg)
+}
+
+::google::protobuf::uint8* cameramsg::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:cameramsg)
+  // required double cx = 1;
+  if (has_cx()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(1, this->cx(), target);
+  }
+
+  // required double cy = 2;
+  if (has_cy()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(2, this->cy(), target);
+  }
+
+  // required double cz = 3;
+  if (has_cz()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(3, this->cz(), target);
+  }
+
+  // required double tx = 4;
+  if (has_tx()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(4, this->tx(), target);
+  }
+
+  // required double ty = 5;
+  if (has_ty()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->ty(), target);
+  }
+
+  // required double tz = 6;
+  if (has_tz()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(6, this->tz(), target);
+  }
+
+  // required double lens = 7;
+  if (has_lens()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(7, this->lens(), target);
+  }
+
+  // required double sunazimuth = 8;
+  if (has_sunazimuth()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(8, this->sunazimuth(), target);
+  }
+
+  // required double sunaltitude = 9;
+  if (has_sunaltitude()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(9, this->sunaltitude(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:cameramsg)
+  return target;
+}
+
+int cameramsg::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required double cx = 1;
+    if (has_cx()) {
+      total_size += 1 + 8;
+    }
+
+    // required double cy = 2;
+    if (has_cy()) {
+      total_size += 1 + 8;
+    }
+
+    // required double cz = 3;
+    if (has_cz()) {
+      total_size += 1 + 8;
+    }
+
+    // required double tx = 4;
+    if (has_tx()) {
+      total_size += 1 + 8;
+    }
+
+    // required double ty = 5;
+    if (has_ty()) {
+      total_size += 1 + 8;
+    }
+
+    // required double tz = 6;
+    if (has_tz()) {
+      total_size += 1 + 8;
+    }
+
+    // required double lens = 7;
+    if (has_lens()) {
+      total_size += 1 + 8;
+    }
+
+    // required double sunazimuth = 8;
+    if (has_sunazimuth()) {
+      total_size += 1 + 8;
+    }
+
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // required double sunaltitude = 9;
+    if (has_sunaltitude()) {
+      total_size += 1 + 8;
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void cameramsg::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const cameramsg* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const cameramsg*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void cameramsg::MergeFrom(const cameramsg& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_cx()) {
+      set_cx(from.cx());
+    }
+    if (from.has_cy()) {
+      set_cy(from.cy());
+    }
+    if (from.has_cz()) {
+      set_cz(from.cz());
+    }
+    if (from.has_tx()) {
+      set_tx(from.tx());
+    }
+    if (from.has_ty()) {
+      set_ty(from.ty());
+    }
+    if (from.has_tz()) {
+      set_tz(from.tz());
+    }
+    if (from.has_lens()) {
+      set_lens(from.lens());
+    }
+    if (from.has_sunazimuth()) {
+      set_sunazimuth(from.sunazimuth());
+    }
+  }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (from.has_sunaltitude()) {
+      set_sunaltitude(from.sunaltitude());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void cameramsg::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void cameramsg::CopyFrom(const cameramsg& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool cameramsg::IsInitialized() const {
+  if ((_has_bits_[0] & 0x000001ff) != 0x000001ff) return false;
+
+  return true;
+}
+
+void cameramsg::Swap(cameramsg* other) {
+  if (other != this) {
+    std::swap(cx_, other->cx_);
+    std::swap(cy_, other->cy_);
+    std::swap(cz_, other->cz_);
+    std::swap(tx_, other->tx_);
+    std::swap(ty_, other->ty_);
+    std::swap(tz_, other->tz_);
+    std::swap(lens_, other->lens_);
+    std::swap(sunazimuth_, other->sunazimuth_);
+    std::swap(sunaltitude_, other->sunaltitude_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata cameramsg::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = cameramsg_descriptor_;
+  metadata.reflection = cameramsg_reflection_;
   return metadata;
 }
 

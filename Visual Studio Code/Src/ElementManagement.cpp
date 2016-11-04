@@ -861,6 +861,8 @@ void elementChange(API_Element* element, API_ElementMemo* memo, API_Element* mas
 	if (err != NoError){
 		sprintf(buffer, ErrID_To_Name(err));
 		ACAPI_WriteReport(buffer, true);
+		msgArchiCAD("In Element Change");
+		quit();
 	}
 
 	ACAPI_Database(APIDb_ChangeCurrentDatabaseID, &dbInfo);

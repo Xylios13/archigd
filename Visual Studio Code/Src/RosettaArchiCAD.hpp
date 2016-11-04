@@ -532,6 +532,10 @@ bool hiddenLayer(layermsg msg);
 
 void testFunction();
 
+//----------- Camera
+
+void createCamera();
+
 // =============================================================================
 //
 // Stories

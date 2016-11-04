@@ -512,6 +512,8 @@ void setupHashTables(){
 	m.insert(std::make_pair("Group", &groupElements));
 	m.insert(std::make_pair("DeleteAll", &deleteAllElements));
 
+	m.insert(std::make_pair("Camera", &createCamera));
+
 	m.insert(std::make_pair("OpenFile", &openFile));
 
 	m.insert(std::make_pair("GetLevels", &getLevels));

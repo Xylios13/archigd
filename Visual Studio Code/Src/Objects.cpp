@@ -4951,7 +4951,169 @@ bool hiddenLayer(layermsg msg){
 
 	return attr.header.flags == APILay_Hidden;
 }
-//----------- Test Function
+
+
+//----------- Camera Functions
+/*
+ This function creates a camera set and a camera within said set.
+ When the user creates another camera, the set is deleted and we create a new one with the new camera.
+ The problem is that I do not know how to change the view to the created camera.
+ */
+void OLDcreateCamera(){
+	API_Element		element, auxEl, mask;
+	API_ElementMemo memo, auxMemo;
+	GSErrCode		err;
+	cameramsg		msg;
+	API_StoryInfo	storyInfo;
+	char buffer[256];
+	bool crash = false;
+	std::string name = "Rosetta CamSet";
+
+	readDelimitedFrom(getClientSocket(), &msg);
+
+	BNZeroMemory(&element, sizeof(API_Element));
+	BNZeroMemory(&memo, sizeof(API_ElementMemo));
+	element.header.typeID = API_CameraID;
+	auxEl.header.typeID = API_CamSetID;
+
+	GS::Array<API_Guid> elemList;
+	ACAPI_Element_GetElemList(API_CamSetID, &elemList);
+	bool failed = false;
+	bool alreadyExists = false;
+	for (GS::Array<API_Guid>::ConstIterator it = elemList.Enumerate(); it != NULL; ++it) {
+		BNZeroMemory(&auxEl, sizeof(API_Element));
+		auxEl.header.guid = *it;
+		err = ACAPI_Element_Get(&auxEl);
+		if (err == NoError) {
+			for (int i = 0; i < name.length(); i++){
+				if (auxEl.camset.name[i] != name.at(i)){
+					failed = true;
+					break;
+				}
+			}
+			if (!failed){
+				API_Elem_Head* toDelete;
+				toDelete = &auxEl.header;
+				ACAPI_Element_Delete(&toDelete, 1);
+				break;
+			}
+			else{
+				failed = false;
+			}
+		}
+		else{
+			ErrorBeep("ACAPI_Element_Create", err);
+			sprintf(buffer, ErrID_To_Name(err));
+			ACAPI_WriteReport(buffer, true);
+			quit();
+			return;
+		}
+	}
+	
+	BNZeroMemory(&auxEl, sizeof(API_Element));
+	BNZeroMemory(&auxMemo, sizeof(API_ElementMemo));
+
+	auxEl.header.typeID = API_CamSetID;
+
+	auxEl.camset.active = true;
+
+	GS::snuprintf(auxEl.camset.name, sizeof(auxEl.camset.name) / sizeof(GS::uchar_t), name.c_str());
+
+	err = ACAPI_Element_Create(&auxEl, &auxMemo);
+	if (err != NoError){
+		ErrorBeep("ACAPI_Element_Create", err);
+		sprintf(buffer, ErrID_To_Name(err));
+		ACAPI_WriteReport(buffer, true);
+		msgArchiCAD("create camset");
+		quit();
+		return;
+	}
+
+	element.camera.camSetGuid = auxEl.camset.head.guid;
+	//element.camera.perspCam.active = true;
+	//element.camera.perspCam.prevCam = APINULLGuid;
+	//element.camera.perspCam.nextCam = APINULLGuid;
+	element.camera.perspCam.persp.viewCone = msg.lens();
+
+	//Sun
+	element.camera.perspCam.persp.sunAzimuth = msg.sunazimuth();
+	element.camera.perspCam.persp.sunAltitude = msg.sunaltitude();
+
+	//element.camera.perspCam.persp.azimuth = msg.azimuth();
+	//element.camera.perspCam.persp.rollAngle = msg.rollangle();
+	//element.camera.perspCam.persp.distance = msg.distance();
+
+	element.camera.perspCam.persp.pos.x = msg.cx();
+	element.camera.perspCam.persp.pos.y = msg.cy();
+	element.camera.perspCam.persp.cameraZ = msg.cz();
+	element.camera.perspCam.persp.target.x = msg.tx();
+	element.camera.perspCam.persp.target.y = msg.ty();
+	element.camera.perspCam.persp.targetZ = msg.tz();
+
+
+	err = ACAPI_Element_Create(&element, &memo);
+	sendElementID(getClientSocket(), element, crash);
+	if (err != NoError){
+		ErrorBeep("ACAPI_Element_Create", err);
+		sprintf(buffer, ErrID_To_Name(err));
+		ACAPI_WriteReport(buffer, true);
+		msgArchiCAD("create cam");
+		quit();
+	}
+
+	ACAPI_DisposeElemMemoHdls(&memo);
+	ACAPI_DisposeElemMemoHdls(&auxMemo);
+}
+
+/*
+ This functions changes the prespective properties of the Generic Prespective of ArchiCAD.
+ */
+void createCamera(){
+	GSErrCode		err;
+	cameramsg		msg;
+	API_StoryInfo	storyInfo;
+	char buffer[256];
+	bool crash = false;
+	std::string name = "Rosetta CamSet";
+
+	readDelimitedFrom(getClientSocket(), &msg);
+	
+	API_3DProjectionInfo info;
+	BNZeroMemory(&info, sizeof(API_3DProjectionInfo));
+	
+	err = ACAPI_Environment(APIEnv_Get3DProjectionSetsID, &info, NULL, NULL);
+	if (err == NoError) {
+			
+			info.u.persp.viewCone = msg.lens();
+
+			//Sun
+			info.u.persp.sunAzimuth = msg.sunazimuth();
+			info.u.persp.sunAltitude = msg.sunaltitude();
+
+			info.u.persp.pos.x = msg.cx();
+			info.u.persp.pos.y = msg.cy();
+			info.u.persp.cameraZ = msg.cz();
+			info.u.persp.target.x = msg.tx();
+			info.u.persp.target.y = msg.ty();
+			info.u.persp.targetZ = msg.tz();
+			err = ACAPI_Environment(APIEnv_Change3DProjectionSetsID, &info, NULL, NULL);
+			if (hasError(err)){
+				quit();
+				return;
+			}
+	}
+	else{
+		ErrorBeep("ACAPI_Element_Create", err);
+		sprintf(buffer, ErrID_To_Name(err));
+		ACAPI_WriteReport(buffer, true);
+		quit();
+		return;
+	}
+
+	view3D();
+}
+
+//----------- Test Functions
 
 void TestBuildProfileDescription(VectorImage* image)
 {
