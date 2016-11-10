@@ -532,6 +532,7 @@ bool hiddenLayer(layermsg msg);
 
 void testFunction();
 
+void getLayerFromElement();
 //----------- Camera
 
 void createCamera();

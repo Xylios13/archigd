@@ -1590,6 +1590,13 @@ class wallmsg : public ::google::protobuf::Message {
   inline ::std::string* release_sidmat();
   inline void set_allocated_sidmat(::std::string* sidmat);
 
+  // optional bool toplinked = 23;
+  inline bool has_toplinked() const;
+  inline void clear_toplinked();
+  static const int kToplinkedFieldNumber = 23;
+  inline bool toplinked() const;
+  inline void set_toplinked(bool value);
+
   // @@protoc_insertion_point(class_scope:wallmsg)
  private:
   inline void set_has_bottomindex();
@@ -1632,6 +1639,8 @@ class wallmsg : public ::google::protobuf::Message {
   inline void clear_has_oppmat();
   inline void set_has_sidmat();
   inline void clear_has_sidmat();
+  inline void set_has_toplinked();
+  inline void clear_has_toplinked();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -1659,6 +1668,7 @@ class wallmsg : public ::google::protobuf::Message {
   ::std::string* oppmat_;
   ::std::string* sidmat_;
   bool flipped_;
+  bool toplinked_;
   friend void  protobuf_AddDesc_messages_2eproto();
   friend void protobuf_AssignDesc_messages_2eproto();
   friend void protobuf_ShutdownFile_messages_2eproto();
@@ -3936,6 +3946,97 @@ class curtainwallmsg : public ::google::protobuf::Message {
   inline ::std::string* release_layer();
   inline void set_allocated_layer(::std::string* layer);
 
+  // optional double height = 16;
+  inline bool has_height() const;
+  inline void clear_height();
+  static const int kHeightFieldNumber = 16;
+  inline double height() const;
+  inline void set_height(double value);
+
+  // optional bool toplinked = 17;
+  inline bool has_toplinked() const;
+  inline void clear_toplinked();
+  static const int kToplinkedFieldNumber = 17;
+  inline bool toplinked() const;
+  inline void set_toplinked(bool value);
+
+  // optional double mainpanelthickness = 18;
+  inline bool has_mainpanelthickness() const;
+  inline void clear_mainpanelthickness();
+  static const int kMainpanelthicknessFieldNumber = 18;
+  inline double mainpanelthickness() const;
+  inline void set_mainpanelthickness(double value);
+
+  // optional double secondarypanelthickness = 19;
+  inline bool has_secondarypanelthickness() const;
+  inline void clear_secondarypanelthickness();
+  static const int kSecondarypanelthicknessFieldNumber = 19;
+  inline double secondarypanelthickness() const;
+  inline void set_secondarypanelthickness(double value);
+
+  // optional double bframewidth = 20;
+  inline bool has_bframewidth() const;
+  inline void clear_bframewidth();
+  static const int kBframewidthFieldNumber = 20;
+  inline double bframewidth() const;
+  inline void set_bframewidth(double value);
+
+  // optional double bframedepth = 21;
+  inline bool has_bframedepth() const;
+  inline void clear_bframedepth();
+  static const int kBframedepthFieldNumber = 21;
+  inline double bframedepth() const;
+  inline void set_bframedepth(double value);
+
+  // optional double bframeoffset = 22;
+  inline bool has_bframeoffset() const;
+  inline void clear_bframeoffset();
+  static const int kBframeoffsetFieldNumber = 22;
+  inline double bframeoffset() const;
+  inline void set_bframeoffset(double value);
+
+  // optional double mframewidth = 23;
+  inline bool has_mframewidth() const;
+  inline void clear_mframewidth();
+  static const int kMframewidthFieldNumber = 23;
+  inline double mframewidth() const;
+  inline void set_mframewidth(double value);
+
+  // optional double mframedepth = 24;
+  inline bool has_mframedepth() const;
+  inline void clear_mframedepth();
+  static const int kMframedepthFieldNumber = 24;
+  inline double mframedepth() const;
+  inline void set_mframedepth(double value);
+
+  // optional double mframeoffset = 25;
+  inline bool has_mframeoffset() const;
+  inline void clear_mframeoffset();
+  static const int kMframeoffsetFieldNumber = 25;
+  inline double mframeoffset() const;
+  inline void set_mframeoffset(double value);
+
+  // optional double tframewidth = 26;
+  inline bool has_tframewidth() const;
+  inline void clear_tframewidth();
+  static const int kTframewidthFieldNumber = 26;
+  inline double tframewidth() const;
+  inline void set_tframewidth(double value);
+
+  // optional double tframedepth = 27;
+  inline bool has_tframedepth() const;
+  inline void clear_tframedepth();
+  static const int kTframedepthFieldNumber = 27;
+  inline double tframedepth() const;
+  inline void set_tframedepth(double value);
+
+  // optional double tframeoffset = 28;
+  inline bool has_tframeoffset() const;
+  inline void clear_tframeoffset();
+  static const int kTframeoffsetFieldNumber = 28;
+  inline double tframeoffset() const;
+  inline void set_tframeoffset(double value);
+
   // @@protoc_insertion_point(class_scope:curtainwallmsg)
  private:
   inline void set_has_pts();
@@ -3962,6 +4063,32 @@ class curtainwallmsg : public ::google::protobuf::Message {
   inline void clear_has_offset();
   inline void set_has_layer();
   inline void clear_has_layer();
+  inline void set_has_height();
+  inline void clear_has_height();
+  inline void set_has_toplinked();
+  inline void clear_has_toplinked();
+  inline void set_has_mainpanelthickness();
+  inline void clear_has_mainpanelthickness();
+  inline void set_has_secondarypanelthickness();
+  inline void clear_has_secondarypanelthickness();
+  inline void set_has_bframewidth();
+  inline void clear_has_bframewidth();
+  inline void set_has_bframedepth();
+  inline void clear_has_bframedepth();
+  inline void set_has_bframeoffset();
+  inline void clear_has_bframeoffset();
+  inline void set_has_mframewidth();
+  inline void clear_has_mframewidth();
+  inline void set_has_mframedepth();
+  inline void clear_has_mframedepth();
+  inline void set_has_mframeoffset();
+  inline void clear_has_mframeoffset();
+  inline void set_has_tframewidth();
+  inline void clear_has_tframewidth();
+  inline void set_has_tframedepth();
+  inline void clear_has_tframedepth();
+  inline void set_has_tframeoffset();
+  inline void clear_has_tframeoffset();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -3982,6 +4109,19 @@ class curtainwallmsg : public ::google::protobuf::Message {
   double panelsangle_;
   double offset_;
   ::std::string* layer_;
+  double height_;
+  double mainpanelthickness_;
+  double secondarypanelthickness_;
+  double bframewidth_;
+  double bframedepth_;
+  double bframeoffset_;
+  double mframewidth_;
+  double mframedepth_;
+  double mframeoffset_;
+  double tframewidth_;
+  double tframedepth_;
+  double tframeoffset_;
+  bool toplinked_;
   friend void  protobuf_AddDesc_messages_2eproto();
   friend void protobuf_AssignDesc_messages_2eproto();
   friend void protobuf_ShutdownFile_messages_2eproto();
@@ -4926,6 +5066,13 @@ class columnmsg : public ::google::protobuf::Message {
   inline ::std::string* release_layer();
   inline void set_allocated_layer(::std::string* layer);
 
+  // optional bool toplinked = 16;
+  inline bool has_toplinked() const;
+  inline void clear_toplinked();
+  static const int kToplinkedFieldNumber = 16;
+  inline bool toplinked() const;
+  inline void set_toplinked(bool value);
+
   // @@protoc_insertion_point(class_scope:columnmsg)
  private:
   inline void set_has_posx();
@@ -4958,6 +5105,8 @@ class columnmsg : public ::google::protobuf::Message {
   inline void clear_has_bottomoffset();
   inline void set_has_layer();
   inline void clear_has_layer();
+  inline void set_has_toplinked();
+  inline void clear_has_toplinked();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -4969,15 +5118,16 @@ class columnmsg : public ::google::protobuf::Message {
   double height_;
   double angle_;
   double depth_;
-  bool circlebased_;
-  ::google::protobuf::int32 bottomindex_;
   double width_;
+  ::google::protobuf::int32 bottomindex_;
+  ::google::protobuf::int32 upperindex_;
   double slantangle_;
   double slantdirection_;
   ::std::string* profilename_;
   double bottomoffset_;
   ::std::string* layer_;
-  ::google::protobuf::int32 upperindex_;
+  bool circlebased_;
+  bool toplinked_;
   friend void  protobuf_AddDesc_messages_2eproto();
   friend void protobuf_AssignDesc_messages_2eproto();
   friend void protobuf_ShutdownFile_messages_2eproto();
@@ -5758,6 +5908,13 @@ class stairsmsg : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 upperindex() const;
   inline void set_upperindex(::google::protobuf::int32 value);
 
+  // optional bool toplinked = 14;
+  inline bool has_toplinked() const;
+  inline void clear_toplinked();
+  static const int kToplinkedFieldNumber = 14;
+  inline bool toplinked() const;
+  inline void set_toplinked(bool value);
+
   // @@protoc_insertion_point(class_scope:stairsmsg)
  private:
   inline void set_has_name();
@@ -5786,6 +5943,8 @@ class stairsmsg : public ::google::protobuf::Message {
   inline void clear_has_height();
   inline void set_has_upperindex();
   inline void clear_has_upperindex();
+  inline void set_has_toplinked();
+  inline void clear_has_toplinked();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -5798,9 +5957,10 @@ class stairsmsg : public ::google::protobuf::Message {
   double yratio_;
   double bottom_;
   double angle_;
+  ::additionalparams* params_;
   ::google::protobuf::int32 bottomindex_;
   bool usexyfixsize_;
-  ::additionalparams* params_;
+  bool toplinked_;
   ::std::string* layer_;
   double height_;
   ::google::protobuf::int32 upperindex_;
@@ -13058,6 +13218,30 @@ inline void wallmsg::set_allocated_sidmat(::std::string* sidmat) {
   // @@protoc_insertion_point(field_set_allocated:wallmsg.sidmat)
 }
 
+// optional bool toplinked = 23;
+inline bool wallmsg::has_toplinked() const {
+  return (_has_bits_[0] & 0x00400000u) != 0;
+}
+inline void wallmsg::set_has_toplinked() {
+  _has_bits_[0] |= 0x00400000u;
+}
+inline void wallmsg::clear_has_toplinked() {
+  _has_bits_[0] &= ~0x00400000u;
+}
+inline void wallmsg::clear_toplinked() {
+  toplinked_ = false;
+  clear_has_toplinked();
+}
+inline bool wallmsg::toplinked() const {
+  // @@protoc_insertion_point(field_get:wallmsg.toplinked)
+  return toplinked_;
+}
+inline void wallmsg::set_toplinked(bool value) {
+  set_has_toplinked();
+  toplinked_ = value;
+  // @@protoc_insertion_point(field_set:wallmsg.toplinked)
+}
+
 // -------------------------------------------------------------------
 
 // getwallmsg
@@ -16696,6 +16880,318 @@ inline void curtainwallmsg::set_allocated_layer(::std::string* layer) {
   // @@protoc_insertion_point(field_set_allocated:curtainwallmsg.layer)
 }
 
+// optional double height = 16;
+inline bool curtainwallmsg::has_height() const {
+  return (_has_bits_[0] & 0x00008000u) != 0;
+}
+inline void curtainwallmsg::set_has_height() {
+  _has_bits_[0] |= 0x00008000u;
+}
+inline void curtainwallmsg::clear_has_height() {
+  _has_bits_[0] &= ~0x00008000u;
+}
+inline void curtainwallmsg::clear_height() {
+  height_ = 0;
+  clear_has_height();
+}
+inline double curtainwallmsg::height() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.height)
+  return height_;
+}
+inline void curtainwallmsg::set_height(double value) {
+  set_has_height();
+  height_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.height)
+}
+
+// optional bool toplinked = 17;
+inline bool curtainwallmsg::has_toplinked() const {
+  return (_has_bits_[0] & 0x00010000u) != 0;
+}
+inline void curtainwallmsg::set_has_toplinked() {
+  _has_bits_[0] |= 0x00010000u;
+}
+inline void curtainwallmsg::clear_has_toplinked() {
+  _has_bits_[0] &= ~0x00010000u;
+}
+inline void curtainwallmsg::clear_toplinked() {
+  toplinked_ = false;
+  clear_has_toplinked();
+}
+inline bool curtainwallmsg::toplinked() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.toplinked)
+  return toplinked_;
+}
+inline void curtainwallmsg::set_toplinked(bool value) {
+  set_has_toplinked();
+  toplinked_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.toplinked)
+}
+
+// optional double mainpanelthickness = 18;
+inline bool curtainwallmsg::has_mainpanelthickness() const {
+  return (_has_bits_[0] & 0x00020000u) != 0;
+}
+inline void curtainwallmsg::set_has_mainpanelthickness() {
+  _has_bits_[0] |= 0x00020000u;
+}
+inline void curtainwallmsg::clear_has_mainpanelthickness() {
+  _has_bits_[0] &= ~0x00020000u;
+}
+inline void curtainwallmsg::clear_mainpanelthickness() {
+  mainpanelthickness_ = 0;
+  clear_has_mainpanelthickness();
+}
+inline double curtainwallmsg::mainpanelthickness() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.mainpanelthickness)
+  return mainpanelthickness_;
+}
+inline void curtainwallmsg::set_mainpanelthickness(double value) {
+  set_has_mainpanelthickness();
+  mainpanelthickness_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.mainpanelthickness)
+}
+
+// optional double secondarypanelthickness = 19;
+inline bool curtainwallmsg::has_secondarypanelthickness() const {
+  return (_has_bits_[0] & 0x00040000u) != 0;
+}
+inline void curtainwallmsg::set_has_secondarypanelthickness() {
+  _has_bits_[0] |= 0x00040000u;
+}
+inline void curtainwallmsg::clear_has_secondarypanelthickness() {
+  _has_bits_[0] &= ~0x00040000u;
+}
+inline void curtainwallmsg::clear_secondarypanelthickness() {
+  secondarypanelthickness_ = 0;
+  clear_has_secondarypanelthickness();
+}
+inline double curtainwallmsg::secondarypanelthickness() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.secondarypanelthickness)
+  return secondarypanelthickness_;
+}
+inline void curtainwallmsg::set_secondarypanelthickness(double value) {
+  set_has_secondarypanelthickness();
+  secondarypanelthickness_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.secondarypanelthickness)
+}
+
+// optional double bframewidth = 20;
+inline bool curtainwallmsg::has_bframewidth() const {
+  return (_has_bits_[0] & 0x00080000u) != 0;
+}
+inline void curtainwallmsg::set_has_bframewidth() {
+  _has_bits_[0] |= 0x00080000u;
+}
+inline void curtainwallmsg::clear_has_bframewidth() {
+  _has_bits_[0] &= ~0x00080000u;
+}
+inline void curtainwallmsg::clear_bframewidth() {
+  bframewidth_ = 0;
+  clear_has_bframewidth();
+}
+inline double curtainwallmsg::bframewidth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.bframewidth)
+  return bframewidth_;
+}
+inline void curtainwallmsg::set_bframewidth(double value) {
+  set_has_bframewidth();
+  bframewidth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.bframewidth)
+}
+
+// optional double bframedepth = 21;
+inline bool curtainwallmsg::has_bframedepth() const {
+  return (_has_bits_[0] & 0x00100000u) != 0;
+}
+inline void curtainwallmsg::set_has_bframedepth() {
+  _has_bits_[0] |= 0x00100000u;
+}
+inline void curtainwallmsg::clear_has_bframedepth() {
+  _has_bits_[0] &= ~0x00100000u;
+}
+inline void curtainwallmsg::clear_bframedepth() {
+  bframedepth_ = 0;
+  clear_has_bframedepth();
+}
+inline double curtainwallmsg::bframedepth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.bframedepth)
+  return bframedepth_;
+}
+inline void curtainwallmsg::set_bframedepth(double value) {
+  set_has_bframedepth();
+  bframedepth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.bframedepth)
+}
+
+// optional double bframeoffset = 22;
+inline bool curtainwallmsg::has_bframeoffset() const {
+  return (_has_bits_[0] & 0x00200000u) != 0;
+}
+inline void curtainwallmsg::set_has_bframeoffset() {
+  _has_bits_[0] |= 0x00200000u;
+}
+inline void curtainwallmsg::clear_has_bframeoffset() {
+  _has_bits_[0] &= ~0x00200000u;
+}
+inline void curtainwallmsg::clear_bframeoffset() {
+  bframeoffset_ = 0;
+  clear_has_bframeoffset();
+}
+inline double curtainwallmsg::bframeoffset() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.bframeoffset)
+  return bframeoffset_;
+}
+inline void curtainwallmsg::set_bframeoffset(double value) {
+  set_has_bframeoffset();
+  bframeoffset_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.bframeoffset)
+}
+
+// optional double mframewidth = 23;
+inline bool curtainwallmsg::has_mframewidth() const {
+  return (_has_bits_[0] & 0x00400000u) != 0;
+}
+inline void curtainwallmsg::set_has_mframewidth() {
+  _has_bits_[0] |= 0x00400000u;
+}
+inline void curtainwallmsg::clear_has_mframewidth() {
+  _has_bits_[0] &= ~0x00400000u;
+}
+inline void curtainwallmsg::clear_mframewidth() {
+  mframewidth_ = 0;
+  clear_has_mframewidth();
+}
+inline double curtainwallmsg::mframewidth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.mframewidth)
+  return mframewidth_;
+}
+inline void curtainwallmsg::set_mframewidth(double value) {
+  set_has_mframewidth();
+  mframewidth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.mframewidth)
+}
+
+// optional double mframedepth = 24;
+inline bool curtainwallmsg::has_mframedepth() const {
+  return (_has_bits_[0] & 0x00800000u) != 0;
+}
+inline void curtainwallmsg::set_has_mframedepth() {
+  _has_bits_[0] |= 0x00800000u;
+}
+inline void curtainwallmsg::clear_has_mframedepth() {
+  _has_bits_[0] &= ~0x00800000u;
+}
+inline void curtainwallmsg::clear_mframedepth() {
+  mframedepth_ = 0;
+  clear_has_mframedepth();
+}
+inline double curtainwallmsg::mframedepth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.mframedepth)
+  return mframedepth_;
+}
+inline void curtainwallmsg::set_mframedepth(double value) {
+  set_has_mframedepth();
+  mframedepth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.mframedepth)
+}
+
+// optional double mframeoffset = 25;
+inline bool curtainwallmsg::has_mframeoffset() const {
+  return (_has_bits_[0] & 0x01000000u) != 0;
+}
+inline void curtainwallmsg::set_has_mframeoffset() {
+  _has_bits_[0] |= 0x01000000u;
+}
+inline void curtainwallmsg::clear_has_mframeoffset() {
+  _has_bits_[0] &= ~0x01000000u;
+}
+inline void curtainwallmsg::clear_mframeoffset() {
+  mframeoffset_ = 0;
+  clear_has_mframeoffset();
+}
+inline double curtainwallmsg::mframeoffset() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.mframeoffset)
+  return mframeoffset_;
+}
+inline void curtainwallmsg::set_mframeoffset(double value) {
+  set_has_mframeoffset();
+  mframeoffset_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.mframeoffset)
+}
+
+// optional double tframewidth = 26;
+inline bool curtainwallmsg::has_tframewidth() const {
+  return (_has_bits_[0] & 0x02000000u) != 0;
+}
+inline void curtainwallmsg::set_has_tframewidth() {
+  _has_bits_[0] |= 0x02000000u;
+}
+inline void curtainwallmsg::clear_has_tframewidth() {
+  _has_bits_[0] &= ~0x02000000u;
+}
+inline void curtainwallmsg::clear_tframewidth() {
+  tframewidth_ = 0;
+  clear_has_tframewidth();
+}
+inline double curtainwallmsg::tframewidth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.tframewidth)
+  return tframewidth_;
+}
+inline void curtainwallmsg::set_tframewidth(double value) {
+  set_has_tframewidth();
+  tframewidth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.tframewidth)
+}
+
+// optional double tframedepth = 27;
+inline bool curtainwallmsg::has_tframedepth() const {
+  return (_has_bits_[0] & 0x04000000u) != 0;
+}
+inline void curtainwallmsg::set_has_tframedepth() {
+  _has_bits_[0] |= 0x04000000u;
+}
+inline void curtainwallmsg::clear_has_tframedepth() {
+  _has_bits_[0] &= ~0x04000000u;
+}
+inline void curtainwallmsg::clear_tframedepth() {
+  tframedepth_ = 0;
+  clear_has_tframedepth();
+}
+inline double curtainwallmsg::tframedepth() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.tframedepth)
+  return tframedepth_;
+}
+inline void curtainwallmsg::set_tframedepth(double value) {
+  set_has_tframedepth();
+  tframedepth_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.tframedepth)
+}
+
+// optional double tframeoffset = 28;
+inline bool curtainwallmsg::has_tframeoffset() const {
+  return (_has_bits_[0] & 0x08000000u) != 0;
+}
+inline void curtainwallmsg::set_has_tframeoffset() {
+  _has_bits_[0] |= 0x08000000u;
+}
+inline void curtainwallmsg::clear_has_tframeoffset() {
+  _has_bits_[0] &= ~0x08000000u;
+}
+inline void curtainwallmsg::clear_tframeoffset() {
+  tframeoffset_ = 0;
+  clear_has_tframeoffset();
+}
+inline double curtainwallmsg::tframeoffset() const {
+  // @@protoc_insertion_point(field_get:curtainwallmsg.tframeoffset)
+  return tframeoffset_;
+}
+inline void curtainwallmsg::set_tframeoffset(double value) {
+  set_has_tframeoffset();
+  tframeoffset_ = value;
+  // @@protoc_insertion_point(field_set:curtainwallmsg.tframeoffset)
+}
+
 // -------------------------------------------------------------------
 
 // translatemsg
@@ -18538,6 +19034,30 @@ inline void columnmsg::set_allocated_layer(::std::string* layer) {
   // @@protoc_insertion_point(field_set_allocated:columnmsg.layer)
 }
 
+// optional bool toplinked = 16;
+inline bool columnmsg::has_toplinked() const {
+  return (_has_bits_[0] & 0x00008000u) != 0;
+}
+inline void columnmsg::set_has_toplinked() {
+  _has_bits_[0] |= 0x00008000u;
+}
+inline void columnmsg::clear_has_toplinked() {
+  _has_bits_[0] &= ~0x00008000u;
+}
+inline void columnmsg::clear_toplinked() {
+  toplinked_ = false;
+  clear_has_toplinked();
+}
+inline bool columnmsg::toplinked() const {
+  // @@protoc_insertion_point(field_get:columnmsg.toplinked)
+  return toplinked_;
+}
+inline void columnmsg::set_toplinked(bool value) {
+  set_has_toplinked();
+  toplinked_ = value;
+  // @@protoc_insertion_point(field_set:columnmsg.toplinked)
+}
+
 // -------------------------------------------------------------------
 
 // storymsg
@@ -20041,6 +20561,30 @@ inline void stairsmsg::set_upperindex(::google::protobuf::int32 value) {
   set_has_upperindex();
   upperindex_ = value;
   // @@protoc_insertion_point(field_set:stairsmsg.upperindex)
+}
+
+// optional bool toplinked = 14;
+inline bool stairsmsg::has_toplinked() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+inline void stairsmsg::set_has_toplinked() {
+  _has_bits_[0] |= 0x00002000u;
+}
+inline void stairsmsg::clear_has_toplinked() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+inline void stairsmsg::clear_toplinked() {
+  toplinked_ = false;
+  clear_has_toplinked();
+}
+inline bool stairsmsg::toplinked() const {
+  // @@protoc_insertion_point(field_get:stairsmsg.toplinked)
+  return toplinked_;
+}
+inline void stairsmsg::set_toplinked(bool value) {
+  set_has_toplinked();
+  toplinked_ = value;
+  // @@protoc_insertion_point(field_set:stairsmsg.toplinked)
 }
 
 // -------------------------------------------------------------------

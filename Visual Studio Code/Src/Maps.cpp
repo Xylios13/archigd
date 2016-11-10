@@ -484,6 +484,7 @@ void setupHashTables(){
 	m.insert(std::make_pair("LayerElem", &attributeLayerToElement));
 	m.insert(std::make_pair("HideLayer", &hideLayer));
 	m.insert(std::make_pair("ShowLayer", &showLayer));
+	m.insert(std::make_pair("GetLayer", &getLayerFromElement));
 	m.insert(std::make_pair("Story", &createStory));
 	m.insert(std::make_pair("StoryAbove", &createStoryAbove));
 	m.insert(std::make_pair("StoryBelow", &createStoryBelow));

@@ -226,11 +226,11 @@ void createStory(){
 				return;
 			}
 		}
-
+		/*
 		for (int i = 0; i < numberOfStories; i++){
 			double doublediff = (*storyInfo.data)[i].level - storyMsg.height();
 			if (doublediff < 0.1 && doublediff > -0.1){
-				/*
+				
 				if (i == (numberOfStories - 1)){
 					break;
 				}
@@ -245,11 +245,11 @@ void createStory(){
 						return;
 					}
 				}
-				*/
+				
 			}
-		}
+		}*/
 	}
-
+	
 	storyInfoMsg.set_exists(true);
 	storyInfoMsg.set_index(currentLevel);
 	storyInfoMsg.set_level((*storyInfo.data)[currentLevel - storyInfo.firstStory].level);
@@ -267,6 +267,101 @@ void createStory(){
 	}
 	*/
 }
+
+/*
+void upperLevel(){
+	API_StoryInfo		storyInfo;
+	GSErrCode			err;
+	upperlevelmsg		upperLevelMsg;
+	API_StoryCmdType	storyCmd;
+	storyinfo			storyInfoMsg;
+	bool				newHeight = true;
+	double				diff = 10000000;
+	double				currentDiff = 0;
+	char buffer[256];
+
+	readDelimitedFrom(getClientSocket(), &upperLevelMsg);
+
+	err = ACAPI_Environment(APIEnv_GetStorySettingsID, &storyInfo, NULL);
+	if (err != NoError) {
+		ErrorBeep("APIEnv_GetStorySettingsID", err);
+		return;
+	}
+
+	int numberOfStories = BMhGetSize(reinterpret_cast<GSHandle> (storyInfo.data)) / Sizeof32(API_StoryType) - 1;
+	double absoluteHeight = upperLevelMsg.height() + (*storyInfo.data)[upperLevelMsg.index()].level;
+	//currentLevel = upperLevelMsg.index();
+	for (int i = (upperLevelMsg.index() - storyInfo.firstStory); i < numberOfStories; i++){
+		//if ((*storyInfo.data)[i].level == absoluteHeight){
+		double doublediff = (*storyInfo.data)[i].level - absoluteHeight;
+		if (doublediff < 0.1 && doublediff > -0.1){
+			newHeight = false;
+			currentLevel = (*storyInfo.data)[i].index;
+			break;
+		}
+		currentDiff = absoluteHeight - (*storyInfo.data)[i].level;
+
+		if (currentDiff >= 0 && currentDiff < diff){
+			diff = currentDiff;
+			currentLevel = (*storyInfo.data)[i].index;
+		}
+	}
+	std::string name = "Story";
+	
+	if (newHeight){
+		BNZeroMemory(&storyCmd, sizeof(API_StoryCmdType));
+		storyCmd.index = currentLevel;
+		//storyCmd.height = abs(upperLevelMsg.height() - (*storyInfo.data)[currentLevel - storyInfo.firstStory].level);
+		storyCmd.height = diff;
+		strcpy(storyCmd.name, "Story");
+		storyCmd.action = APIStory_InsAbove;
+		currentLevel++;
+
+		err = ACAPI_Environment(APIEnv_ChangeStorySettingsID, &storyCmd, NULL);
+		if (hasError(err)){
+			quit();
+			return;
+		}
+
+		err = ACAPI_Environment(APIEnv_GetStorySettingsID, &storyInfo, NULL);
+		if (err != NoError) {
+			ErrorBeep("APIEnv_GetStorySettingsID", err);
+			return;
+		}
+		numberOfStories = BMhGetSize(reinterpret_cast<GSHandle> (storyInfo.data)) / Sizeof32(API_StoryType) - 1;
+
+		for (int i = 0; i < numberOfStories; i++){
+			double doublediff = (*storyInfo.data)[i].level - upperLevelMsg.height();
+			if (doublediff < 0.1 && doublediff > -0.1){
+				if (i == (numberOfStories - 1)){
+					break;
+				}
+				else{
+					storyCmd.action = APIStory_SetHeight;
+					storyCmd.index = currentLevel;
+					storyCmd.height = (*storyInfo.data)[currentLevel + 1 - storyInfo.firstStory].level - (2 * upperLevelMsg.height());
+					err = ACAPI_Environment(APIEnv_ChangeStorySettingsID, &storyCmd, NULL);
+					if (hasError(err)){
+						quit();
+						return;
+					}
+				}
+			}
+		}
+
+	}
+	//int upperlevelindex = currentLevel + 1;
+	storyInfoMsg.set_exists(true);
+	storyInfoMsg.set_index(currentLevel);
+	storyInfoMsg.set_level((*storyInfo.data)[currentLevel - storyInfo.firstStory].level);
+	storyInfoMsg.set_name("Story");
+
+	BMKillHandle(reinterpret_cast<GSHandle *> (&storyInfo.data));
+
+	writeDelimitedTo(getClientSocket(), storyInfoMsg);
+
+}
+*/
 
 void upperLevel(){
 	API_StoryInfo		storyInfo;

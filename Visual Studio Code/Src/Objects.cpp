@@ -235,6 +235,10 @@ void createNewWall(){
 	}
 	*/
 
+	//if (!wallMsg.toplinked()){
+	//	wallElement.wall.relativeTopStory = 0;
+	//}
+
 	if (wallMsg.has_height()){
 		wallElement.wall.height = wallMsg.height();
 	}
@@ -1090,19 +1094,29 @@ void createNewCurtainWall(){
 
 	curtainWallElement.curtainWall.offset = msg.offset();
 
-	curtainWallElement.curtainWall.height = (*storyInfo.data)[msg.upperindex()].level - (*storyInfo.data)[msg.bottomindex()].level;
+	if (msg.has_height()){
+		curtainWallElement.curtainWall.height = msg.height();
+	}
+	else{
+		curtainWallElement.curtainWall.height = (*storyInfo.data)[msg.upperindex()].level - (*storyInfo.data)[msg.bottomindex()].level;
+	}
+
+
+	//curtainWallElement.curtainWall.height = (*storyInfo.data)[msg.upperindex()].level - (*storyInfo.data)[msg.bottomindex()].level;
 
 	curtainWallElement.curtainWall.glassPanelData.category = APICWPaC_Primary;
 	curtainWallElement.curtainWall.glassPanelData.useOwnMaterial = false;
 	curtainWallElement.curtainWall.glassPanelData.outerSurfaceMaterial = searchOverrideMaterials(msg.secpanelmaterial());
 	curtainWallElement.curtainWall.glassPanelData.innerSurfaceMaterial = searchOverrideMaterials(msg.secpanelmaterial());
 	curtainWallElement.curtainWall.glassPanelData.cutSurfaceMaterial = searchOverrideMaterials(msg.secpanelmaterial());
+	curtainWallElement.curtainWall.glassPanelData.thickness = msg.mainpanelthickness();
 
 	curtainWallElement.curtainWall.glazedPanelData.category = APICWPaC_Secondary;
 	curtainWallElement.curtainWall.glazedPanelData.useOwnMaterial = false;
 	curtainWallElement.curtainWall.glazedPanelData.outerSurfaceMaterial = searchOverrideMaterials(msg.panelmaterial());
 	curtainWallElement.curtainWall.glazedPanelData.innerSurfaceMaterial = searchOverrideMaterials(msg.panelmaterial());
 	curtainWallElement.curtainWall.glazedPanelData.cutSurfaceMaterial = searchOverrideMaterials(msg.panelmaterial());
+	curtainWallElement.curtainWall.glazedPanelData.thickness = msg.secondarypanelthickness();
 
 	//Testing
 	/*
@@ -1124,9 +1138,23 @@ void createNewCurtainWall(){
 	*/
 	//----------------
 
-	curtainWallElement.curtainWall.primaryFrameData.material = searchOverrideMaterials(msg.verticalframematerial());
-	curtainWallElement.curtainWall.secondaryFrameData.material = searchOverrideMaterials(msg.horizontalframematerial());
 	curtainWallElement.curtainWall.perimeterFrameData.material = searchOverrideMaterials(msg.framematerial());
+	curtainWallElement.curtainWall.perimeterFrameData.a1 = msg.bframewidth() / 2;
+	curtainWallElement.curtainWall.perimeterFrameData.a2 = curtainWallElement.curtainWall.perimeterFrameData.a1;
+	curtainWallElement.curtainWall.perimeterFrameData.b1 = msg.bframedepth() - msg.bframeoffset();
+	curtainWallElement.curtainWall.perimeterFrameData.b2 = msg.bframeoffset();
+	
+	curtainWallElement.curtainWall.primaryFrameData.material = searchOverrideMaterials(msg.verticalframematerial());
+	curtainWallElement.curtainWall.primaryFrameData.a1 = msg.mframewidth() / 2;
+	curtainWallElement.curtainWall.primaryFrameData.a2 = curtainWallElement.curtainWall.primaryFrameData.a1;
+	curtainWallElement.curtainWall.primaryFrameData.b1 = msg.mframedepth() - msg.mframeoffset();
+	curtainWallElement.curtainWall.primaryFrameData.b2 = msg.mframeoffset();
+	
+	curtainWallElement.curtainWall.secondaryFrameData.material = searchOverrideMaterials(msg.horizontalframematerial());
+	curtainWallElement.curtainWall.secondaryFrameData.a1 = msg.tframewidth() / 2;
+	curtainWallElement.curtainWall.secondaryFrameData.a2 = curtainWallElement.curtainWall.secondaryFrameData.a1;
+	curtainWallElement.curtainWall.secondaryFrameData.b1 = msg.tframedepth() - msg.tframeoffset();
+	curtainWallElement.curtainWall.secondaryFrameData.b2 = msg.tframeoffset();
 
 	//TEST VALUES
 	//curtainWallElement.curtainWall.angle = 45.0 * DEGRAD;
@@ -1504,13 +1532,11 @@ void createNewColumn(){
 	element.column.bottomOffset = 0;
 	element.column.topOffset = 0;
 	err = ACAPI_Environment(APIEnv_GetStorySettingsID, &storyInfo, NULL);
-
 	
 	if (columnMsg.has_height()){
 		//element.column.linkToSettings.newCreationMode = false;
 		//element.column.bottomOffset = columnMsg.bottom();
 		//element.column.topOffset = - (element.column.height - columnMsg.height());
-		
 		//element.column.topOffset = -columnMsg.height();
 		element.column.height = columnMsg.height();
 		element.column.relativeTopStory = 0;
@@ -4952,6 +4978,46 @@ bool hiddenLayer(layermsg msg){
 	return attr.header.flags == APILay_Hidden;
 }
 
+void getLayerFromElement(){
+	API_Element element;
+	char buffer[256];
+	elementid msg;
+	namemessage namemsg;
+	GSErrCode err = NoError;
+	
+	readDelimitedFrom(getClientSocket(), &msg);
+
+	BNZeroMemory(&element, sizeof(API_Element));
+	element.header.guid = APIGuidFromString(msg.guid().c_str());;
+	err = ACAPI_Element_Get(&element);
+
+	if (hasError(err)){
+		quit();
+		return;
+	}
+
+	API_Attribute attr;
+	API_AttributeDef defs;
+	short ltypeIndex;
+
+	BNZeroMemory(&attr, sizeof(API_Attribute));
+	BNZeroMemory(&defs, sizeof(API_AttributeDef));
+
+	attr.header.typeID = API_LayerID;
+	attr.header.index = element.header.layer;
+
+	err = ACAPI_Attribute_Get(&attr);
+	if (hasError(err)){
+		quit();
+		return;
+	}
+
+	namemsg.set_name(attr.header.name);
+
+	writeDelimitedTo(getClientSocket(), namemsg);
+
+	ACAPI_DisposeAttrDefsHdls(&defs);
+}
 
 //----------- Camera Functions
 /*
