@@ -1,0 +1,14 @@
+/* *****************************************************************************
+// Resource description for the Geometry Test Add-On
+// API Development Kit 18; Windows resources
+//
+// Namespaces:			Contact person:
+//		-None-
+//
+// [SG compatible] - Yes
+// ****************************************************************************/
+
+#include "RosettaArchiCAD.grc.rc2"
+#include "RosettaArchiCADFix.grc.rc2"
+
+1	ICON    LOADONCALL MOVEABLE IMPURE  ACAP.ico

@@ -170,29 +170,29 @@ void createNewWall(){
 	short overrideMat;
 	overrideMat = searchOverrideMaterials(wallMsg.refmat());
 	if (overrideMat == -1){
-		wallElement.wall.refMat.overrideMaterial = false;
+		wallElement.wall.refMat.overridden = false;
 	}
 	else{
-		wallElement.wall.refMat.overrideMaterial = true;
-		wallElement.wall.refMat.material = overrideMat;
+		wallElement.wall.refMat.overridden = true;
+		wallElement.wall.refMat.attributeIndex = overrideMat;
 	}
 	
 	overrideMat = searchOverrideMaterials(wallMsg.oppmat());
 	if (overrideMat == -1){
-		wallElement.wall.oppMat.overrideMaterial = false;
+		wallElement.wall.oppMat.overridden = false;
 	}
 	else{
-		wallElement.wall.oppMat.overrideMaterial = true;
-		wallElement.wall.oppMat.material = overrideMat;
+		wallElement.wall.oppMat.overridden = true;
+		wallElement.wall.oppMat.attributeIndex = overrideMat;
 	}
 	
 	overrideMat = searchOverrideMaterials(wallMsg.sidmat());
 	if (overrideMat == -1){
-		wallElement.wall.sidMat.overrideMaterial = false;
+		wallElement.wall.sidMat.overridden = false;
 	}
 	else{
-		wallElement.wall.sidMat.overrideMaterial = true;
-		wallElement.wall.sidMat.material = overrideMat;
+		wallElement.wall.sidMat.overridden = true;
+		wallElement.wall.sidMat.attributeIndex = overrideMat;
 	}
 
 	wallElement.header.floorInd = wallMsg.bottomindex();
@@ -1732,7 +1732,7 @@ void createSlab(){
 	}
 
 	memo.edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((element.slab.poly.nCoords + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo.sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((element.slab.poly.nCoords + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo.sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((element.slab.poly.nCoords + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	for (int i = 1; i <= pointsMsg.px_size(); i++){
 		(*memo.coords)[i].x = pointsMsg.px(i - 1);
@@ -1926,7 +1926,7 @@ void createNewSlab(){
 	populateMemo(&memo, msg.pts(), msg.parcs());
 
 	memo.edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((element.slab.poly.nCoords + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo.sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((element.slab.poly.nCoords + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo.sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((element.slab.poly.nCoords + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	//for (int i = 1; i < element.slab.poly.nCoords; i++){
 	//	(*memo.coords)[i].x = pointsMsg.px(i - 1);
@@ -2018,9 +2018,9 @@ void createWallsFromSlab(){
 
 	element.wall.thickness = msg.thickness();
 
-	element.wall.refMat.overrideMaterial = false;
-	element.wall.oppMat.overrideMaterial = false;
-	element.wall.sidMat.overrideMaterial = false;
+	element.wall.refMat.overridden = false;
+	element.wall.oppMat.overridden = false;
+	element.wall.sidMat.overridden = false;
 
 	if (ACAPI_Element_Get(&slabElement) == NoError
 		&& ACAPI_Element_GetMemo(slabElement.header.guid, &slabMemo, APIMemoMask_Polygon) == NoError) {
@@ -2825,7 +2825,7 @@ void createRoof(){
 	}
 
 	memo.edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo.sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo.sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	for (int i = 1; i <= pointsMsg.px_size(); i++){
 		(*memo.coords)[i].x = pointsMsg.px(i - 1);
@@ -2984,7 +2984,7 @@ void createNewRoof(){
 	}
 
 	memo.edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo.sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo.sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((element.roof.u.planeRoof.poly.nCoords + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	for (int i = 1; i <= pointsMsg.px_size(); i++){
 		(*memo.coords)[i].x = pointsMsg.px(i - 1);
@@ -3639,12 +3639,12 @@ void createMesh(){
 			crash = true;
 		}
 		else{
-			element.mesh.topMat.material = overrideMaterial;
-			element.mesh.topMat.overrideMaterial = true;
+			element.mesh.topMat.attributeIndex = overrideMaterial;
+			element.mesh.topMat.overridden = true;
 		}
 	}
 	else{
-		element.mesh.topMat.overrideMaterial = false;
+		element.mesh.topMat.overridden = false;
 	}
 
 	element.mesh.poly.nCoords = pointsMsg.px_size();
@@ -3670,7 +3670,7 @@ void createMesh(){
 	}
 
 	memo.edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((element.mesh.poly.nCoords + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo.sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((element.mesh.poly.nCoords + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo.sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((element.mesh.poly.nCoords + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	for (int i = 1; i <= pointsMsg.px_size(); i++){
 		(*memo.coords)[i].x = pointsMsg.px(i - 1);
@@ -4540,17 +4540,21 @@ void buildProfileDescription(profilemsg msg, VectorImage* image)
 
 	PlaneEq pe;
 
-	VBUtil::HatchTran	hatchTrafo;
+	//VBUtil::HatchTran	hatchTrafo;
+	//hatchTrafo.SetGlobal();
+
+	GX::Pattern::HatchTran	hatchTrafo;
 	hatchTrafo.SetGlobal();
 
 	try {
+		VBAttr::ExtendedPen extendedPen(4);
 		image->AddHatchWhole(true,								// hatch contour visible
-			0, //5,								// drawing pen index of the hatch contour
+			VBAttr::ExtendedPen(0),			// drawing pen index of the hatch contour
 			0, //5,								// line type attribute index of the hatch contour
 			materialIndex,								// building material
 			0,//7,								// fill attribute index of the hatch
-			VBUtil::OverriddenPen(VBUtil::DoNotUseThisAttribute, 0),	// override pen index of the fill (false means no override, pen coming from building material)
-			VBUtil::OverriddenPen(VBUtil::DoNotUseThisAttribute, 0),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
+			VBAttr::OverriddenExtendedPen(VBAttr::DoNotUseThisAttribute, extendedPen),	// override pen index of the fill (false means no override, pen coming from building material)
+			VBAttr::OverriddenPen(VBAttr::DoNotUseThisAttribute, 12),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
 			1,								// layer index of the hatch [1..5]
 			DrwIndexForHatches,				// drawing index of the hatch, determining the drawing order of the item
 			GS::NULLGuid,						// reserved for internal use, should be NULLGuid
@@ -4687,17 +4691,18 @@ void modifyProfileDescription(profilemsg msg, VectorImage& previousImage, Vector
 			}
 			PlaneEq pe;
 
-			VBUtil::HatchTran	hatchTrafo;
+			GX::Pattern::HatchTran	hatchTrafo;
 			hatchTrafo.SetGlobal();
 
 			try {
+				VBAttr::ExtendedPen extendedPen(4);
 				image->AddHatchWhole(true,								// hatch contour visible
-					0, //5,								// drawing pen index of the hatch contour
+					VBAttr::ExtendedPen(0),			// drawing pen index of the hatch contour
 					0, //5,								// line type attribute index of the hatch contour
 					materialIndex,								// building material
 					0,//7,								// fill attribute index of the hatch
-					VBUtil::OverriddenPen(VBUtil::DoNotUseThisAttribute, 0),	// override pen index of the fill (false means no override, pen coming from building material)
-					VBUtil::OverriddenPen(VBUtil::DoNotUseThisAttribute, 0),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
+					VBAttr::OverriddenExtendedPen(VBAttr::DoNotUseThisAttribute, extendedPen),	// override pen index of the fill (false means no override, pen coming from building material)
+					VBAttr::OverriddenPen(VBAttr::DoNotUseThisAttribute, 12),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
 					1,								// layer index of the hatch [1..5]
 					DrwIndexForHatches,				// drawing index of the hatch, determining the drawing order of the item
 					GS::NULLGuid,						// reserved for internal use, should be NULLGuid
@@ -5222,17 +5227,18 @@ void TestBuildProfileDescription(VectorImage* image)
 
 	PlaneEq pe;
 
-	VBUtil::HatchTran	hatchTrafo;
+	GX::Pattern::HatchTran	hatchTrafo;
 	hatchTrafo.SetGlobal();
 
 	try {
+		VBAttr::ExtendedPen extendedPen(4);
 		image->AddHatchWhole(true,								// hatch contour visible
-			5,								// drawing pen index of the hatch contour
+			VBAttr::ExtendedPen(5),			// drawing pen index of the hatch contour
 			5,								// line type attribute index of the hatch contour
 			7,								// building material
 			7,								// fill attribute index of the hatch
-			VBUtil::OverriddenPen(VBUtil::UseThisAttribute, 4),	// override pen index of the fill (false means no override, pen coming from building material)
-			VBUtil::OverriddenPen(VBUtil::UseThisAttribute, 12),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
+			VBAttr::OverriddenExtendedPen(VBAttr::UseThisAttribute, extendedPen),	// override pen index of the fill (false means no override, pen coming from building material)
+			VBAttr::OverriddenPen(VBAttr::UseThisAttribute, 12),	// override pen index of the fill background (zero means transparent; false means no override, pen coming from building material)
 			1,								// layer index of the hatch [1..5]
 			DrwIndexForHatches,				// drawing index of the hatch, determining the drawing order of the item
 			GS::NULLGuid,						// reserved for internal use, should be NULLGuid

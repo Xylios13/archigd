@@ -62,14 +62,12 @@ Make the wall always double slanted whatever the angles?
               #:bottom-level [bottom-level (current-level)]
               #:top-level [top-level (upper-level bottom-level)]
               ;;ArchiCAD ONLY --------------------------------------------------------------
-              ;#:top-linked? [top-linked? (default-top-link)]
               #:thickness [thickness (default-wall-thickness)]
               #:arcs [arcs (list)]
               
               #:type-of-material [type-of-material (default-wall-type-of-material)]
               #:material [material
-                          #;(default-wall-material) 
-                          (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
+                          (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL" #;"GENERIC - INTERNAL FILLER"]
                                 [(eq? type-of-material "Composite") "Generic Wall/Shell"])]
               #:alpha-angle [alpha-angle (/ pi 2)]
               #:beta-angle [beta-angle (/ pi 2)]
@@ -78,7 +76,7 @@ Make the wall always double slanted whatever the angles?
               #:profile-name [profile-name ""]
               #:flipped? [flipped? #f]
               #:bottom-offset [bottom-offset 0]
-              #:layer [layer "Structural Bearing"]
+              #:layer [layer "Structural - Bearing"]
               #:windows [windows (list)]
               #:window-order [window-order (list)]
               #:reference-offset [reference-offset 0]
@@ -181,8 +179,7 @@ Make the wall always double slanted whatever the angles?
               
               #:type-of-material [type-of-material (default-wall-type-of-material)]
               #:material [material
-                          #;(default-wall-material) 
-                          (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
+                          (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL" #;"GENERIC - INTERNAL FILLER"]
                                 [(eq? type-of-material "Composite") "Generic Wall/Shell"])]
               #:alpha-angle [alpha-angle (/ pi 2)]
               #:beta-angle [beta-angle (/ pi 2)]
@@ -519,7 +516,7 @@ Example of usage:
 (define default-slab-reference (make-parameter "Top"))
 (define default-slab-type-of-material (make-parameter "Basic"))
 #;(define default-slab-material  
-    (make-parameter (cond [(eq? (default-slab-type-of-material) "Basic") "GENERIC - INTERNAL CLADDING"]
+    (make-parameter (cond [(eq? (default-slab-type-of-material) "Basic") "GENERIC - STRUCTURAL"]
                           [(eq? (default-slab-type-of-material) "Composite") "Generic Slab/Roof"])))
 (define (slab guide
               #:bottom-level [bottom-level (current-level)]
@@ -527,7 +524,7 @@ Example of usage:
               #:thickness [thickness 0.3]
               #:bottom [bottom 0]
               #:type-of-material [type-of-material (default-slab-type-of-material)]
-              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - INTERNAL CLADDING"]
+              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
                                          [(eq? type-of-material "Composite") "Generic Slab/Roof"])]
               #:parcs [parcs (list)]
               #:layer [layer "Structural - Bearing"]
@@ -925,7 +922,7 @@ Example of usage:
                 #:angle [angle 0]
                 #:height [height 0]
                 #:properties [properties (list)]
-                #:layer [layer "Interior - Furniture"])
+                #:layer [layer "Interior - Furniture "])
   (let* ((splitted-list (split-params-list properties))
          (msg (if (string? index/name)
                   (objectmsg* #:index 0
@@ -1100,7 +1097,7 @@ Example of usage:
               #:thickness [thickness 0.3]
               #:height [height 0]
               #:type-of-material [type-of-material (default-roof-type-of-material)]
-              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - STRUCTURAL"]
+              #:material [material (cond [(eq? type-of-material "Basic") "GENERIC - EXTERNAL FILLER"]
                                          [(eq? type-of-material "Composite") "Generic Roof/Shell"])]
               #:layer [layer "Shell - Roof"])
   (let ((roof-info (prepare-points guide))
@@ -1139,7 +1136,7 @@ Function to create a poly roof
     (read-material-guid)
     ))
 
-(define poly-roof-material-default (make-parameter "GENERIC - STRUCTURAL"))
+(define poly-roof-material-default (make-parameter "GENERIC - EXTERNAL FILLER"))
 (define roof-material-default (make-parameter "GENERIC - STRUCTURAL"))
 (define (poly-roof listpoints
                    #:bottom-level [bottom-level (current-level)]

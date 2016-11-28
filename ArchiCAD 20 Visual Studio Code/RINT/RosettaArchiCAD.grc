@@ -1,0 +1,31 @@
+﻿/* *****************************************************************************
+// Localizable resource description for the Geometry Test Add-On
+// API Development Kit 18; Mac/Win
+//
+// Namespaces:			Contact person:
+//		-None-
+//
+// [SG compatible] - Yes
+// ****************************************************************************/
+
+/* Add-On Information */
+
+@#define   INT__APP 
+@#define   INTERNAL_NAME   "RosettaArchiCAD" 
+@#define   ORIGINAL_NAME   "RosettaArchiCAD.apx" 
+@ 
+@#define   COMPANY_STR      "None" 
+@#define   COPYRIGHT_STR   "None" 
+@#define   FILEDESC_STR   "Rosetta connection" 
+@ 
+@#include <windows.h>
+
+'STR#' 32000 "Add-on Info strings" {
+/* [  1] */		"Rosetta"
+/* [  2] */		"Connects ArchiCAD to Rosetta"
+}
+
+'STR#' 32502 "Menu strings" {
+/* [  0] */		"Rosetta"
+/* [  1] */		"Connect^E3"
+}

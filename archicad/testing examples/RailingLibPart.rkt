@@ -223,6 +223,7 @@ END
 END
   )
 
+
 (define 3d #<<END
 ! Balustrade_Sentrel.gsm Object
 ! Jan 2011
@@ -315,7 +316,276 @@ END
 		add 0, 0, lBotRaiGap + 0.07 / cos(aSlo)
 		XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
 				0, 	1, 	0, 	0,
+				0, 	tan(0), 	1, 	0
+
+		prism_	4, lCblHig * cos(aSlo),
+				0.0225, 	0.0225 * tan(aCutAng1), 		15,
+				0.0225, 	0.07, 	15,
+				-0.0225, 	0.07, 	15,
+				-0.0225, 	-0.0225 * tan(aCutAng1), 		15
+
+			gosub 300:
+
+		add 0, lLen, 0
+
+		prism_	4, lCblHig * cos(aSlo),
+				0.0225, 	0.0225 * tan(aCutAng2), 		15,
+				0.0225, 	-0.07, 	15,
+				-0.0225, 	-0.07, 	15,
+				-0.0225, 	-0.0225 * tan(aCutAng2), 		15
+
+			gosub 300:
+
+
+		del 3
+	endif
+
+
+!  Poles and Cables  ****************************
+
+	add 0, lLen / 2 - lBalTruLen / 2, lBotRaiGap + 0.07 / cos(0) + (lLen / 2 - lBalTruLen / 2) * tan(0)
+	XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+		0, 	1, 	0, 	0,
+		0, 	tan(0),	1, 	0
+
+	for j = 1 to iNodNum
+		if strstr (" " + tPolPos + " ", " " + str(j, 1, 0)+ " ")  then
+			material mPole
+
+			cylind (lCblHig + (lLen / 2 - lBalTruLen / 2 + 0.064 * j) * tan(aSlo)), 0.0125
+
+			gosub 300:
+
+		else
+			material mCable
+
+			cylind (lCblHig + (lLen / 2 - lBalTruLen / 2 + 0.064 * j) * tan(aSlo)), 0.00125
+
+			gosub 300:
+
+		endif
+
+!		hotspot 0, 	0, 0
+!		hotspot 0, 	0, lCblHig
+	add 0, 0.064, 0
+	next j
+
+	del iNodNum
+
+	del 2
+
+
+
+!  Hotspots  *************************
+
+	XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+			0, 	1, 	0, 	0,
+			0, 	tan(aSlo), 	1, 	0 
+
+	hotspot 0, 					0, 										lHig
+	hotspot 0, 					lLen, 									lHig
+	hotspot 0, 					lLen / 2, 								lHig
+	hotspot 0, 					lLen / 2, 								0
+	hotspot 0, 					lLen / 2, 								lBotRaiGap
+
+	if bHnd then
+		hotspot -(lHndWid / 2), 	-(lHndWid / 2) * tan(aCutAng1), 		lHig
+		hotspot (lHndWid / 2), 		(lHndWid / 2) * tan(aCutAng1), 			lHig
+		hotspot -(lHndWid / 2), 	lLen - (lHndWid / 2) * tan(aCutAng2), 	lHig
+		hotspot (lHndWid / 2), 		lLen + (lHndWid / 2) * tan(aCutAng2), 	lHig
+	
+		hotspot -(lHndWid / 2), 	-(lHndWid / 2) * tan(aCutAng1), 		lHig - 0.035 / cos(aSlo)
+		hotspot (lHndWid / 2), 		(lHndWid / 2) * tan(aCutAng1), 			lHig - 0.035 / cos(aSlo)
+		hotspot -(lHndWid / 2), 	lLen - (lHndWid / 2) * tan(aCutAng2), 	lHig - 0.035 / cos(aSlo)
+		hotspot (lHndWid / 2), 		lLen + (lHndWid / 2) * tan(aCutAng2), 	lHig - 0.035 / cos(aSlo)
+	endif
+
+	hotspot -0.0175, 	-0.0175 * tan(aCutAng1), 		lHig - (0.035 / cos(aSlo)) * bHnd
+	hotspot 0.0175, 	0.0175 * tan(aCutAng1), 		lHig - (0.035 / cos(aSlo)) * bHnd
+	hotspot -0.0175, 	lLen - 0.0175 * tan(aCutAng2), 	lHig - (0.035 / cos(aSlo)) * bHnd
+	hotspot 0.0175, 	lLen + 0.0175 * tan(aCutAng2), 	lHig - (0.035 / cos(aSlo)) * bHnd
+
+	hotspot -0.0175, 	-0.0175 * tan(aCutAng1), 		lHig - (0.07 + 0.03 * bHnd) / cos(aSlo)
+	hotspot 0.0175, 	0.0175 * tan(aCutAng1), 		lHig - (0.07 + 0.03 * bHnd) / cos(aSlo)
+	hotspot -0.0175, 	lLen - 0.0175 * tan(aCutAng2), 	lHig - (0.07 + 0.03 * bHnd) / cos(aSlo)
+	hotspot 0.0175, 	lLen + 0.0175 * tan(aCutAng2), 	lHig - (0.07 + 0.03 * bHnd) / cos(aSlo)
+
+	hotspot -0.0175, 	-0.0175 * tan(aCutAng1), 		lBotRaiGap
+	hotspot 0.0175, 	0.0175 * tan(aCutAng1), 		lBotRaiGap
+	hotspot -0.0175, 	lLen - 0.0175 * tan(aCutAng2), 	lBotRaiGap
+	hotspot 0.0175, 	lLen + 0.0175 * tan(aCutAng2), 	lBotRaiGap
+
+	hotspot -0.0175, 	-0.0175 * tan(aCutAng1), 		lBotRaiGap + 0.07 / cos(aSlo)
+	hotspot 0.0175, 	0.0175 * tan(aCutAng1), 		lBotRaiGap + 0.07 / cos(aSlo)
+	hotspot -0.0175, 	lLen - 0.0175 * tan(aCutAng2), 	lBotRaiGap + 0.07 / cos(aSlo)
+	hotspot 0.0175, 	lLen + 0.0175 * tan(aCutAng2), 	lBotRaiGap + 0.07 / cos(aSlo)
+
+	del 1
+
+	if bHotEdt then
+		hotspot 0, 0,    0, uid, lLen, 1+256 	: uid = uid+1    ! base
+		hotspot 0, lLen, 0, uid, lLen, 2 		: uid = uid+1    ! moving
+		hotspot 0, -1,   0, uid, lLen, 3 		: uid = uid+1    ! ref
+
+		hotspot 0, 0, 0, 	uid, lHig, 1 	: uid = uid+1    ! base
+		hotspot 0, 0, lHig, uid, lHig, 2 	: uid = uid+1    ! moving
+		hotspot 0, 0, -1, 	uid, lHig, 3 	: uid = uid+1    ! ref
+
+		hotspot 0, lLen, lSlo, 			uid, lHig, 1 	: uid = uid+1    ! base
+		hotspot 0, lLen, lSlo + lHig, 	uid, lHig, 2 	: uid = uid+1    ! moving
+		hotspot 0, lLen, lSlo - 1, 		uid, lHig, 3 	: uid = uid+1    ! ref
+
+		hotspot 0, 0, 0, 			uid, lBotRaiGap, 1 	: uid = uid+1    ! base
+		hotspot 0, 0, lBotRaiGap, 	uid, lBotRaiGap, 2 	: uid = uid+1    ! moving
+		hotspot 0, 0, -1, 			uid, lBotRaiGap, 3 	: uid = uid+1    ! ref
+
+		hotspot 0, lLen, 0, 									uid, lSlo, 1 	: uid = uid+1    ! base
+		hotspot 0, lLen, lSlo + lBotRaiGap / 2 * not(lSlo), 	uid, lSlo, 2 	: uid = uid+1    ! moving
+		hotspot 0, lLen, -1, 									uid, lSlo, 3 	: uid = uid+1    ! ref
+
+	endif
+
+
+end  !**************************
+
+100:
+	addz 0.2 * rnd(5)
+	
+	base
+	vert 0, 0, 0
+	vert 1, 0,0
+	vert 0, 1, 0
+	vert 0, 0, 1
+	coor 2+256, -1, -2, -3, -4
+	body 1
+	
+	del 1
+return
+
+200:
+	addz 0.2 * rnd(5)
+	
+	base
+	vert 0, 0, 0
+	vert 0, 1, 0
+	vert 1, 0, 0
+	vert 0, 0, -1
+	coor 2+256, -1, -2, -3, -4
+	body 1
+	
+	del 1
+return
+
+
+300:
+	addz 0.2 * rnd(5)
+	
+	base
+	vert 0, 0, 0
+	vert 0, 1, 0
+	vert 1, 0, 0
+	vert 0, 0, -1
+	coor 2+256, -1, -2, -3, -4
+	body 1
+	
+	del 1
+return
+
+END
+  )
+
+(define new-3d #<<END
+! Balustrade_Sentrel.gsm Object
+! Jan 2011
+! 3d Script
+
+	resol iRes
+
+!  HandRail  ****************************
+
+	if bHnd then
+		material mHandrail
+	
+		add 0, 0, lHig
+		XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+				0, 	1, 	0, 	0,
 				0, 	tan(aSlo), 	1 / cos(aSlo), 	0
+		rotx -90
+	
+		sprism_{2} 	mHandrail, mHandrail, mHandrail,
+					9,
+					0, 0, 	0, -1, 	lLen, -aCutAng2,
+					0, 0, 	0, 1, 	0, aCutAng1,
+					-lHndWid / 2,   0.035,      15, mHandrail, 
+					-0.023,       	0.035,      15, mHandrail, 
+					-0.023,      	0.0295,     15, mHandrail, 
+					0.023,      	0.0295,     15, mHandrail, 
+					0.023,       	0.035,      15, mHandrail, 
+					lHndWid / 2,    0.035,      15, mHandrail, 
+					lHndWid / 2,    0,      	15, mHandrail, 
+					-lHndWid / 2,   0,      	15, mHandrail, 
+					-lHndWid / 2,   0.035,      15, mHandrail
+	
+		gosub 200:
+	
+		del 3
+	endif
+
+!  Bottom Rail  ****************************
+
+	material mRail
+
+	add 0, 0, lBotRaiGap
+	XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+		0, 	1, 	0, 	0,
+		0, 	0, 	1, 	0
+	rotx -90
+
+	sprism_{2} 	mRail, mRail, mRail,
+				5,
+				0, 0, 	0, -1, 	lLen, -aCutAng2,
+				0, 0, 	0, 1, 	0, aCutAng1,
+				-0.0225,    -lHig + 0.07,      15, mRail, 
+				0.0225,     -lHig + 0.07,      15, mRail, 
+				0.0225,     0,      	15, mRail, 
+				-0.0225,    0,      	15, mRail, 
+				-0.0225,    -0.07,      15, mRail
+
+	gosub 100:
+
+	del 3
+
+
+!  Top Rail  ****************************
+
+	add 0, 0, lHig - (0.030 / cos(aSlo)) * bHnd
+	XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+			0, 	1, 	0, 	0,
+			0, 	tan(aSlo), 	1 / cos(aSlo), 	0
+	rotx -90
+
+	sprism_{2} 	mRail, mRail, mRail,
+				5,
+				0, 0, 	0, -1, 	lLen, -aCutAng2,
+				0, 0, 	0, 1, 	0, aCutAng1,
+				-0.0225,    0.07,   15, mRail, 
+				0.0225,     0.07,  	15, mRail, 
+				0.0225,     0,      15, mRail, 
+				-0.0225,    0,     	15, mRail, 
+				-0.0225,    0.07, 	15, mRail
+
+	gosub 100:
+
+	del 3
+
+
+!  Gate Frame Posts  ****************************
+
+	if tPnlTyp = `Pool Gate` then
+		add 0, 0, lBotRaiGap + 0.07 / cos(aSlo)
+		XFORM 	1, 	0, 	0, 	0,										!Skew the balustrade for stairs
+				0, 	1, 	0, 	0,
+				0, 	tan(0), 	1, 	0
 
 		prism_	4, lCblHig * cos(aSlo),
 				0.0225, 	0.0225 * tan(aCutAng1), 		15,

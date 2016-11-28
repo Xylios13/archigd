@@ -88,7 +88,7 @@ Torre dois: Andares: 50; Altura: 150
 (define (grid-typical-floor-intersect p d l-corridor d1 r-small t slabID)
   (parameterize ((default-wall-thickness t)
                  (default-wall-type-of-material "Basic")
-                 (default-wall-material "Plaster - Gypsum"))
+                 #;(default-wall-material "Plaster - Gypsum"))
     (define daux1 (- d (/ t 2)))
     (define daux2 (* 1/3 d))
     (define daux3 (+ d (* t 3)))

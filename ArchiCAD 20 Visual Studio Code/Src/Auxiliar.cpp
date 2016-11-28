@@ -691,7 +691,7 @@ void holeMemo(int oldSize, int oldPends, int oldArcSize, pointsmessage pointsMsg
 	}
 
 	memo->edgeTrims = reinterpret_cast<API_EdgeTrim**> (BMAllocateHandle((*newSize + 1) * sizeof(API_EdgeTrim), ALLOCATE_CLEAR, 0));
-	memo->sideMaterials = reinterpret_cast<API_MaterialOverrideType*> (BMAllocatePtr((*newSize + 1) * sizeof(API_MaterialOverrideType), ALLOCATE_CLEAR, 0));
+	memo->sideMaterials = reinterpret_cast<API_OverriddenAttribute*> (BMAllocatePtr((*newSize + 1) * sizeof(API_OverriddenAttribute), ALLOCATE_CLEAR, 0));
 
 	//Populate memo with old information
 	for (int i = 1; i <= oldSize; i++){

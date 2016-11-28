@@ -1,0 +1,21 @@
+﻿/* *****************************************************************************
+// Localizable resource description for the Geometry Test Add-On
+// API Development Kit 18; Mac/Win
+//
+// Namespaces:			Contact person:
+//		-None-
+//
+// [SG compatible] - Yes
+// ****************************************************************************/
+
+/* Add-On Information */
+
+'STR#' 32000 "Add-on Info strings" {
+/* [  1] */		"RosettaArchiCAD"
+/* [  2] */		"Connects to Rosetta"
+}
+
+'STR#' 32502 "Menu strings" {
+/* [   ] */		"Rosetta"
+/* [  1] */		"Connect^E3"
+}
