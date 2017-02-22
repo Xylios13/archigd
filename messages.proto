@@ -129,6 +129,7 @@ message doormessage {
   required additionalparams params = 10;
   required double depthoffset = 11;
   optional string layer = 12;
+  optional int32 fixpoint = 13;
 }
 
 message windowmessage {
@@ -246,6 +247,19 @@ message curtainwallmsg {
 	required double panelsangle = 13;
 	required double offset = 14;
 	optional string layer = 15;
+	optional double height = 16;
+	optional bool toplinked = 17;
+	optional double mainpanelthickness = 18;
+	optional double secondarypanelthickness = 19;
+	optional double bframewidth = 20;
+	optional double bframedepth = 21;
+	optional double bframeoffset = 22;
+	optional double mframewidth = 23;
+	optional double mframedepth = 24;
+	optional double mframeoffset = 25;
+	optional double tframewidth = 26;
+	optional double tframedepth = 27;
+	optional double tframeoffset = 28;
 }
 
 message translatemsg{
@@ -309,6 +323,7 @@ message columnmsg{
   required string profilename = 13;
   optional double bottomoffset = 14;
   optional string layer = 15;
+  optional bool toplinked = 16;
 }
 
 message storymsg{
@@ -362,6 +377,7 @@ message stairsmsg{
   optional string layer = 11;
   optional double height = 12;
   optional int32 upperindex = 13;
+  optional bool toplinked = 14;
 }
 
 message roofmsg{
@@ -525,6 +541,7 @@ message beammsg{
 	required string material = 10;
 	required string profilename = 11;
 	optional string layer = 12;
+	optional double profileangle = 13;
 }
 
 message intarray{
@@ -655,4 +672,16 @@ message extshellmsg{
 
 message rendermsg{
 	required string file = 1;
+}
+
+message cameramsg{
+	required double cx = 1;
+	required double cy = 2;
+	required double cz = 3;
+	required double tx = 4;
+	required double ty = 5;
+	required double tz = 6;
+	required double lens = 7;
+	required double sunazimuth = 8;
+	required double sunaltitude = 9;
 }

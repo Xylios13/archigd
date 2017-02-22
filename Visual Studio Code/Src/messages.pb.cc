@@ -531,7 +531,7 @@ void protobuf_AssignDesc_messages_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(wallmessage));
   doormessage_descriptor_ = file->message_type(14);
-  static const int doormessage_offsets_[12] = {
+  static const int doormessage_offsets_[13] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, guid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, objloc_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, zpos_),
@@ -544,6 +544,7 @@ void protobuf_AssignDesc_messages_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, params_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, depthoffset_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, layer_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(doormessage, fixpoint_),
   };
   doormessage_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -1426,7 +1427,7 @@ void protobuf_AssignDesc_messages_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(applymatrix));
   beammsg_descriptor_ = file->message_type(58);
-  static const int beammsg_offsets_[12] = {
+  static const int beammsg_offsets_[13] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, x0_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, y0_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, x1_),
@@ -1439,6 +1440,7 @@ void protobuf_AssignDesc_messages_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, material_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, profilename_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, layer_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(beammsg, profileangle_),
   };
   beammsg_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -2164,154 +2166,155 @@ void protobuf_AddDesc_messages_2eproto() {
     "\002(\001\022\021\n\tthickness\030\006 \002(\001\022\r\n\005angle\030\007 \002(\001\022\016\n"
     "\006bottom\030\010 \002(\001\022\020\n\010material\030\t \002(\t\022\014\n\004type\030"
     "\n \002(\t\022\025\n\rreferenceline\030\013 \002(\t\022\023\n\013bottomst"
-    "ory\030\014 \001(\005\022\020\n\010topstory\030\r \001(\005\"\331\001\n\013doormess"
+    "ory\030\014 \001(\005\022\020\n\010topstory\030\r \001(\005\"\353\001\n\013doormess"
     "age\022\014\n\004guid\030\001 \002(\t\022\016\n\006objloc\030\002 \002(\001\022\014\n\004zpo"
     "s\030\003 \002(\001\022\016\n\006height\030\004 \002(\001\022\r\n\005width\030\005 \002(\001\022\014"
     "\n\004hole\030\006 \002(\010\022\014\n\004name\030\007 \002(\t\022\r\n\005flipx\030\010 \002("
     "\010\022\r\n\005flipy\030\t \002(\010\022!\n\006params\030\n \002(\0132\021.addit"
     "ionalparams\022\023\n\013depthoffset\030\013 \002(\001\022\r\n\005laye"
-    "r\030\014 \001(\t\"\315\001\n\rwindowmessage\022\014\n\004guid\030\001 \001(\t\022"
-    "\016\n\006objloc\030\002 \002(\001\022\014\n\004zpos\030\003 \002(\001\022\014\n\004name\030\004 "
-    "\002(\t\022!\n\006params\030\005 \001(\0132\021.additionalparams\022\r"
-    "\n\005width\030\006 \002(\001\022\016\n\006height\030\007 \002(\001\022\023\n\013depthof"
-    "fset\030\010 \002(\001\022\r\n\005flipx\030\t \002(\010\022\r\n\005flipy\030\n \002(\010"
-    "\022\r\n\005layer\030\013 \001(\t\"9\n\rcirclemessage\022\013\n\003p0x\030"
-    "\001 \002(\001\022\013\n\003p0y\030\002 \002(\001\022\016\n\006radius\030\003 \002(\001\"e\n\nar"
-    "cmessage\022\013\n\003p0x\030\001 \002(\001\022\013\n\003p0y\030\002 \002(\001\022\016\n\006ra"
-    "dius\030\003 \002(\001\022\r\n\005angle\030\004 \002(\001\022\016\n\006begang\030\005 \002("
-    "\001\022\016\n\006endang\030\006 \002(\001\"U\n\rspheremessage\022\013\n\003c0"
-    "x\030\001 \002(\001\022\013\n\003c0y\030\002 \002(\001\022\013\n\003c0z\030\003 \002(\001\022\016\n\006rad"
-    "ius\030\004 \002(\001\022\r\n\005level\030\005 \002(\005\"z\n\013cylindermsg\022"
-    "\013\n\003p0x\030\001 \002(\001\022\013\n\003p0y\030\002 \002(\001\022\013\n\003p0z\030\003 \002(\001\022\013"
-    "\n\003p1x\030\004 \002(\001\022\013\n\003p1y\030\005 \002(\001\022\013\n\003p1z\030\006 \002(\001\022\016\n"
-    "\006radius\030\007 \002(\001\022\r\n\005level\030\010 \002(\005\"\251\001\n\023shellco"
-    "mplexmessage\022\021\n\tnumpoints\030\001 \002(\005\022\017\n\007numar"
-    "cs\030\002 \002(\005\022\020\n\010numholes\030\003 \002(\005\022\022\n\nnumhpoints"
-    "\030\004 \002(\005\022\020\n\010numharcs\030\005 \002(\005\022\022\n\nholeheight\030\006"
-    " \002(\001\022\020\n\010reflectx\030\007 \002(\001\022\020\n\010reflecty\030\010 \002(\001"
-    "\"\'\n\022shellsimplemessage\022\021\n\tnumpoints\030\001 \002("
-    "\005\"2\n\014shellmessage\022\021\n\tnumpoints\030\001 \002(\005\022\017\n\007"
-    "numarcs\030\002 \002(\005\"3\n\rpointsmessage\022\n\n\002px\030\001 \003"
-    "(\001\022\n\n\002py\030\002 \003(\001\022\n\n\002pz\030\003 \003(\001\"G\n\017polyarcsme"
-    "ssage\022\020\n\010begindex\030\001 \003(\005\022\020\n\010endindex\030\002 \003("
-    "\005\022\020\n\010arcangle\030\003 \003(\001\"<\n\017rotshellmessage\022\014"
-    "\n\004axis\030\001 \002(\t\022\r\n\005angle\030\002 \002(\001\022\014\n\004guid\030\003 \002("
-    "\t\"A\n\rtshellmessage\022\n\n\002tx\030\001 \002(\001\022\n\n\002ty\030\002 \002"
-    "(\001\022\n\n\002tz\030\003 \002(\001\022\014\n\004guid\030\004 \002(\t\".\n\016oldholem"
-    "essage\022\016\n\006height\030\001 \002(\001\022\014\n\004guid\030\002 \002(\t\"\216\005\n"
-    "\016curtainwallmsg\022\033\n\003pts\030\001 \002(\0132\016.pointsmes"
-    "sage\022\036\n\004arcs\030\002 \002(\0132\020.polyarcsmessage\022\023\n\013"
-    "bottomindex\030\003 \002(\005\022\022\n\nupperindex\030\004 \002(\005\022\021\n"
-    "\tprimaries\030\005 \003(\001\022\023\n\013secondaries\030\006 \003(\001\022\022\n"
-    "\nmainpanels\030\007 \003(\010\022\025\n\rpanelmaterial\030\010 \002(\t"
-    "\022\030\n\020secpanelmaterial\030\t \002(\t\022\035\n\025verticalfr"
-    "amematerial\030\n \002(\t\022\037\n\027horizontalframemate"
-    "rial\030\013 \002(\t\022\025\n\rframematerial\030\014 \002(\t\022\023\n\013pan"
-    "elsangle\030\r \002(\001\022\016\n\006offset\030\016 \002(\001\022\r\n\005layer\030"
-    "\017 \001(\t\022\016\n\006height\030\020 \001(\001\022\021\n\ttoplinked\030\021 \001(\010"
-    "\022\032\n\022mainpanelthickness\030\022 \001(\001\022\037\n\027secondar"
-    "ypanelthickness\030\023 \001(\001\022\023\n\013bframewidth\030\024 \001"
-    "(\001\022\023\n\013bframedepth\030\025 \001(\001\022\024\n\014bframeoffset\030"
-    "\026 \001(\001\022\023\n\013mframewidth\030\027 \001(\001\022\023\n\013mframedept"
-    "h\030\030 \001(\001\022\024\n\014mframeoffset\030\031 \001(\001\022\023\n\013tframew"
-    "idth\030\032 \001(\001\022\023\n\013tframedepth\030\033 \001(\001\022\024\n\014tfram"
-    "eoffset\030\034 \001(\001\"@\n\014translatemsg\022\n\n\002tx\030\001 \002("
-    "\001\022\n\n\002ty\030\002 \002(\001\022\n\n\002tz\030\003 \002(\001\022\014\n\004guid\030\004 \002(\t\""
-    "\331\001\n\013slabmessage\022\r\n\005level\030\001 \002(\001\022\020\n\010materi"
-    "al\030\002 \002(\t\022\021\n\tthickness\030\003 \002(\001\022\014\n\004type\030\004 \002("
-    "\t\022\023\n\013bottomlevel\030\005 \002(\005\022\023\n\013subpolygons\030\006 "
-    "\003(\005\022\033\n\003pts\030\007 \002(\0132\016.pointsmessage\022\037\n\005parc"
-    "s\030\010 \002(\0132\020.polyarcsmessage\022\r\n\005layer\030\t \001(\t"
-    "\022\021\n\treference\030\n \001(\t\"l\n\013meshmessage\022\r\n\005le"
-    "vel\030\001 \002(\001\022\020\n\010material\030\002 \002(\t\022\023\n\013bottomlev"
-    "el\030\003 \002(\005\022\030\n\020overridematerial\030\004 \001(\t\022\r\n\005la"
-    "yer\030\005 \001(\t\"D\n\trotatemsg\022\014\n\004guid\030\001 \003(\t\022\014\n\004"
-    "axis\030\002 \002(\t\022\r\n\005angle\030\003 \002(\001\022\014\n\004copy\030\004 \002(\010\""
-    "(\n\007trimmsg\022\r\n\005guids\030\001 \003(\t\022\016\n\006guids2\030\002 \003("
-    "\t\",\n\014intersectmsg\022\r\n\005guid1\030\001 \002(\t\022\r\n\005guid"
-    "2\030\002 \002(\t\"\253\002\n\tcolumnmsg\022\014\n\004posx\030\001 \002(\001\022\014\n\004p"
-    "osy\030\002 \002(\001\022\016\n\006bottom\030\003 \002(\001\022\016\n\006height\030\004 \001("
-    "\001\022\023\n\013circlebased\030\005 \002(\010\022\r\n\005angle\030\006 \002(\001\022\r\n"
-    "\005depth\030\007 \002(\001\022\r\n\005width\030\010 \002(\001\022\023\n\013bottomind"
-    "ex\030\t \001(\005\022\022\n\nupperindex\030\n \001(\005\022\022\n\nslantang"
-    "le\030\013 \002(\001\022\026\n\016slantdirection\030\014 \002(\001\022\023\n\013prof"
-    "ilename\030\r \002(\t\022\024\n\014bottomoffset\030\016 \001(\001\022\r\n\005l"
-    "ayer\030\017 \001(\t\022\021\n\ttoplinked\030\020 \001(\010\"(\n\010storyms"
-    "g\022\016\n\006height\030\001 \002(\001\022\014\n\004name\030\002 \002(\t\"G\n\tstory"
-    "info\022\016\n\006exists\030\001 \002(\010\022\r\n\005index\030\002 \002(\005\022\r\n\005l"
-    "evel\030\003 \002(\001\022\014\n\004name\030\004 \002(\t\".\n\rupperlevelms"
-    "g\022\r\n\005index\030\001 \002(\005\022\016\n\006height\030\002 \002(\001\"\206\001\n\rwal"
-    "lsfromslab\022\014\n\004guid\030\001 \002(\t\022\016\n\006height\030\002 \002(\001"
-    "\022\020\n\010material\030\003 \002(\t\022\014\n\004type\030\004 \002(\t\022\025\n\rrefe"
-    "renceline\030\005 \002(\t\022\021\n\tthickness\030\006 \002(\001\022\r\n\005la"
-    "yer\030\007 \001(\t\"\203\001\n\017columnsfromslab\022\014\n\004guid\030\001 "
-    "\002(\t\022\016\n\006height\030\002 \002(\001\022\020\n\010material\030\003 \002(\t\022\r\n"
-    "\005depth\030\004 \002(\001\022\r\n\005width\030\005 \002(\001\022\023\n\013circlebas"
-    "ed\030\006 \002(\010\022\r\n\005layer\030\007 \001(\t\"\210\002\n\tstairsmsg\022\014\n"
-    "\004name\030\001 \002(\t\022\014\n\004posx\030\002 \002(\001\022\014\n\004posy\030\003 \002(\001\022"
-    "\016\n\006xratio\030\004 \002(\001\022\016\n\006yratio\030\005 \002(\001\022\016\n\006botto"
-    "m\030\006 \002(\001\022\r\n\005angle\030\007 \002(\001\022\023\n\013bottomindex\030\010 "
-    "\002(\005\022\024\n\014usexyfixsize\030\t \002(\010\022!\n\006params\030\n \002("
-    "\0132\021.additionalparams\022\r\n\005layer\030\013 \001(\t\022\016\n\006h"
-    "eight\030\014 \001(\001\022\022\n\nupperindex\030\r \001(\005\022\021\n\ttopli"
-    "nked\030\016 \001(\010\"p\n\007roofmsg\022\016\n\006height\030\001 \002(\001\022\020\n"
-    "\010material\030\002 \002(\t\022\021\n\tthickness\030\003 \002(\001\022\014\n\004ty"
-    "pe\030\004 \002(\t\022\023\n\013bottomlevel\030\005 \002(\005\022\r\n\005layer\030\006"
-    " \001(\t\"b\n\007holemsg\022\014\n\004guid\030\001 \002(\t\022\033\n\003pts\030\002 \001"
-    "(\0132\016.pointsmessage\022\036\n\004arcs\030\003 \001(\0132\020.polya"
-    "rcsmessage\022\014\n\004type\030\004 \001(\005\"5\n\tmirrormsg\022\014\n"
-    "\004guid\030\001 \002(\t\022\014\n\004axis\030\002 \002(\t\022\014\n\004copy\030\003 \002(\010\""
-    "\327\001\n\010morphmsg\022\014\n\004refx\030\001 \002(\001\022\014\n\004refy\030\002 \002(\001"
-    "\022\014\n\004refz\030\003 \002(\001\022\033\n\003pts\030\004 \001(\0132\016.pointsmess"
-    "age\022\035\n\005edges\030\005 \001(\0132\016.pointsmessage\022 \n\010po"
-    "lygons\030\006 \001(\0132\016.pointsmessage\022\"\n\rsizespol"
-    "ygons\030\007 \001(\0132\013.intlistmsg\022\020\n\010material\030\010 \002"
-    "(\t\022\r\n\005level\030\t \002(\005\"e\n\006boxmsg\022\n\n\002x1\030\001 \002(\001\022"
-    "\n\n\002y1\030\002 \002(\001\022\n\n\002z1\030\003 \002(\001\022\n\n\002x2\030\004 \002(\001\022\n\n\002y"
-    "2\030\005 \002(\001\022\n\n\002z2\030\006 \002(\001\022\023\n\013bottomlevel\030\007 \002(\005"
-    "\"M\n\010wallinfo\022\021\n\tthickness\030\001 \003(\001\022\016\n\006lengt"
-    "h\030\002 \003(\001\022\016\n\006height\030\003 \003(\001\022\016\n\006volume\030\004 \003(\001\""
-    "\244\002\n\014wallrepeated\022\013\n\003p0x\030\001 \003(\001\022\013\n\003p0y\030\002 \003"
-    "(\001\022\013\n\003p1x\030\003 \003(\001\022\013\n\003p1y\030\004 \003(\001\022\037\n\013bottomle"
-    "vel\030\005 \003(\0132\n.storyinfo\022\021\n\tthickness\030\006 \003(\001"
-    "\022\r\n\005angle\030\007 \003(\001\022\034\n\010toplevel\030\010 \003(\0132\n.stor"
-    "yinfo\022\020\n\010material\030\t \003(\t\022\014\n\004type\030\n \003(\t\022\025\n"
-    "\rreferenceline\030\013 \003(\t\022\022\n\nalphaangle\030\014 \003(\001"
-    "\022\021\n\tbetaangle\030\r \003(\001\022\023\n\013typeprofile\030\016 \003(\t"
-    "\022\014\n\004guid\030\017 \003(\t\"\262\001\n\014slabrepeated\022\036\n\006point"
-    "s\030\001 \003(\0132\016.pointsmessage\022\037\n\013bottomlevel\030\002"
-    " \003(\0132\n.storyinfo\022\021\n\tthickness\030\003 \003(\001\022\020\n\010m"
-    "aterial\030\004 \003(\t\022\014\n\004type\030\005 \003(\t\022\014\n\004guid\030\006 \003("
-    "\t\022 \n\013subpolygons\030\007 \003(\0132\013.intlistmsg\"\340\001\n\016"
-    "columnrepeated\022\n\n\002px\030\001 \003(\001\022\n\n\002py\030\002 \003(\001\022\037"
-    "\n\013bottomlevel\030\003 \003(\0132\n.storyinfo\022\034\n\010tople"
-    "vel\030\004 \003(\0132\n.storyinfo\022\020\n\010circular\030\005 \003(\010\022"
-    "\r\n\005angle\030\006 \003(\001\022\r\n\005depth\030\007 \003(\001\022\r\n\005width\030\010"
-    " \003(\001\022\022\n\nslantangle\030\t \003(\001\022\026\n\016slantdirecti"
-    "on\030\n \003(\001\022\014\n\004guid\030\013 \003(\t\"\320\001\n\016objectrepeate"
-    "d\022\014\n\004name\030\001 \003(\t\022\n\n\002px\030\002 \003(\001\022\n\n\002py\030\003 \003(\001\022"
-    "\r\n\005angle\030\004 \003(\001\022\016\n\006xratio\030\005 \003(\001\022\016\n\006yratio"
-    "\030\006 \003(\001\022\024\n\014bottomoffset\030\007 \003(\001\022\037\n\013bottomle"
-    "vel\030\010 \003(\0132\n.storyinfo\022\014\n\004guid\030\t \003(\t\022\016\n\006s"
-    "tairs\030\n \003(\010\022\024\n\014usexyfixsize\030\013 \003(\010\"\302\001\n\014ro"
-    "ofrepeated\022\036\n\006points\030\001 \003(\0132\016.pointsmessa"
-    "ge\022\037\n\013bottomlevel\030\002 \003(\0132\n.storyinfo\022\021\n\tt"
-    "hickness\030\003 \003(\001\022\020\n\010material\030\004 \003(\t\022\014\n\004type"
-    "\030\005 \003(\t\022\014\n\004guid\030\006 \003(\t\022 \n\013subpolygons\030\007 \003("
-    "\0132\013.intlistmsg\022\016\n\006height\030\010 \003(\001\"+\n\rlevelr"
-    "epeated\022\032\n\006levels\030\001 \003(\0132\n.storyinfo\"B\n\014e"
-    "xtrusionmsg\022\n\n\002vx\030\001 \002(\001\022\n\n\002vy\030\002 \002(\001\022\n\n\002v"
-    "z\030\003 \002(\001\022\016\n\006height\030\004 \002(\001\".\n\013openmessage\022\014"
-    "\n\004path\030\001 \002(\t\022\021\n\textension\030\002 \002(\t\"g\n\014trans"
-    "formmsg\022\014\n\004guid\030\001 \002(\t\022\n\n\002op\030\002 \002(\t\022\t\n\001x\030\003"
-    " \002(\001\022\t\n\001y\030\004 \002(\001\022\t\n\001z\030\005 \002(\001\022\r\n\005angle\030\006 \002("
-    "\001\022\r\n\005scale\030\007 \002(\001\"+\n\013applymatrix\022\014\n\004guid\030"
-    "\001 \002(\t\022\016\n\006matrix\030\002 \003(\001\"\317\001\n\007beammsg\022\n\n\002x0\030"
-    "\001 \002(\001\022\n\n\002y0\030\002 \002(\001\022\n\n\002x1\030\003 \002(\001\022\n\n\002y1\030\004 \002("
-    "\001\022\022\n\nbeamheight\030\005 \002(\001\022\021\n\tbeamwidth\030\006 \002(\001"
-    "\022\023\n\013levelheight\030\007 \002(\001\022\023\n\013bottomlevel\030\010 \002"
-    "(\005\022\r\n\005angle\030\t \002(\001\022\020\n\010material\030\n \002(\t\022\023\n\013p"
-    "rofilename\030\013 \002(\t\022\r\n\005layer\030\014 \001(\t\"\027\n\010intar"
+    "r\030\014 \001(\t\022\020\n\010fixpoint\030\r \001(\005\"\315\001\n\rwindowmess"
+    "age\022\014\n\004guid\030\001 \001(\t\022\016\n\006objloc\030\002 \002(\001\022\014\n\004zpo"
+    "s\030\003 \002(\001\022\014\n\004name\030\004 \002(\t\022!\n\006params\030\005 \001(\0132\021."
+    "additionalparams\022\r\n\005width\030\006 \002(\001\022\016\n\006heigh"
+    "t\030\007 \002(\001\022\023\n\013depthoffset\030\010 \002(\001\022\r\n\005flipx\030\t "
+    "\002(\010\022\r\n\005flipy\030\n \002(\010\022\r\n\005layer\030\013 \001(\t\"9\n\rcir"
+    "clemessage\022\013\n\003p0x\030\001 \002(\001\022\013\n\003p0y\030\002 \002(\001\022\016\n\006"
+    "radius\030\003 \002(\001\"e\n\narcmessage\022\013\n\003p0x\030\001 \002(\001\022"
+    "\013\n\003p0y\030\002 \002(\001\022\016\n\006radius\030\003 \002(\001\022\r\n\005angle\030\004 "
+    "\002(\001\022\016\n\006begang\030\005 \002(\001\022\016\n\006endang\030\006 \002(\001\"U\n\rs"
+    "pheremessage\022\013\n\003c0x\030\001 \002(\001\022\013\n\003c0y\030\002 \002(\001\022\013"
+    "\n\003c0z\030\003 \002(\001\022\016\n\006radius\030\004 \002(\001\022\r\n\005level\030\005 \002"
+    "(\005\"z\n\013cylindermsg\022\013\n\003p0x\030\001 \002(\001\022\013\n\003p0y\030\002 "
+    "\002(\001\022\013\n\003p0z\030\003 \002(\001\022\013\n\003p1x\030\004 \002(\001\022\013\n\003p1y\030\005 \002"
+    "(\001\022\013\n\003p1z\030\006 \002(\001\022\016\n\006radius\030\007 \002(\001\022\r\n\005level"
+    "\030\010 \002(\005\"\251\001\n\023shellcomplexmessage\022\021\n\tnumpoi"
+    "nts\030\001 \002(\005\022\017\n\007numarcs\030\002 \002(\005\022\020\n\010numholes\030\003"
+    " \002(\005\022\022\n\nnumhpoints\030\004 \002(\005\022\020\n\010numharcs\030\005 \002"
+    "(\005\022\022\n\nholeheight\030\006 \002(\001\022\020\n\010reflectx\030\007 \002(\001"
+    "\022\020\n\010reflecty\030\010 \002(\001\"\'\n\022shellsimplemessage"
+    "\022\021\n\tnumpoints\030\001 \002(\005\"2\n\014shellmessage\022\021\n\tn"
+    "umpoints\030\001 \002(\005\022\017\n\007numarcs\030\002 \002(\005\"3\n\rpoint"
+    "smessage\022\n\n\002px\030\001 \003(\001\022\n\n\002py\030\002 \003(\001\022\n\n\002pz\030\003"
+    " \003(\001\"G\n\017polyarcsmessage\022\020\n\010begindex\030\001 \003("
+    "\005\022\020\n\010endindex\030\002 \003(\005\022\020\n\010arcangle\030\003 \003(\001\"<\n"
+    "\017rotshellmessage\022\014\n\004axis\030\001 \002(\t\022\r\n\005angle\030"
+    "\002 \002(\001\022\014\n\004guid\030\003 \002(\t\"A\n\rtshellmessage\022\n\n\002"
+    "tx\030\001 \002(\001\022\n\n\002ty\030\002 \002(\001\022\n\n\002tz\030\003 \002(\001\022\014\n\004guid"
+    "\030\004 \002(\t\".\n\016oldholemessage\022\016\n\006height\030\001 \002(\001"
+    "\022\014\n\004guid\030\002 \002(\t\"\216\005\n\016curtainwallmsg\022\033\n\003pts"
+    "\030\001 \002(\0132\016.pointsmessage\022\036\n\004arcs\030\002 \002(\0132\020.p"
+    "olyarcsmessage\022\023\n\013bottomindex\030\003 \002(\005\022\022\n\nu"
+    "pperindex\030\004 \002(\005\022\021\n\tprimaries\030\005 \003(\001\022\023\n\013se"
+    "condaries\030\006 \003(\001\022\022\n\nmainpanels\030\007 \003(\010\022\025\n\rp"
+    "anelmaterial\030\010 \002(\t\022\030\n\020secpanelmaterial\030\t"
+    " \002(\t\022\035\n\025verticalframematerial\030\n \002(\t\022\037\n\027h"
+    "orizontalframematerial\030\013 \002(\t\022\025\n\rframemat"
+    "erial\030\014 \002(\t\022\023\n\013panelsangle\030\r \002(\001\022\016\n\006offs"
+    "et\030\016 \002(\001\022\r\n\005layer\030\017 \001(\t\022\016\n\006height\030\020 \001(\001\022"
+    "\021\n\ttoplinked\030\021 \001(\010\022\032\n\022mainpanelthickness"
+    "\030\022 \001(\001\022\037\n\027secondarypanelthickness\030\023 \001(\001\022"
+    "\023\n\013bframewidth\030\024 \001(\001\022\023\n\013bframedepth\030\025 \001("
+    "\001\022\024\n\014bframeoffset\030\026 \001(\001\022\023\n\013mframewidth\030\027"
+    " \001(\001\022\023\n\013mframedepth\030\030 \001(\001\022\024\n\014mframeoffse"
+    "t\030\031 \001(\001\022\023\n\013tframewidth\030\032 \001(\001\022\023\n\013tframede"
+    "pth\030\033 \001(\001\022\024\n\014tframeoffset\030\034 \001(\001\"@\n\014trans"
+    "latemsg\022\n\n\002tx\030\001 \002(\001\022\n\n\002ty\030\002 \002(\001\022\n\n\002tz\030\003 "
+    "\002(\001\022\014\n\004guid\030\004 \002(\t\"\331\001\n\013slabmessage\022\r\n\005lev"
+    "el\030\001 \002(\001\022\020\n\010material\030\002 \002(\t\022\021\n\tthickness\030"
+    "\003 \002(\001\022\014\n\004type\030\004 \002(\t\022\023\n\013bottomlevel\030\005 \002(\005"
+    "\022\023\n\013subpolygons\030\006 \003(\005\022\033\n\003pts\030\007 \002(\0132\016.poi"
+    "ntsmessage\022\037\n\005parcs\030\010 \002(\0132\020.polyarcsmess"
+    "age\022\r\n\005layer\030\t \001(\t\022\021\n\treference\030\n \001(\t\"l\n"
+    "\013meshmessage\022\r\n\005level\030\001 \002(\001\022\020\n\010material\030"
+    "\002 \002(\t\022\023\n\013bottomlevel\030\003 \002(\005\022\030\n\020overridema"
+    "terial\030\004 \001(\t\022\r\n\005layer\030\005 \001(\t\"D\n\trotatemsg"
+    "\022\014\n\004guid\030\001 \003(\t\022\014\n\004axis\030\002 \002(\t\022\r\n\005angle\030\003 "
+    "\002(\001\022\014\n\004copy\030\004 \002(\010\"(\n\007trimmsg\022\r\n\005guids\030\001 "
+    "\003(\t\022\016\n\006guids2\030\002 \003(\t\",\n\014intersectmsg\022\r\n\005g"
+    "uid1\030\001 \002(\t\022\r\n\005guid2\030\002 \002(\t\"\253\002\n\tcolumnmsg\022"
+    "\014\n\004posx\030\001 \002(\001\022\014\n\004posy\030\002 \002(\001\022\016\n\006bottom\030\003 "
+    "\002(\001\022\016\n\006height\030\004 \001(\001\022\023\n\013circlebased\030\005 \002(\010"
+    "\022\r\n\005angle\030\006 \002(\001\022\r\n\005depth\030\007 \002(\001\022\r\n\005width\030"
+    "\010 \002(\001\022\023\n\013bottomindex\030\t \001(\005\022\022\n\nupperindex"
+    "\030\n \001(\005\022\022\n\nslantangle\030\013 \002(\001\022\026\n\016slantdirec"
+    "tion\030\014 \002(\001\022\023\n\013profilename\030\r \002(\t\022\024\n\014botto"
+    "moffset\030\016 \001(\001\022\r\n\005layer\030\017 \001(\t\022\021\n\ttoplinke"
+    "d\030\020 \001(\010\"(\n\010storymsg\022\016\n\006height\030\001 \002(\001\022\014\n\004n"
+    "ame\030\002 \002(\t\"G\n\tstoryinfo\022\016\n\006exists\030\001 \002(\010\022\r"
+    "\n\005index\030\002 \002(\005\022\r\n\005level\030\003 \002(\001\022\014\n\004name\030\004 \002"
+    "(\t\".\n\rupperlevelmsg\022\r\n\005index\030\001 \002(\005\022\016\n\006he"
+    "ight\030\002 \002(\001\"\206\001\n\rwallsfromslab\022\014\n\004guid\030\001 \002"
+    "(\t\022\016\n\006height\030\002 \002(\001\022\020\n\010material\030\003 \002(\t\022\014\n\004"
+    "type\030\004 \002(\t\022\025\n\rreferenceline\030\005 \002(\t\022\021\n\tthi"
+    "ckness\030\006 \002(\001\022\r\n\005layer\030\007 \001(\t\"\203\001\n\017columnsf"
+    "romslab\022\014\n\004guid\030\001 \002(\t\022\016\n\006height\030\002 \002(\001\022\020\n"
+    "\010material\030\003 \002(\t\022\r\n\005depth\030\004 \002(\001\022\r\n\005width\030"
+    "\005 \002(\001\022\023\n\013circlebased\030\006 \002(\010\022\r\n\005layer\030\007 \001("
+    "\t\"\210\002\n\tstairsmsg\022\014\n\004name\030\001 \002(\t\022\014\n\004posx\030\002 "
+    "\002(\001\022\014\n\004posy\030\003 \002(\001\022\016\n\006xratio\030\004 \002(\001\022\016\n\006yra"
+    "tio\030\005 \002(\001\022\016\n\006bottom\030\006 \002(\001\022\r\n\005angle\030\007 \002(\001"
+    "\022\023\n\013bottomindex\030\010 \002(\005\022\024\n\014usexyfixsize\030\t "
+    "\002(\010\022!\n\006params\030\n \002(\0132\021.additionalparams\022\r"
+    "\n\005layer\030\013 \001(\t\022\016\n\006height\030\014 \001(\001\022\022\n\nupperin"
+    "dex\030\r \001(\005\022\021\n\ttoplinked\030\016 \001(\010\"p\n\007roofmsg\022"
+    "\016\n\006height\030\001 \002(\001\022\020\n\010material\030\002 \002(\t\022\021\n\tthi"
+    "ckness\030\003 \002(\001\022\014\n\004type\030\004 \002(\t\022\023\n\013bottomleve"
+    "l\030\005 \002(\005\022\r\n\005layer\030\006 \001(\t\"b\n\007holemsg\022\014\n\004gui"
+    "d\030\001 \002(\t\022\033\n\003pts\030\002 \001(\0132\016.pointsmessage\022\036\n\004"
+    "arcs\030\003 \001(\0132\020.polyarcsmessage\022\014\n\004type\030\004 \001"
+    "(\005\"5\n\tmirrormsg\022\014\n\004guid\030\001 \002(\t\022\014\n\004axis\030\002 "
+    "\002(\t\022\014\n\004copy\030\003 \002(\010\"\327\001\n\010morphmsg\022\014\n\004refx\030\001"
+    " \002(\001\022\014\n\004refy\030\002 \002(\001\022\014\n\004refz\030\003 \002(\001\022\033\n\003pts\030"
+    "\004 \001(\0132\016.pointsmessage\022\035\n\005edges\030\005 \001(\0132\016.p"
+    "ointsmessage\022 \n\010polygons\030\006 \001(\0132\016.pointsm"
+    "essage\022\"\n\rsizespolygons\030\007 \001(\0132\013.intlistm"
+    "sg\022\020\n\010material\030\010 \002(\t\022\r\n\005level\030\t \002(\005\"e\n\006b"
+    "oxmsg\022\n\n\002x1\030\001 \002(\001\022\n\n\002y1\030\002 \002(\001\022\n\n\002z1\030\003 \002("
+    "\001\022\n\n\002x2\030\004 \002(\001\022\n\n\002y2\030\005 \002(\001\022\n\n\002z2\030\006 \002(\001\022\023\n"
+    "\013bottomlevel\030\007 \002(\005\"M\n\010wallinfo\022\021\n\tthickn"
+    "ess\030\001 \003(\001\022\016\n\006length\030\002 \003(\001\022\016\n\006height\030\003 \003("
+    "\001\022\016\n\006volume\030\004 \003(\001\"\244\002\n\014wallrepeated\022\013\n\003p0"
+    "x\030\001 \003(\001\022\013\n\003p0y\030\002 \003(\001\022\013\n\003p1x\030\003 \003(\001\022\013\n\003p1y"
+    "\030\004 \003(\001\022\037\n\013bottomlevel\030\005 \003(\0132\n.storyinfo\022"
+    "\021\n\tthickness\030\006 \003(\001\022\r\n\005angle\030\007 \003(\001\022\034\n\010top"
+    "level\030\010 \003(\0132\n.storyinfo\022\020\n\010material\030\t \003("
+    "\t\022\014\n\004type\030\n \003(\t\022\025\n\rreferenceline\030\013 \003(\t\022\022"
+    "\n\nalphaangle\030\014 \003(\001\022\021\n\tbetaangle\030\r \003(\001\022\023\n"
+    "\013typeprofile\030\016 \003(\t\022\014\n\004guid\030\017 \003(\t\"\262\001\n\014sla"
+    "brepeated\022\036\n\006points\030\001 \003(\0132\016.pointsmessag"
+    "e\022\037\n\013bottomlevel\030\002 \003(\0132\n.storyinfo\022\021\n\tth"
+    "ickness\030\003 \003(\001\022\020\n\010material\030\004 \003(\t\022\014\n\004type\030"
+    "\005 \003(\t\022\014\n\004guid\030\006 \003(\t\022 \n\013subpolygons\030\007 \003(\013"
+    "2\013.intlistmsg\"\340\001\n\016columnrepeated\022\n\n\002px\030\001"
+    " \003(\001\022\n\n\002py\030\002 \003(\001\022\037\n\013bottomlevel\030\003 \003(\0132\n."
+    "storyinfo\022\034\n\010toplevel\030\004 \003(\0132\n.storyinfo\022"
+    "\020\n\010circular\030\005 \003(\010\022\r\n\005angle\030\006 \003(\001\022\r\n\005dept"
+    "h\030\007 \003(\001\022\r\n\005width\030\010 \003(\001\022\022\n\nslantangle\030\t \003"
+    "(\001\022\026\n\016slantdirection\030\n \003(\001\022\014\n\004guid\030\013 \003(\t"
+    "\"\320\001\n\016objectrepeated\022\014\n\004name\030\001 \003(\t\022\n\n\002px\030"
+    "\002 \003(\001\022\n\n\002py\030\003 \003(\001\022\r\n\005angle\030\004 \003(\001\022\016\n\006xrat"
+    "io\030\005 \003(\001\022\016\n\006yratio\030\006 \003(\001\022\024\n\014bottomoffset"
+    "\030\007 \003(\001\022\037\n\013bottomlevel\030\010 \003(\0132\n.storyinfo\022"
+    "\014\n\004guid\030\t \003(\t\022\016\n\006stairs\030\n \003(\010\022\024\n\014usexyfi"
+    "xsize\030\013 \003(\010\"\302\001\n\014roofrepeated\022\036\n\006points\030\001"
+    " \003(\0132\016.pointsmessage\022\037\n\013bottomlevel\030\002 \003("
+    "\0132\n.storyinfo\022\021\n\tthickness\030\003 \003(\001\022\020\n\010mate"
+    "rial\030\004 \003(\t\022\014\n\004type\030\005 \003(\t\022\014\n\004guid\030\006 \003(\t\022 "
+    "\n\013subpolygons\030\007 \003(\0132\013.intlistmsg\022\016\n\006heig"
+    "ht\030\010 \003(\001\"+\n\rlevelrepeated\022\032\n\006levels\030\001 \003("
+    "\0132\n.storyinfo\"B\n\014extrusionmsg\022\n\n\002vx\030\001 \002("
+    "\001\022\n\n\002vy\030\002 \002(\001\022\n\n\002vz\030\003 \002(\001\022\016\n\006height\030\004 \002("
+    "\001\".\n\013openmessage\022\014\n\004path\030\001 \002(\t\022\021\n\textens"
+    "ion\030\002 \002(\t\"g\n\014transformmsg\022\014\n\004guid\030\001 \002(\t\022"
+    "\n\n\002op\030\002 \002(\t\022\t\n\001x\030\003 \002(\001\022\t\n\001y\030\004 \002(\001\022\t\n\001z\030\005"
+    " \002(\001\022\r\n\005angle\030\006 \002(\001\022\r\n\005scale\030\007 \002(\001\"+\n\013ap"
+    "plymatrix\022\014\n\004guid\030\001 \002(\t\022\016\n\006matrix\030\002 \003(\001\""
+    "\345\001\n\007beammsg\022\n\n\002x0\030\001 \002(\001\022\n\n\002y0\030\002 \002(\001\022\n\n\002x"
+    "1\030\003 \002(\001\022\n\n\002y1\030\004 \002(\001\022\022\n\nbeamheight\030\005 \002(\001\022"
+    "\021\n\tbeamwidth\030\006 \002(\001\022\023\n\013levelheight\030\007 \002(\001\022"
+    "\023\n\013bottomlevel\030\010 \002(\005\022\r\n\005angle\030\t \002(\001\022\020\n\010m"
+    "aterial\030\n \002(\t\022\023\n\013profilename\030\013 \002(\t\022\r\n\005la"
+    "yer\030\014 \001(\t\022\024\n\014profileangle\030\r \001(\001\"\027\n\010intar"
     "ray\022\013\n\003lst\030\001 \003(\005\"\032\n\013doublearray\022\013\n\003lst\030\001"
     " \003(\001\"\030\n\tboolarray\022\013\n\003lst\030\001 \003(\010\"\032\n\013string"
     "array\022\013\n\003lst\030\001 \003(\t\"\363\001\n\tobjectmsg\022\r\n\005inde"
@@ -2360,7 +2363,7 @@ void protobuf_AddDesc_messages_2eproto() {
     "\022\n\n\002cx\030\001 \002(\001\022\n\n\002cy\030\002 \002(\001\022\n\n\002cz\030\003 \002(\001\022\n\n\002"
     "tx\030\004 \002(\001\022\n\n\002ty\030\005 \002(\001\022\n\n\002tz\030\006 \002(\001\022\014\n\004lens"
     "\030\007 \002(\001\022\022\n\nsunazimuth\030\010 \002(\001\022\023\n\013sunaltitud"
-    "e\030\t \002(\001", 9407);
+    "e\030\t \002(\001", 9447);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "messages.proto", &protobuf_RegisterTypes);
   namemessage::default_instance_ = new namemessage();
@@ -8421,6 +8424,7 @@ const int doormessage::kFlipyFieldNumber;
 const int doormessage::kParamsFieldNumber;
 const int doormessage::kDepthoffsetFieldNumber;
 const int doormessage::kLayerFieldNumber;
+const int doormessage::kFixpointFieldNumber;
 #endif  // !_MSC_VER
 
 doormessage::doormessage()
@@ -8455,6 +8459,7 @@ void doormessage::SharedCtor() {
   params_ = NULL;
   depthoffset_ = 0;
   layer_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  fixpoint_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -8524,8 +8529,8 @@ void doormessage::Clear() {
       }
     }
   }
-  if (_has_bits_[8 / 32] & 3840) {
-    flipy_ = false;
+  if (_has_bits_[8 / 32] & 7936) {
+    ZR_(flipy_, fixpoint_);
     if (has_params()) {
       if (params_ != NULL) params_->::additionalparams::Clear();
     }
@@ -8733,6 +8738,21 @@ bool doormessage::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(104)) goto parse_fixpoint;
+        break;
+      }
+
+      // optional int32 fixpoint = 13;
+      case 13: {
+        if (tag == 104) {
+         parse_fixpoint:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &fixpoint_)));
+          set_has_fixpoint();
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -8838,6 +8858,11 @@ void doormessage::SerializeWithCachedSizes(
       12, this->layer(), output);
   }
 
+  // optional int32 fixpoint = 13;
+  if (has_fixpoint()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(13, this->fixpoint(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -8928,6 +8953,11 @@ void doormessage::SerializeWithCachedSizes(
         12, this->layer(), target);
   }
 
+  // optional int32 fixpoint = 13;
+  if (has_fixpoint()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(13, this->fixpoint(), target);
+  }
+
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -9010,6 +9040,13 @@ int doormessage::ByteSize() const {
           this->layer());
     }
 
+    // optional int32 fixpoint = 13;
+    if (has_fixpoint()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->fixpoint());
+    }
+
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -9075,6 +9112,9 @@ void doormessage::MergeFrom(const doormessage& from) {
     if (from.has_layer()) {
       set_layer(from.layer());
     }
+    if (from.has_fixpoint()) {
+      set_fixpoint(from.fixpoint());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -9111,6 +9151,7 @@ void doormessage::Swap(doormessage* other) {
     std::swap(params_, other->params_);
     std::swap(depthoffset_, other->depthoffset_);
     std::swap(layer_, other->layer_);
+    std::swap(fixpoint_, other->fixpoint_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -28923,6 +28964,7 @@ const int beammsg::kAngleFieldNumber;
 const int beammsg::kMaterialFieldNumber;
 const int beammsg::kProfilenameFieldNumber;
 const int beammsg::kLayerFieldNumber;
+const int beammsg::kProfileangleFieldNumber;
 #endif  // !_MSC_VER
 
 beammsg::beammsg()
@@ -28956,6 +28998,7 @@ void beammsg::SharedCtor() {
   material_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   profilename_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   layer_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  profileangle_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -29014,7 +29057,7 @@ void beammsg::Clear() {
     ZR_(x0_, levelheight_);
     bottomlevel_ = 0;
   }
-  if (_has_bits_[8 / 32] & 3840) {
+  if (_has_bits_[8 / 32] & 7936) {
     angle_ = 0;
     if (has_material()) {
       if (material_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
@@ -29031,6 +29074,7 @@ void beammsg::Clear() {
         layer_->clear();
       }
     }
+    profileangle_ = 0;
   }
 
 #undef OFFSET_OF_FIELD_
@@ -29231,6 +29275,21 @@ bool beammsg::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(105)) goto parse_profileangle;
+        break;
+      }
+
+      // optional double profileangle = 13;
+      case 13: {
+        if (tag == 105) {
+         parse_profileangle:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &profileangle_)));
+          set_has_profileangle();
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -29335,6 +29394,11 @@ void beammsg::SerializeWithCachedSizes(
       12, this->layer(), output);
   }
 
+  // optional double profileangle = 13;
+  if (has_profileangle()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(13, this->profileangle(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -29423,6 +29487,11 @@ void beammsg::SerializeWithCachedSizes(
         12, this->layer(), target);
   }
 
+  // optional double profileangle = 13;
+  if (has_profileangle()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(13, this->profileangle(), target);
+  }
+
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -29505,6 +29574,11 @@ int beammsg::ByteSize() const {
           this->layer());
     }
 
+    // optional double profileangle = 13;
+    if (has_profileangle()) {
+      total_size += 1 + 8;
+    }
+
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -29570,6 +29644,9 @@ void beammsg::MergeFrom(const beammsg& from) {
     if (from.has_layer()) {
       set_layer(from.layer());
     }
+    if (from.has_profileangle()) {
+      set_profileangle(from.profileangle());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -29606,6 +29683,7 @@ void beammsg::Swap(beammsg* other) {
     std::swap(material_, other->material_);
     std::swap(profilename_, other->profilename_);
     std::swap(layer_, other->layer_);
+    std::swap(profileangle_, other->profileangle_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

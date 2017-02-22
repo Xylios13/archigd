@@ -2135,6 +2135,13 @@ class doormessage : public ::google::protobuf::Message {
   inline ::std::string* release_layer();
   inline void set_allocated_layer(::std::string* layer);
 
+  // optional int32 fixpoint = 13;
+  inline bool has_fixpoint() const;
+  inline void clear_fixpoint();
+  static const int kFixpointFieldNumber = 13;
+  inline ::google::protobuf::int32 fixpoint() const;
+  inline void set_fixpoint(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:doormessage)
  private:
   inline void set_has_guid();
@@ -2161,6 +2168,8 @@ class doormessage : public ::google::protobuf::Message {
   inline void clear_has_depthoffset();
   inline void set_has_layer();
   inline void clear_has_layer();
+  inline void set_has_fixpoint();
+  inline void clear_has_fixpoint();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -2172,12 +2181,13 @@ class doormessage : public ::google::protobuf::Message {
   double height_;
   double width_;
   ::std::string* name_;
-  ::additionalparams* params_;
-  double depthoffset_;
-  ::std::string* layer_;
   bool hole_;
   bool flipx_;
   bool flipy_;
+  ::google::protobuf::int32 fixpoint_;
+  ::additionalparams* params_;
+  double depthoffset_;
+  ::std::string* layer_;
   friend void  protobuf_AddDesc_messages_2eproto();
   friend void protobuf_AssignDesc_messages_2eproto();
   friend void protobuf_ShutdownFile_messages_2eproto();
@@ -8531,6 +8541,13 @@ class beammsg : public ::google::protobuf::Message {
   inline ::std::string* release_layer();
   inline void set_allocated_layer(::std::string* layer);
 
+  // optional double profileangle = 13;
+  inline bool has_profileangle() const;
+  inline void clear_profileangle();
+  static const int kProfileangleFieldNumber = 13;
+  inline double profileangle() const;
+  inline void set_profileangle(double value);
+
   // @@protoc_insertion_point(class_scope:beammsg)
  private:
   inline void set_has_x0();
@@ -8557,6 +8574,8 @@ class beammsg : public ::google::protobuf::Message {
   inline void clear_has_profilename();
   inline void set_has_layer();
   inline void clear_has_layer();
+  inline void set_has_profileangle();
+  inline void clear_has_profileangle();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -8573,6 +8592,7 @@ class beammsg : public ::google::protobuf::Message {
   ::std::string* material_;
   ::std::string* profilename_;
   ::std::string* layer_;
+  double profileangle_;
   ::google::protobuf::int32 bottomlevel_;
   friend void  protobuf_AddDesc_messages_2eproto();
   friend void protobuf_AssignDesc_messages_2eproto();
@@ -14231,6 +14251,30 @@ inline void doormessage::set_allocated_layer(::std::string* layer) {
     layer_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:doormessage.layer)
+}
+
+// optional int32 fixpoint = 13;
+inline bool doormessage::has_fixpoint() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void doormessage::set_has_fixpoint() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void doormessage::clear_has_fixpoint() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void doormessage::clear_fixpoint() {
+  fixpoint_ = 0;
+  clear_has_fixpoint();
+}
+inline ::google::protobuf::int32 doormessage::fixpoint() const {
+  // @@protoc_insertion_point(field_get:doormessage.fixpoint)
+  return fixpoint_;
+}
+inline void doormessage::set_fixpoint(::google::protobuf::int32 value) {
+  set_has_fixpoint();
+  fixpoint_ = value;
+  // @@protoc_insertion_point(field_set:doormessage.fixpoint)
 }
 
 // -------------------------------------------------------------------
@@ -24897,6 +24941,30 @@ inline void beammsg::set_allocated_layer(::std::string* layer) {
     layer_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
   // @@protoc_insertion_point(field_set_allocated:beammsg.layer)
+}
+
+// optional double profileangle = 13;
+inline bool beammsg::has_profileangle() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void beammsg::set_has_profileangle() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void beammsg::clear_has_profileangle() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void beammsg::clear_profileangle() {
+  profileangle_ = 0;
+  clear_has_profileangle();
+}
+inline double beammsg::profileangle() const {
+  // @@protoc_insertion_point(field_get:beammsg.profileangle)
+  return profileangle_;
+}
+inline void beammsg::set_profileangle(double value) {
+  set_has_profileangle();
+  profileangle_ = value;
+  // @@protoc_insertion_point(field_set:beammsg.profileangle)
 }
 
 // -------------------------------------------------------------------

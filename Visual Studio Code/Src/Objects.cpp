@@ -680,6 +680,13 @@ void createDoor(){
 
 	doorElement.door.lower = doorMsg.zpos();
 
+	if (doorMsg.fixpoint() == -1 || doorMsg.fixpoint() == 0 || doorMsg.fixpoint() == 1){
+		doorElement.door.fixPoint = doorMsg.fixpoint();
+	}
+	else{
+		msgArchiCAD("No door fixpoint matches the given value. Give -1 for Beg, 0 for Center, 1 for End");
+	}
+
 	//libPart.index = libID;
 
 	//if (ACAPI_LibPart_Search(&libPart, false) == NoError){
@@ -1633,6 +1640,8 @@ void createBeam(){
 
 	element.beam.slantAngle = beamMsg.angle();
 
+	element.beam.profileAngle = beamMsg.profileangle();
+
 	material = searchBuildingMaterials(beamMsg.material());
 	element.beam.buildingMaterial = material;
 	element.beam.modelElemStructureType = API_BasicStructure;
@@ -1883,6 +1892,7 @@ void createNewSlab(){
 	}
 	else{
 		msgArchiCAD("Error: A slab with a simple material (i.e. not composite) does not support coreBottom or coreTop");
+		msgArchiCAD(msg.reference());
 		quit();
 	}
 
